@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Models
+namespace MicroBeard.Entities.Models
 {
     internal class Licensed_Collaborator
     {

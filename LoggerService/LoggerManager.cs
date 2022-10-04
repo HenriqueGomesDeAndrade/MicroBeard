@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using MicroBeard.Contracts;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoggerService
+namespace MicroBeard.LoggerService
 {
     public class LoggerManager : ILoggerManager
     {
