@@ -12,5 +12,17 @@ namespace MicroBeard.Repository
         {
             
         }
+
+        public IEnumerable<Contact> GetAllContacts()
+        {
+            return FindAll()
+                .OrderBy(c => c.Name)
+                .ToList();
+        }
+
+        public Contact GetContactByCode(int code)
+        {
+            return FindByCollecion(c => c.Code == code).FirstOrDefault();
+        }
     }
 }

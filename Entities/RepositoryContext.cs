@@ -15,11 +15,26 @@ namespace Entities
         {
         }
 
-        public DbSet<Contact>? Contacts { get; set; }
-        public DbSet<Scheduling>? Schedulings { get; set; }
-        public DbSet<Service>? Services { get; set; }
-        public DbSet<Collaborator>? Collaborators { get; set; }
-        public DbSet<License>? Licenses { get; set; }
+        public DbSet<Contact>? Contact { get; set; }
+        public DbSet<Scheduling>? Scheduling { get; set; }
+        public DbSet<Service>? Service { get; set; }
+        public DbSet<Collaborator>? Collaborator { get; set; }
+        public DbSet<License>? License { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Collaborator>()
+                .Property(p => p.Commision)
+                .HasPrecision(5, 2);
+
+            modelBuilder.Entity<Collaborator>()
+                .Property(p => p.Salary)
+                .HasPrecision(6, 2);
+
+            modelBuilder.Entity<Service>()
+                .Property(p => p.Price)
+                .HasPrecision(5, 2);
+        }
     }
 }
