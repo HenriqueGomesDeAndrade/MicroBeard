@@ -2,6 +2,7 @@
 using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
+using System.Data.Entity;
 
 namespace MicroBeard.Repository
 {
@@ -22,7 +23,27 @@ namespace MicroBeard.Repository
 
         public Contact GetContactByCode(int code)
         {
-            return FindByCollecion(c => c.Code == code).FirstOrDefault();
+            return FindByCondition(c => c.Code.Equals(code)).FirstOrDefault();
+        }
+
+        public Contact GetContactWithDetails(int code)
+        {
+            return FindByCondition(c => c.Code.Equals(code)).Include(sc => sc.Schedulings).FirstOrDefault();
+        }
+
+        public void CreateContact(Contact contact)
+        {
+            Create(contact);
+        }
+
+        public void UpdateContact(Contact contact)
+        {
+            Update(contact);
+        }
+
+        public void DeleteContact(Contact contact)
+        {
+            Delete(contact);
         }
     }
 }

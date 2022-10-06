@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MicroBeard.Entities.DataTransferObjects;
+using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.Models;
 
 namespace MicroBeard
@@ -8,7 +8,10 @@ namespace MicroBeard
     {
         public MappingProfile()
         {
+            //Contact
             CreateMap<Contact, ContactDto>();
+            CreateMap<ContactCreationDto, Contact>();
+            CreateMap<ContactUpdateDto, Contact>();
         }
     }
 }

@@ -7,5 +7,7 @@
         ILicenseRepository License { get; }
         ISchedulingRepository Scheduling { get; }
         IServiceRepository Service { get; }
+
+        void Save();
     }
 }

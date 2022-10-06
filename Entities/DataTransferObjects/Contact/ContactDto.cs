@@ -1,7 +1,7 @@
 ﻿using MicroBeard.Entities.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace MicroBeard.Entities.DataTransferObjects
+namespace MicroBeard.Entities.DataTransferObjects.Contact
 {
     public class ContactDto
     {
