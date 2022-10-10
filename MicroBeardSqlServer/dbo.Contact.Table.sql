@@ -1,29 +1,37 @@
 USE [MicroBeard]
 GO
-/****** Object:  Table [dbo].[Contact]    Script Date: 30/09/2022 10:15:45 ******/
+/****** Object:  Table [dbo].[Contact]    Script Date: 10/10/2022 09:03:15 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Contact](
 	[Code] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](50) NOT NULL,
-	[Address] [varchar](100) NULL,
-	[Email] [varchar](50) NULL,
-	[CPF] [decimal](11, 0) NULL,
-	[Phone] [decimal](11, 0) NULL,
+	[Name] [varchar](100) NOT NULL,
+	[Address] [varchar](200) NULL,
+	[Email] [varchar](80) NULL,
+	[CPF] [varchar](15) NULL,
+	[Phone] [varchar](15) NULL,
 	[Gender] [char](1) NULL,
 	[BirthDate] [datetime2](7) NULL,
 	[CreatorCode] [int] NULL,
-	[CreateDate] [date] NULL,
+	[CreateDate] [datetime2](7) NULL,
 	[UpdaterCode] [int] NULL,
-	[UpdateDate] [date] NULL,
+	[UpdateDate] [datetime2](7) NULL,
 	[DeleterCode] [int] NULL,
-	[DeleteDate] [date] NULL,
+	[DeleteDate] [datetime2](7) NULL,
 	[Deleted] [bit] NULL,
  CONSTRAINT [PK_Contact] PRIMARY KEY CLUSTERED 
 (
 	[Code] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 10, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 10, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[Email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[CPF] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

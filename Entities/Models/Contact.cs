@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ namespace MicroBeard.Entities.Models
         public string Name { get; set; }
         public string? Address { get; set; }
         public string? Email { get; set; }
-        public int? CPF { get; set; }
-        public int? Phone { get; set; }
+        public string? CPF { get; set; }
+        public string? Phone { get; set; }
         public string? Gender { get; set; }
         public DateTime? BirthDate { get; set; }
         public int? CreatorCode { get; set; }

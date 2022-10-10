@@ -10,8 +10,8 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
         public string? Name { get; set; }
         public string? Address { get; set; }
         public string? Email { get; set; }
-        public int? CPF { get; set; }
-        public int? Phone { get; set; }
+        public string? CPF { get; set; }
+        public string? Phone { get; set; }
         public string? Gender { get; set; }
         public DateTime? BirthDate { get; set; }
         public int? CreatorCode { get; set; }
@@ -20,7 +20,6 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
         public DateTime? UpdateDate { get; set; }
         public int? DeleterCode { get; set; }
         public DateTime? DeleteDate { get; set; }
-        public bool Deleted { get; set; }
 
         public ICollection<Scheduling>? Schedulings { get; set; }
 

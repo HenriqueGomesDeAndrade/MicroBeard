@@ -1,16 +1,16 @@
 USE [MicroBeard]
 GO
-/****** Object:  Table [dbo].[Collaborator]    Script Date: 30/09/2022 10:15:45 ******/
+/****** Object:  Table [dbo].[Collaborator]    Script Date: 10/10/2022 09:03:15 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Collaborator](
 	[Code] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](50) NOT NULL,
-	[CPF] [decimal](11, 0) NOT NULL,
+	[Name] [varchar](100) NOT NULL,
+	[CPF] [varchar](15) NULL,
 	[BirthDate] [datetime2](7) NULL,
-	[Phone] [decimal](11, 0) NULL,
+	[Phone] [varchar](15) NULL,
 	[Function] [varchar](100) NULL,
 	[Salary] [decimal](6, 2) NULL,
 	[Commision] [decimal](5, 2) NULL,

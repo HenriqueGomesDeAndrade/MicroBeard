@@ -1,0 +1,5 @@
+2022-10-07 09:46:49.7679 INFO Returned all contacts from database
+2022-10-07 09:53:42.4413 ERROR Something went wrong inside GetAllContacts action: Unable to cast object of type 'System.Decimal' to type 'System.Int32'.
+2022-10-07 09:53:46.8380 ERROR Something went wrong inside GetAllContacts action: Unable to cast object of type 'System.Decimal' to type 'System.Int32'.
+2022-10-07 09:56:41.7703 ERROR Something went wrong inside GetAllContacts action: Unable to cast object of type 'System.Decimal' to type 'System.Int32'.
+2022-10-07 10:00:29.0334 INFO Returned all contacts from database

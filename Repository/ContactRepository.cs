@@ -17,18 +17,19 @@ namespace MicroBeard.Repository
         public IEnumerable<Contact> GetAllContacts()
         {
             return FindAll()
+                .Where(c => c.Deleted != true)
                 .OrderBy(c => c.Name)
                 .ToList();
         }
 
         public Contact GetContactByCode(int code)
         {
-            return FindByCondition(c => c.Code.Equals(code)).FirstOrDefault();
+            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
         }
 
         public Contact GetContactWithDetails(int code)
         {
-            return FindByCondition(c => c.Code.Equals(code)).Include(sc => sc.Schedulings).FirstOrDefault();
+            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).Include(sc => sc.Schedulings).FirstOrDefault();
         }
 
         public void CreateContact(Contact contact)

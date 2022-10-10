@@ -108,6 +108,9 @@ namespace MicroBeard.Controllers
 
                 Contact contactEntity = _mapper.Map<Contact>(contact);
 
+                contactEntity.CreateDate = DateTime.Now;
+                //contactEntity.CreatorCode = CollaboratorCode;
+
                 _repository.Contact.CreateContact(contactEntity);
                 _repository.Save();
 
@@ -148,6 +151,9 @@ namespace MicroBeard.Controllers
 
                 _mapper.Map(contact, contactEntity);
 
+                contactEntity.UpdateDate = DateTime.Now;
+                //contactEntity.UpdateCode = CollaboratorCode;
+
                 _repository.Contact.UpdateContact(contactEntity);
                 _repository.Save();
 
@@ -172,7 +178,11 @@ namespace MicroBeard.Controllers
                     return NotFound();
                 }
 
-                _repository.Contact.DeleteContact(contact);
+                contact.DeleteDate = DateTime.Now;
+                //contactEntity.DeleterCode = CollaboratorCode;
+                contact.Deleted = true;
+
+                _repository.Contact.UpdateContact(contact);
                 _repository.Save();
 
                 return NoContent();

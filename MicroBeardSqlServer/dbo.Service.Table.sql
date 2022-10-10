@@ -1,24 +1,24 @@
 USE [MicroBeard]
 GO
-/****** Object:  Table [dbo].[Service]    Script Date: 30/09/2022 10:15:45 ******/
+/****** Object:  Table [dbo].[Service]    Script Date: 10/10/2022 09:03:15 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Service](
 	[Code] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](50) NULL,
+	[Name] [varchar](100) NULL,
 	[Price] [decimal](5, 2) NULL,
-	[Time] [decimal](3, 0) NULL,
+	[Time] [int] NULL,
 	[Type] [varchar](50) NULL,
-	[Description] [varchar](100) NULL,
+	[Description] [varchar](250) NULL,
 	[CreateDate] [datetime2](7) NULL,
 	[CreatorCode] [int] NULL,
 	[UpdateDate] [datetime2](7) NULL,
 	[UpdaterCode] [int] NULL,
 	[DeleteDate] [datetime2](7) NULL,
 	[DeleterCode] [int] NULL,
-	[status] [numeric](1, 0) NULL,
+	[Deleted] [bit] NULL,
  CONSTRAINT [PK_Service] PRIMARY KEY CLUSTERED 
 (
 	[Code] ASC

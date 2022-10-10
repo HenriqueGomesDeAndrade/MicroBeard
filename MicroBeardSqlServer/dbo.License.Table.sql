@@ -1,13 +1,13 @@
 USE [MicroBeard]
 GO
-/****** Object:  Table [dbo].[License]    Script Date: 30/09/2022 10:15:45 ******/
+/****** Object:  Table [dbo].[License]    Script Date: 10/10/2022 09:03:15 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[License](
 	[Code] [int] IDENTITY(1,1) NOT NULL,
-	[Description] [varchar](200) NULL,
+	[Description] [varchar](250) NULL,
 	[CreateDate] [datetime2](7) NULL,
 	[CreatorCode] [int] NULL,
 	[UpdateDate] [datetime2](7) NULL,
