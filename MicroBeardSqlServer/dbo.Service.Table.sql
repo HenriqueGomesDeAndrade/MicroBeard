@@ -1,6 +1,6 @@
 USE [MicroBeard]
 GO
-/****** Object:  Table [dbo].[Service]    Script Date: 10/10/2022 09:03:15 ******/
+/****** Object:  Table [dbo].[Service]    Script Date: 11/10/2022 10:36:36 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,7 +8,7 @@ GO
 CREATE TABLE [dbo].[Service](
 	[Code] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](100) NULL,
-	[Price] [decimal](5, 2) NULL,
+	[Price] [decimal](9, 2) NULL,
 	[Time] [int] NULL,
 	[Type] [varchar](50) NULL,
 	[Description] [varchar](250) NULL,

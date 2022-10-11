@@ -30,7 +30,7 @@ namespace MicroBeard.Controllers
 
                 IEnumerable<ContactDto> contactsResult = _mapper.Map<IEnumerable<ContactDto>>(contacts);
 
-                return Ok(contacts);
+                return Ok(contactsResult);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetContactById action: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetContactByCode action: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -84,7 +84,7 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetContactById action: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetContactByCode action: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

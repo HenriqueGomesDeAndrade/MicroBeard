@@ -18,19 +18,19 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
             ErrorMessage = "Invalid Email")]
         public string? Email { get; set; }
 
-        [StringLength(15, ErrorMessage = "CPF can't be longer than 15 characters")]
-        [RegularExpression(@"^\d{3}.?\d{3}.?\d{3}-?\d{2}$", ErrorMessage = "Invalid CPF. It must be only numbers or XXX.XXX.XXX-XX format")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "CPF must have 11 numbers")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "Invalid CPF. It must be only numbers")]
         public string? CPF { get; set; }
 
         [StringLength(15, ErrorMessage = "Phone can't be longer than 15 characters")]
-        [RegularExpression(@"(\(?\d{2}\)?\s?)?(9?\d{4}\-?\d{4})")]
+        [RegularExpression(@"(\(?\d{2}\)?\s?)?(9?\d{4}\-?\d{4})", ErrorMessage = "Invalid Phone. Try to follow this pattern with or without DDD: (XX) 9XXXX-XXXX")]
         public string? Phone { get; set; }
 
         [StringLength(1, ErrorMessage = "Gender can't be longer than 1 characters")]
         [RegularExpression(@"[MFmf]", ErrorMessage = "Gender must be 'M' or 'F'")]
         public string? Gender { get; set; }
 
-        [DateFormatValidatorAttribute]
+        [DateFormatValidator]
         public DateTime? BirthDate { get; set; }
     }
 }

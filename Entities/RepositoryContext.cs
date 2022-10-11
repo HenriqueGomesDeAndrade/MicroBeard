@@ -26,15 +26,15 @@ namespace Entities
         {
             modelBuilder.Entity<Collaborator>()
                 .Property(p => p.Commision)
-                .HasPrecision(5, 2);
+                .HasPrecision(9, 2);
 
             modelBuilder.Entity<Collaborator>()
                 .Property(p => p.Salary)
-                .HasPrecision(6, 2);
+                .HasPrecision(9, 2);
 
             modelBuilder.Entity<Service>()
                 .Property(p => p.Price)
-                .HasPrecision(5, 2);
+                .HasPrecision(9, 2);
         }
     }
 }
