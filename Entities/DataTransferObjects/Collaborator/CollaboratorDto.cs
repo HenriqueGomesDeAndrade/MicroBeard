@@ -22,7 +22,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
         public DateTime? DesactivationDate { get; set; }
         public bool Desactivated { get; set; }
 
-        public ICollection<Service>? Services { get; set; }
+        public ICollection<Models.Service>? Services { get; set; }
         public ICollection<Models.License>? Licenses { get; set; }
     }
 }

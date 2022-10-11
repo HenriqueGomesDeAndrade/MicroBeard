@@ -126,7 +126,7 @@ namespace MicroBeard.Controllers
         }
 
         [HttpPut("{code}")]
-        public IActionResult UpdateContact(int code, [FromBody] ContactCreationDto contact)
+        public IActionResult UpdateContact(int code, [FromBody] ContactUpdateDto contact)
         {
             try
             {

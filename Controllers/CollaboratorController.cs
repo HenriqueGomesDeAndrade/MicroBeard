@@ -126,7 +126,7 @@ namespace MicroBeard.Controllers
         }
 
         [HttpPut("{code}")]
-        public IActionResult UpdateCollaborator(int code, [FromBody] CollaboratorCreationDto collaborator)
+        public IActionResult UpdateCollaborator(int code, [FromBody] CollaboratorUpdateDto collaborator)
         {
             try
             {

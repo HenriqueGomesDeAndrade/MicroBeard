@@ -126,7 +126,7 @@ namespace MicroBeard.Controllers
         }
 
         [HttpPut("{code}")]
-        public IActionResult UpdateLicense(int code, [FromBody] LicenseCreationDto license)
+        public IActionResult UpdateLicense(int code, [FromBody] LicenseUpdateDto license)
         {
             try
             {

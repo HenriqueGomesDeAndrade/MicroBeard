@@ -2,6 +2,9 @@
 using MicroBeard.Entities.DataTransferObjects.Collaborator;
 using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.DataTransferObjects.License;
+using MicroBeard.Entities.DataTransferObjects.Service;
+using MicroBeard.Entities.DataTransferObjects.Scheduling;
+
 using MicroBeard.Entities.Models;
 
 namespace MicroBeard
@@ -24,6 +27,16 @@ namespace MicroBeard
             CreateMap<License, LicenseDto>();
             CreateMap<LicenseCreationDto, License>();
             CreateMap<LicenseUpdateDto, License>();
+
+            //Service
+            CreateMap<Service, ServiceDto>();
+            CreateMap<ServiceCreationDto, Service>();
+            CreateMap<ServiceUpdateDto, Service>();
+
+            //Scheduling
+            CreateMap<Scheduling, SchedulingDto>();
+            CreateMap<SchedulingCreationDto, Scheduling>();
+            CreateMap<SchedulingUpdateDto, Scheduling>();
         }
     }
 }

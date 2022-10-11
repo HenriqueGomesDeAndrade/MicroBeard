@@ -1,19 +1,17 @@
 ﻿using MicroBeard.Entities.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace MicroBeard.Entities.DataTransferObjects.Contact
+namespace MicroBeard.Entities.DataTransferObjects.Service
 {
-    public class ContactDto
+    public class ServiceDto
     {
         [Key]
         public int Code { get; set; }
         public string? Name { get; set; }
-        public string? Address { get; set; }
-        public string? Email { get; set; }
-        public string? CPF { get; set; }
-        public string? Phone { get; set; }
-        public string? Gender { get; set; }
-        public DateTime? BirthDate { get; set; }
+        public decimal Price { get; set; }
+        public int Time { get; set; }
+        public string? Type { get; set; }
+        public string? Description { get; set; }
         public int? CreatorCode { get; set; }
         public DateTime CreateDate { get; set; }
         public int? UpdaterCode { get; set; }
@@ -21,7 +19,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
         public int? DeleterCode { get; set; }
         public DateTime? DeleteDate { get; set; }
 
-        public ICollection<Models.Scheduling>? Schedulings { get; set; }
-
+        public ICollection<Models.Scheduling>? Schedullings { get; set; }
+        public ICollection<Models.Collaborator>? Collaborators { get; set; }
     }
 }
