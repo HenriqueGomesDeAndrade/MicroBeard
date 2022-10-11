@@ -23,6 +23,6 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
         public bool Desactivated { get; set; }
 
         public ICollection<Service>? Services { get; set; }
-        public ICollection<License>? Licenses { get; set; }
+        public ICollection<Models.License>? Licenses { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MicroBeard.Entities.DataTransferObjects.Collaborator;
 using MicroBeard.Entities.DataTransferObjects.Contact;
+using MicroBeard.Entities.DataTransferObjects.License;
 using MicroBeard.Entities.Models;
 
 namespace MicroBeard
@@ -18,6 +19,11 @@ namespace MicroBeard
             CreateMap<Collaborator, CollaboratorDto>();
             CreateMap<CollaboratorCreationDto, Collaborator>();
             CreateMap<CollaboratorUpdateDto, Collaborator>();
+
+            //License
+            CreateMap<License, LicenseDto>();
+            CreateMap<LicenseCreationDto, License>();
+            CreateMap<LicenseUpdateDto, License>();
         }
     }
 }
