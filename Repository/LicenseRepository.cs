@@ -5,17 +5,18 @@ using System.Data.Entity;
 
 namespace MicroBeard.Repository
 {
-    public class LicenseRepository : RepositoryBase<License>, ILicenseRepository
+    public class LicenseRepository : ILicenseRepository
     {
-        public LicenseRepository(MicroBeardContext respositoryContext)
-            :base(respositoryContext)
+        private MicroBeardContext _repositoryContext { get; set; }
+
+        public LicenseRepository(MicroBeardContext repositoryContext)
         {
-            
+            _repositoryContext = repositoryContext;
         }
 
         public IEnumerable<License> GetAllLicenses()
         {
-            return FindAll()
+            return _repositoryContext.Licenses.AsNoTracking()
                 .Where(c => c.Desactivated != true)
                 .OrderBy(c => c.Description)
                 .ToList();
@@ -23,27 +24,26 @@ namespace MicroBeard.Repository
 
         public License GetLicenseByCode(int code)
         {
-            return FindByCondition(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
-        }
+            License license = _repositoryContext.Licenses.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
-        public License GetLicenseWithDetails(int code)
-        {
-            return FindByCondition(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
+            _repositoryContext.Entry(license).Collection(c => c.Collaborators).Load();
+
+            return license;
         }
 
         public void CreateLicense(License license)
         {
-            Create(license);
+            _repositoryContext.Licenses.Add(license);
         }
 
         public void UpdateLicense(License license)
         {
-            Update(license);
+            _repositoryContext.Licenses.Update(license);
         }
 
         public void DeleteLicense(License license)
         {
-            Delete(license);
+            _repositoryContext.Licenses.Remove(license);
         }
     }
 }

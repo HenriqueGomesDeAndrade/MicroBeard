@@ -1,22 +1,24 @@
 ﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
+using System.ComponentModel;
 using System.Data.Entity;
 
 
 namespace MicroBeard.Repository
 {
-    public class ServiceRepository : RepositoryBase<Service>, IServiceRepository
+    public class ServiceRepository : IServiceRepository
     {
-        public ServiceRepository(MicroBeardContext respositoryContext)
-            :base(respositoryContext)
+        private MicroBeardContext _repositoryContext { get; set; }
+
+        public ServiceRepository(MicroBeardContext repositoryContext)
         {
-            
+            _repositoryContext = repositoryContext;
         }
 
         public IEnumerable<Service> GetAllServices()
         {
-            return FindAll()
+            return _repositoryContext.Services.AsNoTracking()
                 .Where(c => c.Deleted != true)
                 .OrderBy(c => c.Name)
                 .ToList();
@@ -24,27 +26,27 @@ namespace MicroBeard.Repository
 
         public Service GetServiceByCode(int code)
         {
-            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
-        }
+            Service service = _repositoryContext.Services.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
-        public Service GetServiceWithDetails(int code)
-        {
-            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).Include(s => s.Schedulings).FirstOrDefault();
+            _repositoryContext.Entry(service).Collection(c => c.Collaborators).Load();
+            _repositoryContext.Entry(service).Collection(c => c.Schedulings).Load();
+
+            return service;
         }
 
         public void CreateService(Service Service)
         {
-            Create(Service);
+            _repositoryContext.Services.Add(Service);
         }
 
         public void UpdateService(Service Service)
         {
-            Update(Service);
+            _repositoryContext.Services.Update(Service);
         }
 
         public void DeleteService(Service Service)
         {
-            Delete(Service);
+            _repositoryContext.Services.Remove(Service);
         }
     }
 }

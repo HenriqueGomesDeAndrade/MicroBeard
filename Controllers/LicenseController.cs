@@ -64,31 +64,6 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [HttpGet("{code}/collaborators")]
-        public IActionResult GetLicenseWithDetails(int code)
-        {
-            try
-            {
-                License license = _repository.License.GetLicenseWithDetails(code);
-
-                if (license is null)
-                {
-                    _logger.LogError($"License with code: {code} hasn't been found in db.");
-                    return NotFound();
-                }
-
-                _logger.LogInfo($"returned License with code: {code}");
-                LicenseDto LicenseResult = _mapper.Map<LicenseDto>(license);
-
-                return Ok(LicenseResult);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside GetLicenseByCode action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
         [HttpPost]
         public IActionResult CreateLicense([FromBody] LicenseCreationDto license)
         {

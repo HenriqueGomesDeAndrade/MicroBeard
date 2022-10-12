@@ -1,22 +1,24 @@
 ﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
+using System.ComponentModel;
 using System.Data.Entity;
 
 
 namespace MicroBeard.Repository
 {
-    public class SchedulingRepository : RepositoryBase<Scheduling>, ISchedulingRepository
+    public class SchedulingRepository :  ISchedulingRepository
     {
-        public SchedulingRepository(MicroBeardContext respositoryContext)
-            :base(respositoryContext)
+        private MicroBeardContext _repositoryContext { get; set; }
+
+        public SchedulingRepository(MicroBeardContext repositoryContext)
         {
-            
+            _repositoryContext = repositoryContext;
         }
 
         public IEnumerable<Scheduling> GetAllSchedulings()
         {
-            return FindAll()
+            return _repositoryContext.Schedulings.AsNoTracking()
                 .Where(c => c.Deleted != true)
                 .OrderBy(c => c.Date)
                 .ToList();
@@ -24,28 +26,27 @@ namespace MicroBeard.Repository
 
         public Scheduling GetSchedulingByCode(int code)
         {
-            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
-        }
+            Scheduling scheduling = _repositoryContext.Schedulings.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
-        public Scheduling GetSchedulingWithDetails(int code)
-        {
-            Scheduling scheduling = FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).Include(s => s.ContactCodeNavigation).Include(s => s.ServiceCodeNavigation).FirstOrDefault();
+            _repositoryContext.Entry(scheduling).Reference(c => c.ServiceCodeNavigation).Load();
+            _repositoryContext.Entry(scheduling).Reference(c => c.ContactCodeNavigation).Load();
+
             return scheduling;
         }
 
         public void CreateScheduling(Scheduling scheduling)
         {
-            Create(scheduling);
+            _repositoryContext.Schedulings.Add(scheduling);
         }
 
         public void UpdateScheduling(Scheduling scheduling)
         {
-            Update(scheduling);
+            _repositoryContext.Schedulings.Update(scheduling);
         }
 
         public void DeleteScheduling(Scheduling scheduling)
         {
-            Delete(scheduling);
+            _repositoryContext.Schedulings.Remove(scheduling);
         }
     }
 }

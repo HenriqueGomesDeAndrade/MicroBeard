@@ -16,8 +16,7 @@ namespace MicroBeard.Repository
 
         public IEnumerable<Collaborator> GetAllCollaborators()
         {
-            return _repositoryContext.Collaborators
-                .AsNoTracking()
+            return _repositoryContext.Collaborators.AsNoTracking()
                 .Where(c => c.Desactivated != true)
                 .OrderBy(c => c.Name)
                 .ToList();
@@ -25,9 +24,7 @@ namespace MicroBeard.Repository
 
         public Collaborator GetCollaboratorByCode(int code)
         {
-            Collaborator collaborator = _repositoryContext.Collaborators
-                .AsNoTracking()
-                .Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
+            Collaborator? collaborator = _repositoryContext.Collaborators.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
             _repositoryContext.Entry(collaborator).Collection(c => c.Licenses).Load();
             _repositoryContext.Entry(collaborator).Collection(c => c.Services).Load();
@@ -37,17 +34,17 @@ namespace MicroBeard.Repository
 
         public void CreateCollaborator(Collaborator collaborator)
         {
-            Create(collaborator);
+            _repositoryContext.Collaborators.Add(collaborator);
         }
 
         public void UpdateCollaborator(Collaborator collaborator)
         {
-            Update(collaborator);
+            _repositoryContext.Collaborators.Update(collaborator);
         }
 
         public void DeleteCollaborator(Collaborator collaborator)
         {
-            Delete(collaborator);
+            _repositoryContext.Collaborators.Remove(collaborator);
         }
     }
 }

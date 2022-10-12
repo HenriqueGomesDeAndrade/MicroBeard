@@ -64,31 +64,6 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [HttpGet("{code}/expanded")]
-        public IActionResult GetServiceWithDetails(int code)
-        {
-            try
-            {
-                Service service = _repository.Service.GetServiceWithDetails(code);
-
-                if (service is null)
-                {
-                    _logger.LogError($"Service with code: {code} hasn't been found in db.");
-                    return NotFound();
-                }
-
-                _logger.LogInfo($"returned Service with code: {code}");
-                ServiceDto ServiceResult = _mapper.Map<ServiceDto>(service);
-
-                return Ok(ServiceResult);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside GetServiceByCode action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
         [HttpPost]
         public IActionResult CreateService([FromBody] ServiceCreationDto service)
         {

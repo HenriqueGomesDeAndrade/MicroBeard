@@ -64,31 +64,6 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [HttpGet("{code}/expanded")]
-        public IActionResult GetCollaboratorWithDetails(int code)
-        {
-            try
-            {
-                Collaborator collaborator = _repository.Collaborator.GetCollaboratorWithDetails(code);
-
-                if (collaborator is null)
-                {
-                    _logger.LogError($"Collaborator with code: {code} hasn't been found in db.");
-                    return NotFound();
-                }
-
-                _logger.LogInfo($"returned Collaborator with code: {code}");
-                CollaboratorDto collaboratorResult = _mapper.Map<CollaboratorDto>(collaborator);
-
-                return Ok(collaboratorResult);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside GetCollaboratorByCode action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
         [HttpPost]
         public IActionResult CreateCollaborator([FromBody] CollaboratorCreationDto collaborator)
         {

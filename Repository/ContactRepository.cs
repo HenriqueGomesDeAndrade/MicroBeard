@@ -5,17 +5,18 @@ using System.Data.Entity;
 
 namespace MicroBeard.Repository
 {
-    public class ContactRepository : RepositoryBase<Contact>, IContactRepository
+    public class ContactRepository : IContactRepository
     {
-        public ContactRepository(MicroBeardContext respositoryContext)
-            :base(respositoryContext)
+        private MicroBeardContext _repositoryContext { get; set; }
+
+        public ContactRepository(MicroBeardContext repositoryContext)
         {
-            
+            _repositoryContext = repositoryContext;
         }
 
         public IEnumerable<Contact> GetAllContacts()
         {
-            return FindAll()
+            return _repositoryContext.Contacts.AsNoTracking()
                 .Where(c => c.Deleted != true)
                 .OrderBy(c => c.Name)
                 .ToList();
@@ -23,27 +24,26 @@ namespace MicroBeard.Repository
 
         public Contact GetContactByCode(int code)
         {
-            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
-        }
+            Contact contact = _repositoryContext.Contacts.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
-        public Contact GetContactWithDetails(int code)
-        {
-            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).Include(sc => sc.Schedulings).FirstOrDefault();
+            _repositoryContext.Entry(contact).Collection(c => c.Schedulings).Load();
+
+            return contact;
         }
 
         public void CreateContact(Contact contact)
         {
-            Create(contact);
+            _repositoryContext.Contacts.Add(contact);
         }
 
         public void UpdateContact(Contact contact)
         {
-            Update(contact);
+            _repositoryContext.Contacts.Update(contact);
         }
 
         public void DeleteContact(Contact contact)
         {
-            Delete(contact);
+            _repositoryContext.Contacts.Remove(contact);
         }
     }
 }

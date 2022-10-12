@@ -64,31 +64,6 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [HttpGet("{code}/schedullings")]
-        public IActionResult GetContactWithDetails(int code)
-        {
-            try
-            {
-                Contact contact = _repository.Contact.GetContactWithDetails(code);
-
-                if (contact is null)
-                {
-                    _logger.LogError($"Contact with code: {code} hasn't been found in db.");
-                    return NotFound();
-                }
-
-                _logger.LogInfo($"returned contact with code: {code}");
-                ContactDto contactResult = _mapper.Map<ContactDto>(contact);
-
-                return Ok(contactResult);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside GetContactByCode action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
         [HttpPost]
         public IActionResult CreateContact([FromBody] ContactCreationDto contact)
         {

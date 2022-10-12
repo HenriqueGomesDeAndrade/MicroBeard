@@ -72,31 +72,6 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [HttpGet("{code}/expanded")]
-        public IActionResult GetSchedulingWithDetails(int code)
-        {
-            try
-            {
-                Scheduling scheduling = _repository.Scheduling.GetSchedulingWithDetails(code);
-
-                if (scheduling is null)
-                {
-                    _logger.LogError($"Scheduling with code: {code} hasn't been found in db.");
-                    return NotFound();
-                }
-
-                _logger.LogInfo($"returned Scheduling with code: {code}");
-                SchedulingDto schedulingResult = _mapper.Map<SchedulingDto>(scheduling);
-
-                return Ok(schedulingResult);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong inside GetSchedulingByCode action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
         [HttpPost]
         public IActionResult CreateScheduling([FromBody] SchedulingCreationDto scheduling)
         {
