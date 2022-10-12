@@ -1,5 +1,4 @@
-﻿using Entities;
-using MicroBeard.Contracts;
+﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using System.Data.Entity;
@@ -9,7 +8,7 @@ namespace MicroBeard.Repository
 {
     public class SchedulingRepository : RepositoryBase<Scheduling>, ISchedulingRepository
     {
-        public SchedulingRepository(RepositoryContext respositoryContext)
+        public SchedulingRepository(MicroBeardContext respositoryContext)
             :base(respositoryContext)
         {
             
@@ -30,7 +29,8 @@ namespace MicroBeard.Repository
 
         public Scheduling GetSchedulingWithDetails(int code)
         {
-            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).Include(s => s.Contact).Include(s => s.Service).FirstOrDefault();
+            Scheduling scheduling = FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).Include(s => s.ContactCodeNavigation).Include(s => s.ServiceCodeNavigation).FirstOrDefault();
+            return scheduling;
         }
 
         public void CreateScheduling(Scheduling scheduling)

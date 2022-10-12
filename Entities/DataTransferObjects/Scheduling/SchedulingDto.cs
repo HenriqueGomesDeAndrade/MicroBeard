@@ -23,10 +23,10 @@ namespace MicroBeard.Entities.DataTransferObjects.Scheduling
 
         [ForeignKey(nameof(Contact))]
         public int ContactCode { get; set; }
-        public Models.Contact? Contact { get; set; }
+        public virtual Models.Contact Contact { get; set; }
 
         [ForeignKey(nameof(Service))]
         public int ServiceCode { get; set; }
-        public Models.Service? Service { get; set; }
+        public virtual Models.Service Service { get; set; }
     }
 }

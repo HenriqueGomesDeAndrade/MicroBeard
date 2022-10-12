@@ -1,5 +1,4 @@
-﻿using Entities;
-using MicroBeard.Contracts;
+﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using System.Data.Entity;
@@ -9,7 +8,7 @@ namespace MicroBeard.Repository
 {
     public class ServiceRepository : RepositoryBase<Service>, IServiceRepository
     {
-        public ServiceRepository(RepositoryContext respositoryContext)
+        public ServiceRepository(MicroBeardContext respositoryContext)
             :base(respositoryContext)
         {
             
@@ -30,7 +29,7 @@ namespace MicroBeard.Repository
 
         public Service GetServiceWithDetails(int code)
         {
-            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).Include(s => s.Collaborators).FirstOrDefault();
+            return FindByCondition(c => c.Deleted != true && c.Code.Equals(code)).Include(s => s.Schedulings).FirstOrDefault();
         }
 
         public void CreateService(Service Service)

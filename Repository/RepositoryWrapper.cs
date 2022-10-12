@@ -1,19 +1,19 @@
-﻿using Entities;
-using MicroBeard.Contracts;
+﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
+using MicroBeard.Entities.Models;
 
 namespace MicroBeard.Repository
 {
     public class RepositoryWrapper : IRepositoryWrapper
     {
-        private RepositoryContext _repositoryContext;
+        private MicroBeardContext _repositoryContext;
         private IContactRepository _contact;
         private ICollaboratorRepository _collaborator;
         private ILicenseRepository _license;
         private ISchedulingRepository _scheduling;
         private IServiceRepository _service;
 
-        public RepositoryWrapper(RepositoryContext repositoryContext)
+        public RepositoryWrapper(MicroBeardContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
         }

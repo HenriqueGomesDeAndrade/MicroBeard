@@ -1,22 +1,23 @@
-﻿using Entities;
-using MicroBeard.Contracts;
+﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using System.Data.Entity;
 
 namespace MicroBeard.Repository
 {
-    public class CollaboratorRepository : RepositoryBase<Collaborator>, ICollaboratorRepository
+    public class CollaboratorRepository :  ICollaboratorRepository
     {
-        public CollaboratorRepository(RepositoryContext respositoryContext)
-            :base(respositoryContext)
+        private MicroBeardContext _repositoryContext { get; set; }
+
+        public CollaboratorRepository(MicroBeardContext repositoryContext)
         {
-            
+            _repositoryContext = repositoryContext;
         }
 
         public IEnumerable<Collaborator> GetAllCollaborators()
         {
-            return FindAll()
+            return _repositoryContext.Collaborators
+                .AsNoTracking()
                 .Where(c => c.Desactivated != true)
                 .OrderBy(c => c.Name)
                 .ToList();
@@ -24,12 +25,14 @@ namespace MicroBeard.Repository
 
         public Collaborator GetCollaboratorByCode(int code)
         {
-            return FindByCondition(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
-        }
+            Collaborator collaborator = _repositoryContext.Collaborators
+                .AsNoTracking()
+                .Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
-        public Collaborator GetCollaboratorWithDetails(int code)
-        {
-            return FindByCondition(c => c.Desactivated != true && c.Code.Equals(code)).Include(c => c.Services).Include((c => c.Licenses)).FirstOrDefault();
+            _repositoryContext.Entry(collaborator).Collection(c => c.Licenses).Load();
+            _repositoryContext.Entry(collaborator).Collection(c => c.Services).Load();
+
+            return collaborator;
         }
 
         public void CreateCollaborator(Collaborator collaborator)

@@ -1,5 +1,4 @@
-﻿using Entities;
-using MicroBeard.Contracts;
+﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using System.Data.Entity;
@@ -8,7 +7,7 @@ namespace MicroBeard.Repository
 {
     public class LicenseRepository : RepositoryBase<License>, ILicenseRepository
     {
-        public LicenseRepository(RepositoryContext respositoryContext)
+        public LicenseRepository(MicroBeardContext respositoryContext)
             :base(respositoryContext)
         {
             
@@ -29,7 +28,7 @@ namespace MicroBeard.Repository
 
         public License GetLicenseWithDetails(int code)
         {
-            return FindByCondition(c => c.Desactivated != true && c.Code.Equals(code)).Include(l => l.Collaborators).FirstOrDefault();
+            return FindByCondition(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
         }
 
         public void CreateLicense(License license)

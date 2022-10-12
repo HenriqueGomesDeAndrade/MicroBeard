@@ -1,5 +1,4 @@
-﻿using Entities;
-using MicroBeard.Contracts;
+﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using System.Data.Entity;
@@ -8,7 +7,7 @@ namespace MicroBeard.Repository
 {
     public class ContactRepository : RepositoryBase<Contact>, IContactRepository
     {
-        public ContactRepository(RepositoryContext respositoryContext)
+        public ContactRepository(MicroBeardContext respositoryContext)
             :base(respositoryContext)
         {
             

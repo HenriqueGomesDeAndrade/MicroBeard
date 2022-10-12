@@ -1,5 +1,5 @@
-﻿using Entities;
-using MicroBeard.Contracts;
+﻿using MicroBeard.Contracts;
+using MicroBeard.Entities.Models;
 using MicroBeard.LoggerService;
 using MicroBeard.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +36,7 @@ namespace MicroBeard.Extensions
         public static void ConfigureSqlServer(this IServiceCollection services, IConfiguration config)
         {
             string connectionString = config.GetConnectionString("MicroBeardCS");
-            services.AddDbContext<RepositoryContext>(o => o.UseSqlServer(connectionString));
+            services.AddDbContext<MicroBeardContext>(o => o.UseSqlServer(connectionString));
         }
 
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)

@@ -3,6 +3,7 @@ using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Scheduling;
 using MicroBeard.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.Entity;
 
 namespace MicroBeard.Controllers
 {
@@ -13,11 +14,14 @@ namespace MicroBeard.Controllers
         private ILoggerManager _logger;
         private IRepositoryWrapper _repository;
         private IMapper _mapper;
-        public SchedulingController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
+        MicroBeardContext _context;
+
+        public SchedulingController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper, MicroBeardContext context)
         {
             _logger = logger;
             _repository = repository;
             _mapper = mapper;
+            _context = context;
         }
 
         [HttpGet]
@@ -27,6 +31,10 @@ namespace MicroBeard.Controllers
             {
                 IEnumerable<Scheduling> schedulings = _repository.Scheduling.GetAllSchedulings();
                 _logger.LogInfo($"Returned all Schedulings from database");
+
+                var teste1 = _context.Schedulings.Include(s => s.ServiceCodeNavigation).FirstOrDefault();
+
+                _context.Entry(teste1).Reference(s => s.ServiceCodeNavigation).Load();
 
                 IEnumerable<SchedulingDto> schedulingsResult = _mapper.Map<IEnumerable<SchedulingDto>>(schedulings);
 
@@ -106,7 +114,17 @@ namespace MicroBeard.Controllers
                     return BadRequest("Invalid model object");
                 }
 
+                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode);
+                if (contactCheck == null)
+                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode}");
+
+                Service ServiceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
+                if (ServiceCheck == null)
+                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
+
+
                 Scheduling schedulingEntity = _mapper.Map<Scheduling>(scheduling);
+                
 
                 schedulingEntity.CreateDate = DateTime.Now;
                 //SchedulingEntity.CreatorCode = CollaboratorCode;
