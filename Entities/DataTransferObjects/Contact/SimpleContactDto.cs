@@ -4,7 +4,7 @@ using MicroBeard.Entities.DataTransferObjects.Scheduling;
 
 namespace MicroBeard.Entities.DataTransferObjects.Contact
 {
-    public class ContactDto
+    public class SimpleContactDto
     {
         public int Code { get; set; }
         public string? Name { get; set; }
@@ -20,8 +20,5 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
         public DateTime? UpdateDate { get; set; }
         public int? DeleterCode { get; set; }
         public DateTime? DeleteDate { get; set; }
-
-        public ICollection<SimpleSchedulingDto>? Schedulings { get; set; }
-
     }
 }

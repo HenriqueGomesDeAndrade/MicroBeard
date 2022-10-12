@@ -14,14 +14,12 @@ namespace MicroBeard.Controllers
         private ILoggerManager _logger;
         private IRepositoryWrapper _repository;
         private IMapper _mapper;
-        MicroBeardContext _context;
 
-        public SchedulingController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper, MicroBeardContext context)
+        public SchedulingController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
             _mapper = mapper;
-            _context = context;
         }
 
         [HttpGet]
@@ -32,11 +30,7 @@ namespace MicroBeard.Controllers
                 IEnumerable<Scheduling> schedulings = _repository.Scheduling.GetAllSchedulings();
                 _logger.LogInfo($"Returned all Schedulings from database");
 
-                var teste1 = _context.Schedulings.Include(s => s.ServiceCodeNavigation).FirstOrDefault();
-
-                _context.Entry(teste1).Reference(s => s.ServiceCodeNavigation).Load();
-
-                IEnumerable<SchedulingDto> schedulingsResult = _mapper.Map<IEnumerable<SchedulingDto>>(schedulings);
+                IEnumerable<SimpleSchedulingDto> schedulingsResult = _mapper.Map<IEnumerable<SimpleSchedulingDto>>(schedulings);
 
                 return Ok(schedulingsResult);
             }

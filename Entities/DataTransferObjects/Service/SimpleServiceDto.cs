@@ -5,7 +5,7 @@ using MicroBeard.Entities.DataTransferObjects.Collaborator;
 
 namespace MicroBeard.Entities.DataTransferObjects.Service
 {
-    public class ServiceDto
+    public class SimpleServiceDto
     {
         public int Code { get; set; }
         public string? Name { get; set; }
@@ -19,8 +19,5 @@ namespace MicroBeard.Entities.DataTransferObjects.Service
         public DateTime? UpdateDate { get; set; }
         public int? DeleterCode { get; set; }
         public DateTime? DeleteDate { get; set; }
-
-        public ICollection<SimpleSchedulingDto>? Schedullings { get; set; }
-        public ICollection<SimpleCollaboratorDto>? Collaborators { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using MicroBeard.Entities.DataTransferObjects.Service;
 
 namespace MicroBeard.Entities.DataTransferObjects.Scheduling
 {
-    public class SchedulingDto
+    public class SimpleSchedulingDto
     {
         public int Code { get; set; }
         public int? ServiceCode { get; set; }
@@ -22,9 +22,5 @@ namespace MicroBeard.Entities.DataTransferObjects.Scheduling
         public bool? Cancelled { get; set; }
         public DateTime? DeleteDate { get; set; }
         public int? DeleterCode { get; set; }
-
-
-        public virtual SimpleContactDto Contacts { get; set; }
-        public virtual SimpleServiceDto Services { get; set; }
     }
 }

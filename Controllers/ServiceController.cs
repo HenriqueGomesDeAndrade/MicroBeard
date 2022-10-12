@@ -28,7 +28,7 @@ namespace MicroBeard.Controllers
                 IEnumerable<Service> services = _repository.Service.GetAllServices();
                 _logger.LogInfo($"Returned all Services from database");
 
-                IEnumerable<ServiceDto> servicesResult = _mapper.Map<IEnumerable<ServiceDto>>(services);
+                IEnumerable<SimpleServiceDto> servicesResult = _mapper.Map<IEnumerable<SimpleServiceDto>>(services);
 
                 return Ok(servicesResult);
             }

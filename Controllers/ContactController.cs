@@ -28,7 +28,7 @@ namespace MicroBeard.Controllers
                 IEnumerable<Contact> contacts = _repository.Contact.GetAllContacts();
                 _logger.LogInfo($"Returned all contacts from database");
 
-                IEnumerable<ContactDto> contactsResult = _mapper.Map<IEnumerable<ContactDto>>(contacts);
+                IEnumerable<SimpleContactDto> contactsResult = _mapper.Map<IEnumerable<SimpleContactDto>>(contacts);
 
                 return Ok(contactsResult);
             }
@@ -89,7 +89,7 @@ namespace MicroBeard.Controllers
                 _repository.Contact.CreateContact(contactEntity);
                 _repository.Save();
 
-                ContactDto createdContact = _mapper.Map<ContactDto>(contactEntity);
+                SimpleContactDto createdContact = _mapper.Map<SimpleContactDto>(contactEntity);
 
                 return CreatedAtRoute("ContactByCode", new { code = createdContact.Code }, createdContact);
             }
@@ -132,7 +132,9 @@ namespace MicroBeard.Controllers
                 _repository.Contact.UpdateContact(contactEntity);
                 _repository.Save();
 
-                return Ok(contactEntity);
+                ContactDto contactResult = _mapper.Map<ContactDto>(contactEntity);
+
+                return Ok(contactResult);
             }
             catch (Exception ex)
             {

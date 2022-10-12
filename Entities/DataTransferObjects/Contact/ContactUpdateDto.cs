@@ -1,4 +1,5 @@
 ﻿using MicroBeard.Attributes;
+using MicroBeard.Entities.DataTransferObjects.Scheduling;
 using System.ComponentModel.DataAnnotations;
 
 namespace MicroBeard.Entities.DataTransferObjects.Contact

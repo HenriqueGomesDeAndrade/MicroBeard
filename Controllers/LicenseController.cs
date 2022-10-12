@@ -28,7 +28,7 @@ namespace MicroBeard.Controllers
                 IEnumerable<License> licenses = _repository.License.GetAllLicenses();
                 _logger.LogInfo($"Returned all licenses from database");
 
-                IEnumerable<LicenseDto> licensesResult = _mapper.Map<IEnumerable<LicenseDto>>(licenses);
+                IEnumerable<SimpleLicenseDto> licensesResult = _mapper.Map<IEnumerable<SimpleLicenseDto>>(licenses);
 
                 return Ok(licensesResult);
             }

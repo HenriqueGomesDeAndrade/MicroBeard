@@ -28,7 +28,7 @@ namespace MicroBeard.Controllers
                 IEnumerable<Collaborator> collaborators = _repository.Collaborator.GetAllCollaborators();
                 _logger.LogInfo($"Returned all collaborators from database");
 
-                IEnumerable<CollaboratorDto> CollaboratorsResult = _mapper.Map<IEnumerable<CollaboratorDto>>(collaborators);
+                IEnumerable<SimpleCollaboratorDto> CollaboratorsResult = _mapper.Map<IEnumerable<SimpleCollaboratorDto>>(collaborators);
 
                 return Ok(CollaboratorsResult);
             }

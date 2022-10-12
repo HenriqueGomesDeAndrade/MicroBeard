@@ -5,7 +5,7 @@ using MicroBeard.Entities.DataTransferObjects.Collaborator;
 
 namespace MicroBeard.Entities.DataTransferObjects.License
 {
-    public class LicenseDto
+    public class SimpleLicenseDto
     {
         public int Code { get; set; }
         public string? Description { get; set; }
@@ -15,7 +15,5 @@ namespace MicroBeard.Entities.DataTransferObjects.License
         public DateTime? UpdateDate { get; set; }
         public int? DesactivatorCode { get; set; }
         public DateTime? DesactivationDate { get; set; }
-
-        public ICollection<SimpleCollaboratorDto>? Collaborators { get; set; }
     }
 }
