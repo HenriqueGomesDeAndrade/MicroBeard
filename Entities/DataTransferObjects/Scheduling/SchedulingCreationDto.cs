@@ -14,9 +14,5 @@ namespace MicroBeard.Entities.DataTransferObjects.Scheduling
 
         [Range(0, 2147483647, ErrorMessage = "The code cannot be lesser than zero")]
         public int ServiceCode { get; set; }
-
-        public Models.Contact? Contact { get; set; }
-
-        public Models.Service? Service { get; set; }
     }
 }
