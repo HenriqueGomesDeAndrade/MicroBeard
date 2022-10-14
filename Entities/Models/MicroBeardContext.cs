@@ -64,19 +64,19 @@ namespace MicroBeard.Entities.Models
 
             modelBuilder.Entity<CollaboratorService>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(cs => new {cs.ServiceCode, cs.CollaboratorCode});
 
-                entity.ToTable("Collaborator_Service");
+                entity.ToTable("CollaboratorService");
 
-                entity.HasOne(d => d.CollaboratorCodeNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.CollaboratorCode)
-                    .HasConstraintName("FK__Collabora__Colla__787EE5A0");
+                entity.HasOne(cs => cs.CollaboratorCodeNavigation)
+                    .WithMany(c => c.Services)
+                    .HasForeignKey(cs => cs.CollaboratorCode)
+                    .HasConstraintName("FK_CollaboratorService_CollaboratorCode");
 
                 entity.HasOne(d => d.ServiceCodeNavigation)
-                    .WithMany()
+                    .WithMany(c => c.Collaborators)
                     .HasForeignKey(d => d.ServiceCode)
-                    .HasConstraintName("FK__Collabora__Servi__797309D9");
+                    .HasConstraintName("FK_CollaboratorService_ServiceCode");
             });
 
             modelBuilder.Entity<Contact>(entity =>
@@ -120,19 +120,19 @@ namespace MicroBeard.Entities.Models
 
             modelBuilder.Entity<LicencedCollaborator>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(lc => new {lc.LicenceCode, lc.CollaboratorCode});
 
-                entity.ToTable("Licenced_Collaborator");
+                entity.ToTable("LicencedCollaborator");
 
                 entity.HasOne(d => d.CollaboratorCodeNavigation)
                     .WithMany()
                     .HasForeignKey(d => d.CollaboratorCode)
-                    .HasConstraintName("FK__Licenced___Colla__7B5B524B");
+                    .HasConstraintName("FK_LicencedCollaborator_CollaboratorCode");
 
                 entity.HasOne(d => d.LicenceCodeNavigation)
                     .WithMany()
                     .HasForeignKey(d => d.LicenceCode)
-                    .HasConstraintName("FK__Licenced___Licen__7C4F7684");
+                    .HasConstraintName("FK_LicencedCollaborator_LicenseCode");
             });
 
             modelBuilder.Entity<License>(entity =>
