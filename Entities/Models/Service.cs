@@ -8,7 +8,7 @@ namespace MicroBeard.Entities.Models
         public Service()
         {
             Schedulings = new HashSet<Scheduling>();
-            Collaborators = new HashSet<CollaboratorService>();
+            Collaborators = new HashSet<Collaborator>();
         }
 
         public int Code { get; set; }
@@ -26,7 +26,7 @@ namespace MicroBeard.Entities.Models
         public bool? Deleted { get; set; }
 
         public virtual ICollection<Scheduling> Schedulings { get; set; }
-        public virtual ICollection<CollaboratorService> Collaborators { get; set; }
+        public virtual ICollection<Collaborator> Collaborators { get; set; }
 
     }
 }

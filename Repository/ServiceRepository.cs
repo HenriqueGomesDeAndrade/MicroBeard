@@ -26,7 +26,7 @@ namespace MicroBeard.Repository
 
         public Service GetServiceByCode(int code)
         {
-            Service service = _repositoryContext.Services.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
+            Service service = _repositoryContext.Services.Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
             _repositoryContext.Entry(service).Collection(c => c.Schedulings).Load();
             _repositoryContext.Entry(service).Collection(c => c.Collaborators).Load();

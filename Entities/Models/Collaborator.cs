@@ -7,8 +7,8 @@ namespace MicroBeard.Entities.Models
     {
         public Collaborator()
         {
-            Licenses = new HashSet<LicencedCollaborator>();
-            Services = new HashSet<CollaboratorService>();
+            Licenses = new HashSet<License>();
+            Services = new HashSet<Service>();
         }
 
         public int Code { get; set; }
@@ -27,8 +27,8 @@ namespace MicroBeard.Entities.Models
         public int? DesactivatorCode { get; set; }
         public bool? Desactivated { get; set; }
 
-        public virtual ICollection<LicencedCollaborator> Licenses { get; set; }
-        public virtual ICollection<CollaboratorService> Services { get; set; }
+        public virtual ICollection<License> Licenses { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
 
     }
 }
