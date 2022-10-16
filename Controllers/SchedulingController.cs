@@ -148,11 +148,15 @@ namespace MicroBeard.Controllers
 
                 schedulingEntity.UpdateDate = DateTime.Now;
                 //SchedulingEntity.UpdateCode = CollaboratorCode;
+                schedulingEntity.ContactCodeNavigation = contactCheck;
+                schedulingEntity.ServiceCodeNavigation = serviceCheck;
 
                 _repository.Scheduling.UpdateScheduling(schedulingEntity);
                 _repository.Save();
 
-                return Ok(schedulingEntity);
+                SchedulingDto updatedScheduling = _mapper.Map<SchedulingDto>(schedulingEntity);
+
+                return Ok(updatedScheduling);
             }
             catch (Exception ex)
             {

@@ -17,20 +17,10 @@ namespace MicroBeard.Entities.Models
         }
 
         public virtual DbSet<Collaborator> Collaborators { get; set; } = null!;
-        public virtual DbSet<CollaboratorService> CollaboratorServices { get; set; } = null!;
         public virtual DbSet<Contact> Contacts { get; set; } = null!;
-        public virtual DbSet<LicencedCollaborator> LicencedCollaborators { get; set; } = null!;
         public virtual DbSet<License> Licenses { get; set; } = null!;
         public virtual DbSet<Scheduling> Schedulings { get; set; } = null!;
         public virtual DbSet<Service> Services { get; set; } = null!;
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer("Server=localhost;Database=MicroBeard;Trusted_Connection=True;");
-        //    }
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,23 +50,6 @@ namespace MicroBeard.Entities.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Salary).HasColumnType("decimal(9, 2)");
-            });
-
-            modelBuilder.Entity<CollaboratorService>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("Collaborator_Service");
-
-                entity.HasOne(d => d.CollaboratorCodeNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.CollaboratorCode)
-                    .HasConstraintName("FK__Collabora__Colla__787EE5A0");
-
-                entity.HasOne(d => d.ServiceCodeNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.ServiceCode)
-                    .HasConstraintName("FK__Collabora__Servi__797309D9");
             });
 
             modelBuilder.Entity<Contact>(entity =>
@@ -116,23 +89,6 @@ namespace MicroBeard.Entities.Models
                 entity.Property(e => e.Phone)
                     .HasMaxLength(15)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<LicencedCollaborator>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("Licenced_Collaborator");
-
-                entity.HasOne(d => d.CollaboratorCodeNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.CollaboratorCode)
-                    .HasConstraintName("FK__Licenced___Colla__7B5B524B");
-
-                entity.HasOne(d => d.LicenceCodeNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.LicenceCode)
-                    .HasConstraintName("FK__Licenced___Licen__7C4F7684");
             });
 
             modelBuilder.Entity<License>(entity =>
