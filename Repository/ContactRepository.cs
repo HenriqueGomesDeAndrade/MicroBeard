@@ -22,11 +22,12 @@ namespace MicroBeard.Repository
                 .ToList();
         }
 
-        public Contact GetContactByCode(int code)
+        public Contact GetContactByCode(int code, bool expandRelations = false)
         {
             Contact contact = _repositoryContext.Contacts.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
-            _repositoryContext.Entry(contact).Collection(c => c.Schedulings).Load();
+            if (contact != null && expandRelations)
+                _repositoryContext.Entry(contact).Collection(c => c.Schedulings).Load();
 
             return contact;
         }

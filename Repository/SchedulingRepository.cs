@@ -24,12 +24,15 @@ namespace MicroBeard.Repository
                 .ToList();
         }
 
-        public Scheduling GetSchedulingByCode(int code)
+        public Scheduling GetSchedulingByCode(int code, bool expandRelations = false)
         {
             Scheduling scheduling = _repositoryContext.Schedulings.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
-            _repositoryContext.Entry(scheduling).Reference(c => c.ServiceCodeNavigation).Load();
-            _repositoryContext.Entry(scheduling).Reference(c => c.ContactCodeNavigation).Load();
+            if(scheduling != null && expandRelations)
+            {
+                _repositoryContext.Entry(scheduling).Reference(c => c.ServiceCodeNavigation).Load();
+                _repositoryContext.Entry(scheduling).Reference(c => c.ContactCodeNavigation).Load();
+            }
 
             return scheduling;
         }

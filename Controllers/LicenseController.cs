@@ -44,7 +44,7 @@ namespace MicroBeard.Controllers
         {
             try
             {
-                License license = _repository.License.GetLicenseByCode(code);
+                License license = _repository.License.GetLicenseByCode(code, expandRelations: true);
 
                 if (license is null)
                 {
@@ -117,7 +117,7 @@ namespace MicroBeard.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                License licenseEntity = _repository.License.GetLicenseByCode(code);
+                License licenseEntity = _repository.License.GetLicenseByCode(code, expandRelations: true);
                 if (licenseEntity is null)
                 {
                     _logger.LogError($"License with code {code} hasn't been found in db.");

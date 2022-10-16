@@ -22,12 +22,15 @@ namespace MicroBeard.Repository
                 .ToList();
         }
 
-        public Collaborator GetCollaboratorByCode(int code)
+        public Collaborator GetCollaboratorByCode(int code, bool expandRelations = false)
         {
             Collaborator? collaborator = _repositoryContext.Collaborators.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
-            _repositoryContext.Entry(collaborator).Collection(c => c.Licenses).Load();
-            _repositoryContext.Entry(collaborator).Collection(c => c.Services).Load();
+            if (collaborator != null && expandRelations)
+            {
+                _repositoryContext.Entry(collaborator).Collection(c => c.Licenses).Load();
+                _repositoryContext.Entry(collaborator).Collection(c => c.Services).Load();
+            }
 
             return collaborator;
         }

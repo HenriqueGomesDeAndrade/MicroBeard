@@ -44,7 +44,7 @@ namespace MicroBeard.Controllers
         {
             try
             {
-                Collaborator collaborator = _repository.Collaborator.GetCollaboratorByCode(code);
+                Collaborator collaborator = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: true);
 
                 if (collaborator is null)
                 {
@@ -117,7 +117,7 @@ namespace MicroBeard.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                Collaborator collaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code);
+                Collaborator collaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: true);
                 if (collaboratorEntity is null)
                 {
                     _logger.LogError($"Collaborator with code {code} hasn't been found in db.");

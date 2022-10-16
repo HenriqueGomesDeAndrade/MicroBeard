@@ -46,7 +46,7 @@ namespace MicroBeard.Controllers
         {
             try
             {
-                Contact contact = _repository.Contact.GetContactByCode(code);
+                Contact contact = _repository.Contact.GetContactByCode(code, expandRelations: true);
 
                 if (contact is null)
                 {
@@ -124,7 +124,7 @@ namespace MicroBeard.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                Contact contactEntity = _repository.Contact.GetContactByCode(code);
+                Contact contactEntity = _repository.Contact.GetContactByCode(code, expandRelations: true);
                 if (contactEntity is null)
                 {
                     _logger.LogError($"Contact with code {code} hasn't been found in db.");

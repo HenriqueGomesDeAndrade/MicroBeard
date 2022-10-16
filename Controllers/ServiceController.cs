@@ -44,7 +44,7 @@ namespace MicroBeard.Controllers
         {
             try
             {
-                Service service = _repository.Service.GetServiceByCode(code);
+                Service service = _repository.Service.GetServiceByCode(code, expandRelations: true);
 
                 if (service is null)
                 {
@@ -117,7 +117,7 @@ namespace MicroBeard.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                Service serviceEntity = _repository.Service.GetServiceByCode(code);
+                Service serviceEntity = _repository.Service.GetServiceByCode(code, expandRelations: true);
                 if (serviceEntity is null)
                 {
                     _logger.LogError($"Service with code {code} hasn't been found in db.");

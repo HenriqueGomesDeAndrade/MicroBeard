@@ -46,7 +46,7 @@ namespace MicroBeard.Controllers
         {
             try
             {
-                Scheduling scheduling = _repository.Scheduling.GetSchedulingByCode(code);
+                Scheduling scheduling = _repository.Scheduling.GetSchedulingByCode(code, expandRelations: true);
 
                 if (scheduling is null)
                 {
@@ -129,7 +129,7 @@ namespace MicroBeard.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                Scheduling schedulingEntity = _repository.Scheduling.GetSchedulingByCode(code);
+                Scheduling schedulingEntity = _repository.Scheduling.GetSchedulingByCode(code, expandRelations: true);
                 if (schedulingEntity is null)
                 {
                     _logger.LogError($"Scheduling with code {code} hasn't been found in db.");
@@ -140,8 +140,8 @@ namespace MicroBeard.Controllers
                 if (contactCheck == null)
                     return NotFound($"Unable to find the Contact code {scheduling.ContactCode}");
 
-                Service ServiceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
-                if (ServiceCheck == null)
+                Service serviceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
+                if (serviceCheck == null)
                     return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
 
                 _mapper.Map(scheduling, schedulingEntity);

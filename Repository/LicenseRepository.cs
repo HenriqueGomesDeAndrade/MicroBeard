@@ -22,11 +22,12 @@ namespace MicroBeard.Repository
                 .ToList();
         }
 
-        public License GetLicenseByCode(int code)
+        public License GetLicenseByCode(int code, bool expandRelations = true)
         {
             License license = _repositoryContext.Licenses.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
-            _repositoryContext.Entry(license).Collection(c => c.Collaborators).Load();
+            if(license != null && expandRelations)
+                _repositoryContext.Entry(license).Collection(c => c.Collaborators).Load();
 
             return license;
         }

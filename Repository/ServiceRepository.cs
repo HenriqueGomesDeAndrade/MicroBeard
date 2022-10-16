@@ -24,12 +24,15 @@ namespace MicroBeard.Repository
                 .ToList();
         }
 
-        public Service GetServiceByCode(int code)
+        public Service GetServiceByCode(int code, bool expandRelations = false)
         {
             Service service = _repositoryContext.Services.Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
-            _repositoryContext.Entry(service).Collection(c => c.Schedulings).Load();
-            _repositoryContext.Entry(service).Collection(c => c.Collaborators).Load();
+            if (service != null && expandRelations)
+            {
+                _repositoryContext.Entry(service).Collection(c => c.Schedulings).Load();
+                _repositoryContext.Entry(service).Collection(c => c.Collaborators).Load();
+            }
 
             return service;
         }
