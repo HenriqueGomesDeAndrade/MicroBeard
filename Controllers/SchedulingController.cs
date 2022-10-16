@@ -136,6 +136,14 @@ namespace MicroBeard.Controllers
                     return NotFound();
                 }
 
+                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode);
+                if (contactCheck == null)
+                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode}");
+
+                Service ServiceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
+                if (ServiceCheck == null)
+                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
+
                 _mapper.Map(scheduling, schedulingEntity);
 
                 schedulingEntity.UpdateDate = DateTime.Now;

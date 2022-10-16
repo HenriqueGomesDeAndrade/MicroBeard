@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [MicroBeard]    Script Date: 10/10/2022 09:03:13 ******/
+/****** Object:  Database [MicroBeard]    Script Date: 16/10/2022 13:12:19 ******/
 CREATE DATABASE [MicroBeard]
  CONTAINMENT = NONE
  ON  PRIMARY 

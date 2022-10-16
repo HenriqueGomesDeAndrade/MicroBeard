@@ -1,6 +1,6 @@
 USE [MicroBeard]
 GO
-/****** Object:  Table [dbo].[Scheduling]    Script Date: 10/10/2022 09:03:15 ******/
+/****** Object:  Table [dbo].[Scheduling]    Script Date: 16/10/2022 13:12:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -26,9 +26,13 @@ CREATE TABLE [dbo].[Scheduling](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 10, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Scheduling]  WITH CHECK ADD FOREIGN KEY([ContactCode])
-REFERENCES [dbo].[Collaborator] ([Code])
+ALTER TABLE [dbo].[Scheduling]  WITH CHECK ADD  CONSTRAINT [FK_Scheduling_Contact_Code] FOREIGN KEY([ContactCode])
+REFERENCES [dbo].[Contact] ([Code])
 GO
-ALTER TABLE [dbo].[Scheduling]  WITH CHECK ADD FOREIGN KEY([ServiceCode])
+ALTER TABLE [dbo].[Scheduling] CHECK CONSTRAINT [FK_Scheduling_Contact_Code]
+GO
+ALTER TABLE [dbo].[Scheduling]  WITH CHECK ADD  CONSTRAINT [FK_Scheduling_Service_Code] FOREIGN KEY([ServiceCode])
 REFERENCES [dbo].[Service] ([Code])
+GO
+ALTER TABLE [dbo].[Scheduling] CHECK CONSTRAINT [FK_Scheduling_Service_Code]
 GO

@@ -3,6 +3,8 @@ using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Entity.Core.Common.CommandTrees;
 
 namespace MicroBeard.Controllers
 {
@@ -89,9 +91,14 @@ namespace MicroBeard.Controllers
                 _repository.Contact.CreateContact(contactEntity);
                 _repository.Save();
 
-                SimpleContactDto createdContact = _mapper.Map<SimpleContactDto>(contactEntity);
+                ContactDto createdContact = _mapper.Map<ContactDto>(contactEntity);
 
                 return CreatedAtRoute("ContactByCode", new { code = createdContact.Code }, createdContact);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError($"Something went wrong inside CreateContact action: {ex.Message}");
+                return StatusCode(500, $"Internal server error. Unable to insert values on the Database: {ex.InnerException.Message}");
             }
             catch (Exception ex)
             {
