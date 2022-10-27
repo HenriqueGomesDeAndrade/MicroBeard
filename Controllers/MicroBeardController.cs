@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using MicroBeard.Contracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
-using System.Web.Http.Controllers;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace MicroBeard.Controllers 
 {
-    public class MicroBeardController : ControllerBase
+    public class MicroBeardController : Controller
     {
         protected int ContactId { get; set; }
         protected int CollaboratorId { get; set; }
@@ -23,10 +20,20 @@ namespace MicroBeard.Controllers
             _mapper = mapper;
         }
 
-
-        protected virtual void Initialize(System.Web.Routing.RequestContext controllerContext)
+        
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            base.Initialize(controllerContext);
+            base.OnActionExecuting(context);
+            Authenticate(context);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public void Authenticate(ActionExecutingContext context)
+        {
+            var token = context.HttpContext.Request.Headers.Authorization;
+
+
         }
     }
 }

@@ -7,12 +7,12 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
     public class ContactDto
     {
         public int Code { get; set; }
-        public string? Name { get; set; }
-        public string? Address { get; set; }
-        public string? Email { get; set; }
-        public string? CPF { get; set; }
-        public string? Phone { get; set; }
-        public string? Gender { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Email { get; set; }
+        public string CPF { get; set; }
+        public string Phone { get; set; }
+        public string Gender { get; set; }
         public DateTime? BirthDate { get; set; }
         public int? CreatorCode { get; set; }
         public DateTime CreateDate { get; set; }
@@ -21,7 +21,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
         public int? DeleterCode { get; set; }
         public DateTime? DeleteDate { get; set; }
 
-        public ICollection<SimpleSchedulingDto>? Schedulings { get; set; }
+        public ICollection<SimpleSchedulingDto> Schedulings { get; set; }
 
     }
 }

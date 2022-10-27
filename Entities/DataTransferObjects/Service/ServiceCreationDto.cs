@@ -6,7 +6,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Service
     {
         [Required(ErrorMessage = "Name is required")]
         [StringLength(100, ErrorMessage = "Name can't be longer than 100 characters")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [Range(0, 999999.99, ErrorMessage = "Invalid range. The number must be between 0 and 9999999.99")]
         public decimal Price { get; set; }
@@ -15,9 +15,9 @@ namespace MicroBeard.Entities.DataTransferObjects.Service
         public int Time { get; set; }
 
         [StringLength(50, ErrorMessage = "Type can't be longer than 50 characters")]
-        public string? Type { get; set; }
+        public string Type { get; set; }
 
         [StringLength(250, ErrorMessage = "Description can't be longer than 250 characters")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
     }
 }

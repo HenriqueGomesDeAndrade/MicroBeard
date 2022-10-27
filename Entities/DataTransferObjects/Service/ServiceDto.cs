@@ -8,11 +8,11 @@ namespace MicroBeard.Entities.DataTransferObjects.Service
     public class ServiceDto
     {
         public int Code { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public decimal Price { get; set; }
         public int Time { get; set; }
-        public string? Type { get; set; }
-        public string? Description { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
         public int? CreatorCode { get; set; }
         public DateTime CreateDate { get; set; }
         public int? UpdaterCode { get; set; }
@@ -20,7 +20,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Service
         public int? DeleterCode { get; set; }
         public DateTime? DeleteDate { get; set; }
 
-        public ICollection<SimpleSchedulingDto>? Schedulings { get; set; }
-        public ICollection<SimpleCollaboratorDto>? Collaborators { get; set; }
+        public ICollection<SimpleSchedulingDto> Schedulings { get; set; }
+        public ICollection<SimpleCollaboratorDto> Collaborators { get; set; }
     }
 }

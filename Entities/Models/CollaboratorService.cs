@@ -8,7 +8,7 @@ namespace MicroBeard.Entities.Models
         public int? ServiceCode { get; set; }
         public int? CollaboratorCode { get; set; }
 
-        public virtual Collaborator? CollaboratorCodeNavigation { get; set; }
-        public virtual Service? ServiceCodeNavigation { get; set; }
+        public virtual Collaborator CollaboratorCodeNavigation { get; set; }
+        public virtual Service ServiceCodeNavigation { get; set; }
     }
 }

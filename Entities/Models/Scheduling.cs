@@ -20,7 +20,7 @@ namespace MicroBeard.Entities.Models
         public int? DeleterCode { get; set; }
         public bool? Deleted { get; set; }
 
-        public virtual Contact? ContactCodeNavigation { get; set; }
-        public virtual Service? ServiceCodeNavigation { get; set; }
+        public virtual Contact ContactCodeNavigation { get; set; }
+        public virtual Service ServiceCodeNavigation { get; set; }
     }
 }

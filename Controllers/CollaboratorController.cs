@@ -7,9 +7,11 @@ using System.Security.Cryptography;
 using System.Security.Policy;
 using MicroBeard.Helpers;
 using MicroBeard.Entities.DataTransferObjects.Contact;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MicroBeard.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CollaboratorController : MicroBeardController
@@ -187,7 +189,7 @@ namespace MicroBeard.Controllers
             _repository.Collaborator.UpdateCollaborator(collaborator);
             _repository.Save();
 
-            return Ok($"Collaborator token: {collaborator.Token}");
+            return Ok($"Bearer {collaborator.Token}");
         }
     }
 }

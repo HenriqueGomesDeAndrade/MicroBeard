@@ -8,7 +8,7 @@ namespace MicroBeard.Entities.DataTransferObjects.License
     public class SimpleLicenseDto
     {
         public int Code { get; set; }
-        public string? Description { get; set; }
+        public string Description { get; set; }
         public int? CreatorCode { get; set; }
         public DateTime CreateDate { get; set; }
         public int? UpdaterCode { get; set; }

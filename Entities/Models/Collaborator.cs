@@ -13,7 +13,7 @@ namespace MicroBeard.Entities.Models
 
         public int Code { get; set; }
         public string Name { get; set; } = null!;
-        public string? Cpf { get; set; }
+        public string Cpf { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string PasswordSaltGUID { get; set; }

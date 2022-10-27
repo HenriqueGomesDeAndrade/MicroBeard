@@ -8,7 +8,7 @@ namespace MicroBeard.Entities.Models
         public int? LicenceCode { get; set; }
         public int? CollaboratorCode { get; set; }
 
-        public virtual Collaborator? CollaboratorCodeNavigation { get; set; }
-        public virtual License? LicenceCodeNavigation { get; set; }
+        public virtual Collaborator CollaboratorCodeNavigation { get; set; }
+        public virtual License LicenceCodeNavigation { get; set; }
     }
 }

@@ -193,7 +193,7 @@ namespace MicroBeard.Controllers
             _repository.Contact.UpdateContact(contact);
             _repository.Save();
 
-            return Ok($"Contact token: {contact.Token}");
+            return Ok($"Bearer {contact.Token}");
         }
     }
 }

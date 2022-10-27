@@ -24,7 +24,7 @@ namespace MicroBeard.Repository
 
         public Collaborator GetCollaboratorByCode(int code, bool expandRelations = false)
         {
-            Collaborator? collaborator = _repositoryContext.Collaborators.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
+            Collaborator collaborator = _repositoryContext.Collaborators.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
             if (collaborator != null && expandRelations)
             {
