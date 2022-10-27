@@ -20,7 +20,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Service
         public int? DeleterCode { get; set; }
         public DateTime? DeleteDate { get; set; }
 
-        public ICollection<SimpleSchedulingDto>? Schedullings { get; set; }
+        public ICollection<SimpleSchedulingDto>? Schedulings { get; set; }
         public ICollection<SimpleCollaboratorDto>? Collaborators { get; set; }
     }
 }

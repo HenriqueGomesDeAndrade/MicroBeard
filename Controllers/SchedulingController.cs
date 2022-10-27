@@ -9,7 +9,7 @@ namespace MicroBeard.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SchedulingController : ControllerBase
+    public class SchedulingController : MicroBeardController
     {
         private ILoggerManager _logger;
         private IRepositoryWrapper _repository;

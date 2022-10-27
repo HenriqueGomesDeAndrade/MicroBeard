@@ -3,6 +3,9 @@ using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Collaborator;
 using MicroBeard.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using System.Security.Policy;
+using MicroBeard.Helpers;
 
 namespace MicroBeard.Controllers
 {
@@ -83,6 +86,10 @@ namespace MicroBeard.Controllers
 
                 Collaborator collaboratorEntity = _mapper.Map<Collaborator>(collaborator);
 
+                var guid = Guid.NewGuid();
+                collaboratorEntity.Password = PasswordManager.EncryptPassword(collaboratorEntity.Password + guid.ToString());
+                collaboratorEntity.PasswordSaltGUID = guid.ToString();
+
                 collaboratorEntity.CreateDate = DateTime.Now;
                 //CollaboratorEntity.CreatorCode = CollaboratorCode;
 
@@ -132,7 +139,7 @@ namespace MicroBeard.Controllers
                 _repository.Collaborator.UpdateCollaborator(collaboratorEntity);
                 _repository.Save();
 
-                return Ok(collaboratorEntity);
+                return Ok(collaborator);
             }
             catch (Exception ex)
             {

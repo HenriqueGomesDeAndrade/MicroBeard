@@ -10,13 +10,13 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
     {
         [Key]
         public int Code { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public DateTime? BirthDate { get; set; }
-        public string? CPF { get; set; }
-        public string? Phone { get; set; }
-        public string? Function { get; set; }
-        public decimal? Salary { get; set; }
-        public decimal? Commision { get; set; }
+        public string CPF { get; set; }
+        public string Phone { get; set; }
+        public string Function { get; set; }
+        public decimal Salary { get; set; }
+        public decimal Commision { get; set; }
         public int? CreatorCode { get; set; }
         public DateTime CreateDate { get; set; }
         public int? UpdaterCode { get; set; }

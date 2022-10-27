@@ -8,7 +8,7 @@ namespace MicroBeard.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ServiceController : ControllerBase
+    public class ServiceController : MicroBeardController
     {
         private ILoggerManager _logger;
         private IRepositoryWrapper _repository;

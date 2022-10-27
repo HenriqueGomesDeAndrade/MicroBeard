@@ -10,11 +10,12 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
     {
         [Key]
         public int Code { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public DateTime? BirthDate { get; set; }
-        public string? CPF { get; set; }
-        public string? Phone { get; set; }
-        public string? Function { get; set; }
+        public string CPF { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Function { get; set; }
         public decimal? Salary { get; set; }
         public decimal? Commision { get; set; }
         public int? CreatorCode { get; set; }
@@ -25,7 +26,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
         public DateTime? DesactivationDate { get; set; }
         public bool Desactivated { get; set; }
 
-        public ICollection<SimpleServiceDto>? Services { get; set; }
-        public ICollection<SimpleLicenseDto>? Licenses { get; set; }
+        public ICollection<SimpleServiceDto> Services { get; set; }
+        public ICollection<SimpleLicenseDto> Licenses { get; set; }
     }
 }

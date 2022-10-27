@@ -2,6 +2,7 @@
 using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.Models;
+using MicroBeard.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity.Core.Common.CommandTrees;
@@ -84,6 +85,10 @@ namespace MicroBeard.Controllers
                 }
 
                 Contact contactEntity = _mapper.Map<Contact>(contact);
+
+                var guid = Guid.NewGuid();
+                contactEntity.Password = PasswordManager.EncryptPassword(contactEntity.Password + guid.ToString());
+                contactEntity.PasswordSaltGUID = guid.ToString();
 
                 contactEntity.CreateDate = DateTime.Now;
                 //contactEntity.CreatorCode = CollaboratorCode;
