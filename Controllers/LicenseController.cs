@@ -10,14 +10,9 @@ namespace MicroBeard.Controllers
     [Route("[controller]")]
     public class LicenseController : MicroBeardController
     {
-        private ILoggerManager _logger;
-        private IRepositoryWrapper _repository;
-        private IMapper _mapper;
         public LicenseController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
+            : base(logger, repository, mapper)
         {
-            _logger = logger;
-            _repository = repository;
-            _mapper = mapper;
         }
 
         [HttpGet]

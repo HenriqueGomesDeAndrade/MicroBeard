@@ -10,14 +10,9 @@ namespace MicroBeard.Controllers
     [Route("[controller]")]
     public class ServiceController : MicroBeardController
     {
-        private ILoggerManager _logger;
-        private IRepositoryWrapper _repository;
-        private IMapper _mapper;
         public ServiceController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
+            : base(logger, repository, mapper)
         {
-            _logger = logger;
-            _repository = repository;
-            _mapper = mapper;
         }
 
         [HttpGet]

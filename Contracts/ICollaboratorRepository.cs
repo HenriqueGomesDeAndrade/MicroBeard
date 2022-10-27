@@ -6,6 +6,7 @@ namespace MicroBeard.Contracts
     {
         IEnumerable<Collaborator> GetAllCollaborators();
         Collaborator GetCollaboratorByCode(int code, bool expandRelations = false);
+        public Collaborator GetCollaboratorByEmail(string email);
         void CreateCollaborator(Collaborator collaborator);
         void UpdateCollaborator(Collaborator collaborator);
         void DeleteCollaborator(Collaborator collaborator);

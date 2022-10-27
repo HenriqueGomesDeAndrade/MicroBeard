@@ -6,6 +6,7 @@ namespace MicroBeard.Contracts
     {
         IEnumerable<Contact> GetAllContacts();
         Contact GetContactByCode(int code, bool expandRelations = false);
+        Contact GetContactByEmail(string email);
         void CreateContact(Contact contact);
         void UpdateContact(Contact contact);
         void DeleteContact(Contact contact);

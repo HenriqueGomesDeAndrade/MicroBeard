@@ -35,6 +35,11 @@ namespace MicroBeard.Repository
             return collaborator;
         }
 
+        public Collaborator GetCollaboratorByEmail(string email)
+        {
+            return _repositoryContext.Collaborators.AsNoTracking().Where(c => c.Desactivated != true && c.Email.Equals(email)).FirstOrDefault();
+        }
+
         public void CreateCollaborator(Collaborator collaborator)
         {
             _repositoryContext.Collaborators.Add(collaborator);

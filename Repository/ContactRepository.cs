@@ -32,6 +32,11 @@ namespace MicroBeard.Repository
             return contact;
         }
 
+        public Contact GetContactByEmail(string email)
+        {
+            return _repositoryContext.Contacts.AsNoTracking().Where(c => c.Deleted != true && c.Email.Equals(email)).FirstOrDefault();
+        }
+
         public void CreateContact(Contact contact)
         {
             _repositoryContext.Contacts.Add(contact);

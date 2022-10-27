@@ -6,21 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Security.Policy;
 using MicroBeard.Helpers;
+using MicroBeard.Entities.DataTransferObjects.Contact;
 
 namespace MicroBeard.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CollaboratorController : ControllerBase
+    public class CollaboratorController : MicroBeardController
     {
-        private ILoggerManager _logger;
-        private IRepositoryWrapper _repository;
-        private IMapper _mapper;
         public CollaboratorController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
+            : base(logger, repository, mapper)
         {
-            _logger = logger;
-            _repository = repository;
-            _mapper = mapper;
         }
 
         [HttpGet]
@@ -174,6 +170,24 @@ namespace MicroBeard.Controllers
                 _logger.LogError($"Something went wrong inside DeleteCollaborator action: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        [HttpPost("Login")]
+        public IActionResult Login(CollaboratorLoginDto loginDto)
+        {
+            Collaborator collaborator = _repository.Collaborator.GetCollaboratorByEmail(loginDto.Email);
+            if (collaborator == null)
+                return NotFound("The email was not found");
+
+            bool passwordIsValid = PasswordManager.ValidatePassword(loginDto.Password + collaborator.PasswordSaltGUID, collaborator.Password);
+            if (!passwordIsValid)
+                return Unauthorized("Password invalid");
+
+            collaborator.Token = Guid.NewGuid().ToString();
+            _repository.Collaborator.UpdateCollaborator(collaborator);
+            _repository.Save();
+
+            return Ok($"Collaborator token: {collaborator.Token}");
         }
     }
 }

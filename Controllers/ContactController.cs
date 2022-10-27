@@ -11,16 +11,11 @@ namespace MicroBeard.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ContactController : ControllerBase
+    public class ContactController : MicroBeardController
     {
-        private ILoggerManager _logger;
-        private IRepositoryWrapper _repository;
-        private IMapper _mapper;
         public ContactController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
+            : base(logger, repository, mapper)
         {
-            _logger = logger;
-            _repository = repository;
-            _mapper = mapper;
         }
 
         [HttpGet]
@@ -181,6 +176,24 @@ namespace MicroBeard.Controllers
                 _logger.LogError($"Something went wrong inside DeleteContact action: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        [HttpPost("Login")]
+        public IActionResult Login(ContactLoginDto loginDto)
+        {
+            Contact contact = _repository.Contact.GetContactByEmail(loginDto.Email);
+            if (contact == null)
+                return NotFound("The email was not found");
+
+            bool passwordIsValid = PasswordManager.ValidatePassword(loginDto.Password + contact.PasswordSaltGUID, contact.Password);
+            if(!passwordIsValid)
+                return Unauthorized("Password invalid");
+
+            contact.Token = Guid.NewGuid().ToString();
+            _repository.Contact.UpdateContact(contact);
+            _repository.Save();
+
+            return Ok($"Contact token: {contact.Token}");
         }
     }
 }
