@@ -1,6 +1,8 @@
 ﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
+using MicroBeard.Helpers;
 using System.Data.Entity;
 
 namespace MicroBeard.Repository
@@ -14,12 +16,14 @@ namespace MicroBeard.Repository
             _repositoryContext = repositoryContext;
         }
 
-        public IEnumerable<Contact> GetAllContacts()
+        public PagedList<Contact> GetAllContacts(ContactParameters contactParameters)
         {
-            return _repositoryContext.Contacts.AsNoTracking()
+            return PagedList<Contact>.ToPagedList(
+                _repositoryContext.Contacts.AsNoTracking()
                 .Where(c => c.Deleted != true)
-                .OrderBy(c => c.Name)
-                .ToList();
+                .OrderBy(c => c.Name),
+                contactParameters.PageNumber,
+                contactParameters.PageSize);
         }
 
         public Contact GetContactByCode(int code, bool expandRelations = false)

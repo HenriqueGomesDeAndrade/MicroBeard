@@ -1,6 +1,8 @@
 ﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
+using MicroBeard.Helpers;
 using System.Data.Entity;
 
 namespace MicroBeard.Repository
@@ -14,12 +16,14 @@ namespace MicroBeard.Repository
             _repositoryContext = repositoryContext;
         }
 
-        public IEnumerable<Collaborator> GetAllCollaborators()
+        public PagedList<Collaborator> GetAllCollaborators(CollaboratorParameters collaboratorParameters)
         {
-            return _repositoryContext.Collaborators.AsNoTracking()
+            return PagedList<Collaborator>.ToPagedList(
+                _repositoryContext.Collaborators.AsNoTracking()
                 .Where(c => c.Desactivated != true)
-                .OrderBy(c => c.Name)
-                .ToList();
+                .OrderBy(c => c.Name),
+                collaboratorParameters.PageNumber,
+                collaboratorParameters.PageSize);
         }
 
         public Collaborator GetCollaboratorByCode(int code, bool expandRelations = false)

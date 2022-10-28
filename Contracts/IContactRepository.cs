@@ -1,10 +1,12 @@
 ﻿using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
+using MicroBeard.Helpers;
 
 namespace MicroBeard.Contracts
 {
     public interface IContactRepository
     {
-        IEnumerable<Contact> GetAllContacts();
+        PagedList<Contact> GetAllContacts(ContactParameters contactParameters);
         Contact GetContactByCode(int code, bool expandRelations = false);
         Contact GetContactByEmail(string email);
         void CreateContact(Contact contact);

@@ -1,6 +1,8 @@
 ﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
+using MicroBeard.Helpers;
 using System.Data.Entity;
 
 namespace MicroBeard.Repository
@@ -14,12 +16,14 @@ namespace MicroBeard.Repository
             _repositoryContext = repositoryContext;
         }
 
-        public IEnumerable<License> GetAllLicenses()
+        public PagedList<License> GetAllLicenses(LicenseParameters licenseParameters)
         {
-            return _repositoryContext.Licenses.AsNoTracking()
+            return PagedList<License>.ToPagedList(
+                _repositoryContext.Licenses.AsNoTracking()
                 .Where(c => c.Desactivated != true)
-                .OrderBy(c => c.Description)
-                .ToList();
+                .OrderBy(c => c.Description),
+                licenseParameters.PageNumber,
+                licenseParameters.PageSize);
         }
 
         public License GetLicenseByCode(int code, bool expandRelations = true)

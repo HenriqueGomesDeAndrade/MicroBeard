@@ -2,8 +2,11 @@
 using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.License;
 using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
+using MicroBeard.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace MicroBeard.Controllers
@@ -18,12 +21,23 @@ namespace MicroBeard.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllLicenses()
+        public IActionResult GetAllLicenses([FromQuery] LicenseParameters licenseParameters)
         {
             try
             {
-                IEnumerable<License> licenses = _repository.License.GetAllLicenses();
+                PagedList<License> licenses = _repository.License.GetAllLicenses(licenseParameters);
                 _logger.LogInfo($"Returned all licenses from database");
+
+                var metadata = new
+                {
+                    licenses.TotalCount,
+                    licenses.PageSize,
+                    licenses.CurrentPage,
+                    licenses.TotalPages,
+                    licenses.HasNext,
+                    licenses.HasPrevious,
+                };
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
                 IEnumerable<SimpleLicenseDto> licensesResult = _mapper.Map<IEnumerable<SimpleLicenseDto>>(licenses);
 

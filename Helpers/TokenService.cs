@@ -24,8 +24,8 @@ namespace MicroBeard.Helpers
                     new Claim(ClaimTypes.Name, collaborator.Name.ToString()),
                     new Claim(ClaimTypes.Role, "Collaborator"),
                 }),
-                Expires = DateTime.UtcNow.AddHours(2),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Expires = DateTime.UtcNow.AddDays(30),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);

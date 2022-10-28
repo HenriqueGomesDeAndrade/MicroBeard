@@ -2,7 +2,10 @@
 using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Service;
 using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
+using MicroBeard.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MicroBeard.Controllers
 {
@@ -16,12 +19,23 @@ namespace MicroBeard.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllServices()
+        public IActionResult GetAllServices([FromQuery] ServiceParameters serviceParameters)
         {
             try
             {
-                IEnumerable<Service> services = _repository.Service.GetAllServices();
+                PagedList<Service> services = _repository.Service.GetAllServices(serviceParameters);
                 _logger.LogInfo($"Returned all Services from database");
+
+                var metadata = new
+                {
+                    services.TotalCount,
+                    services.PageSize,
+                    services.CurrentPage,
+                    services.TotalPages,
+                    services.HasNext,
+                    services.HasPrevious,
+                };
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
                 IEnumerable<SimpleServiceDto> servicesResult = _mapper.Map<IEnumerable<SimpleServiceDto>>(services);
 

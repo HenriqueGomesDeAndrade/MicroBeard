@@ -2,7 +2,10 @@
 using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Scheduling;
 using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
+using MicroBeard.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Data.Entity;
 
 namespace MicroBeard.Controllers
@@ -17,12 +20,23 @@ namespace MicroBeard.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllSchedulings()
+        public IActionResult GetAllSchedulings([FromQuery] SchedulingParameters schedulingParameters)
         {
             try
             {
-                IEnumerable<Scheduling> schedulings = _repository.Scheduling.GetAllSchedulings();
+                PagedList<Scheduling> schedulings = _repository.Scheduling.GetAllSchedulings(schedulingParameters);
                 _logger.LogInfo($"Returned all Schedulings from database");
+
+                var metadata = new
+                {
+                    schedulings.TotalCount,
+                    schedulings.PageSize,
+                    schedulings.CurrentPage,
+                    schedulings.TotalPages,
+                    schedulings.HasNext,
+                    schedulings.HasPrevious,
+                };
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
                 IEnumerable<SimpleSchedulingDto> schedulingsResult = _mapper.Map<IEnumerable<SimpleSchedulingDto>>(schedulings);
 

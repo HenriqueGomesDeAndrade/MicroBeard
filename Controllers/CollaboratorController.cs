@@ -8,6 +8,8 @@ using System.Security.Policy;
 using MicroBeard.Helpers;
 using MicroBeard.Entities.DataTransferObjects.Contact;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using MicroBeard.Entities.Parameters;
 
 namespace MicroBeard.Controllers
 {
@@ -21,12 +23,23 @@ namespace MicroBeard.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllCollaborators()
+        public IActionResult GetAllCollaborators([FromQuery] CollaboratorParameters collaboratorParameters)
         {
             try
             {
-                IEnumerable<Collaborator> collaborators = _repository.Collaborator.GetAllCollaborators();
+                PagedList<Collaborator> collaborators = _repository.Collaborator.GetAllCollaborators(collaboratorParameters);
                 _logger.LogInfo($"Returned all collaborators from database");
+
+                var metadata = new
+                {
+                    collaborators.TotalCount,
+                    collaborators.PageSize,
+                    collaborators.CurrentPage,
+                    collaborators.TotalPages,
+                    collaborators.HasNext,
+                    collaborators.HasPrevious,
+                };
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
                 IEnumerable<SimpleCollaboratorDto> CollaboratorsResult = _mapper.Map<IEnumerable<SimpleCollaboratorDto>>(collaborators);
 

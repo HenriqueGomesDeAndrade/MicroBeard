@@ -2,10 +2,12 @@
 using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Data.Entity.Core.Common.CommandTrees;
 
 namespace MicroBeard.Controllers
@@ -19,13 +21,25 @@ namespace MicroBeard.Controllers
         {
         }
 
+        [Authorize(Roles = "Collaborator")]
         [HttpGet]
-        public IActionResult GetAllContacts()
+        public IActionResult GetAllContacts([FromQuery] ContactParameters contactParameters)
         {
             try
             {
-                IEnumerable<Contact> contacts = _repository.Contact.GetAllContacts();
-                _logger.LogInfo($"Returned all contacts from database");
+                PagedList<Contact> contacts = _repository.Contact.GetAllContacts(contactParameters);
+                _logger.LogInfo($"Returned {contacts.PageSize} contacts from page number {contacts.CurrentPage} database");
+
+                var metadata = new
+                {
+                    contacts.TotalCount,
+                    contacts.PageSize,
+                    contacts.CurrentPage,
+                    contacts.TotalPages,
+                    contacts.HasNext,
+                    contacts.HasPrevious,
+                };
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
                 IEnumerable<SimpleContactDto> contactsResult = _mapper.Map<IEnumerable<SimpleContactDto>>(contacts);
 
@@ -51,6 +65,9 @@ namespace MicroBeard.Controllers
                     return NotFound();
                 }
 
+                if (ContactCode != null && contact.Code != ContactCode)
+                    return Unauthorized();
+
                 _logger.LogInfo($"returned contact with code: {code}");
                 ContactDto contactResult = _mapper.Map<ContactDto>(contact);
 
@@ -63,6 +80,7 @@ namespace MicroBeard.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateContact([FromBody] ContactCreationDto contact)
         {
@@ -132,7 +150,7 @@ namespace MicroBeard.Controllers
                     return NotFound();
                 }
 
-                if (contactEntity.Code != ContactCode)
+                if (ContactCode != null && contactEntity.Code != ContactCode)
                     return Unauthorized();
 
                 _mapper.Map(contact, contactEntity);
@@ -166,7 +184,7 @@ namespace MicroBeard.Controllers
                     return NotFound();
                 }
 
-                if (contact.Code != ContactCode)
+                if (ContactCode != null && contact.Code != ContactCode)
                     return Unauthorized();
 
                 contact.DeleteDate = DateTime.Now;

@@ -8,7 +8,7 @@ using MicroBeard.Entities.DataTransferObjects.Scheduling;
 using MicroBeard.Entities.Models;
 using System.Net;
 
-namespace MicroBeard
+namespace MicroBeard.Helpers
 {
     public class MappingProfile : Profile
     {

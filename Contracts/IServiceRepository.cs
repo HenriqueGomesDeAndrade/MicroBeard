@@ -1,9 +1,12 @@
 ﻿using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
+using MicroBeard.Helpers;
+
 namespace MicroBeard.Contracts
 {
     public interface IServiceRepository
     {
-        IEnumerable<Service> GetAllServices();
+        PagedList<Service> GetAllServices(ServiceParameters serviceParameters);
         Service GetServiceByCode(int code, bool expandRelations = false);
         void CreateService(Service service);
         void UpdateService(Service service);

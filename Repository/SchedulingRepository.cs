@@ -1,6 +1,8 @@
 ﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
+using MicroBeard.Entities.Parameters;
+using MicroBeard.Helpers;
 using System.ComponentModel;
 using System.Data.Entity;
 
@@ -16,12 +18,14 @@ namespace MicroBeard.Repository
             _repositoryContext = repositoryContext;
         }
 
-        public IEnumerable<Scheduling> GetAllSchedulings()
+        public PagedList<Scheduling> GetAllSchedulings(SchedulingParameters schedulingParameters)
         {
-            return _repositoryContext.Schedulings.AsNoTracking()
+            return PagedList<Scheduling>.ToPagedList(
+                _repositoryContext.Schedulings.AsNoTracking()
                 .Where(c => c.Deleted != true)
-                .OrderBy(c => c.Date)
-                .ToList();
+                .OrderBy(c => c.Date),
+                schedulingParameters.PageNumber,
+                schedulingParameters.PageSize);
         }
 
         public Scheduling GetSchedulingByCode(int code, bool expandRelations = false)
