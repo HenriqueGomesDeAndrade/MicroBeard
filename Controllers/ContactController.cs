@@ -87,7 +87,7 @@ namespace MicroBeard.Controllers
                 contactEntity.PasswordSaltGUID = guid.ToString();
 
                 contactEntity.CreateDate = DateTime.Now;
-                //contactEntity.CreatorCode = CollaboratorCode;
+                contactEntity.CreatorCode = CollaboratorCode;
 
                 _repository.Contact.CreateContact(contactEntity);
                 _repository.Save();
@@ -132,10 +132,13 @@ namespace MicroBeard.Controllers
                     return NotFound();
                 }
 
+                if (contactEntity.Code != ContactCode)
+                    return Unauthorized();
+
                 _mapper.Map(contact, contactEntity);
 
                 contactEntity.UpdateDate = DateTime.Now;
-                //contactEntity.UpdateCode = CollaboratorCode;
+                contactEntity.UpdaterCode = CollaboratorCode;
 
                 _repository.Contact.UpdateContact(contactEntity);
                 _repository.Save();
@@ -163,8 +166,11 @@ namespace MicroBeard.Controllers
                     return NotFound();
                 }
 
+                if (contact.Code != ContactCode)
+                    return Unauthorized();
+
                 contact.DeleteDate = DateTime.Now;
-                //contactEntity.DeleterCode = CollaboratorCode;
+                contact.DeleterCode = CollaboratorCode;
                 contact.Deleted = true;
 
                 _repository.Contact.UpdateContact(contact);

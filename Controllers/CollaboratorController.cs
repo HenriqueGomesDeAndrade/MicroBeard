@@ -89,7 +89,7 @@ namespace MicroBeard.Controllers
                 collaboratorEntity.PasswordSaltGUID = guid.ToString();
 
                 collaboratorEntity.CreateDate = DateTime.Now;
-                //CollaboratorEntity.CreatorCode = CollaboratorCode;
+                collaboratorEntity.CreatorCode = CollaboratorCode;
 
                 _repository.Collaborator.CreateCollaborator(collaboratorEntity);
                 _repository.Save();
@@ -133,7 +133,7 @@ namespace MicroBeard.Controllers
                 _mapper.Map(collaborator, collaboratorEntity);
 
                 collaboratorEntity.UpdateDate = DateTime.Now;
-                //CollaboratorEntity.UpdaterCode = CollaboratorCode;
+                collaboratorEntity.UpdaterCode = CollaboratorCode;
 
                 _repository.Collaborator.UpdateCollaborator(collaboratorEntity);
                 _repository.Save();
@@ -161,7 +161,7 @@ namespace MicroBeard.Controllers
                 }
 
                 collaborator.DesactivationDate = DateTime.Now;
-                //CollaboratorEntity.DesactivationCode = CollaboratorCode;
+                collaborator.DesactivatorCode = CollaboratorCode;
                 collaborator.Desactivated = true;
 
                 _repository.Collaborator.UpdateCollaborator(collaborator);

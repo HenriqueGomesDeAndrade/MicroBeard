@@ -90,7 +90,7 @@ namespace MicroBeard.Controllers
                 
 
                 schedulingEntity.CreateDate = DateTime.Now;
-                //SchedulingEntity.CreatorCode = CollaboratorCode;
+                schedulingEntity.CreatorCode = CollaboratorCode;
 
                 _repository.Scheduling.CreateScheduling(schedulingEntity);
                 _repository.Save();
@@ -141,7 +141,7 @@ namespace MicroBeard.Controllers
                 _mapper.Map(scheduling, schedulingEntity);
 
                 schedulingEntity.UpdateDate = DateTime.Now;
-                //SchedulingEntity.UpdateCode = CollaboratorCode;
+                schedulingEntity.UpdaterCode = CollaboratorCode;
                 schedulingEntity.ContactCodeNavigation = contactCheck;
                 schedulingEntity.ServiceCodeNavigation = serviceCheck;
 
@@ -172,7 +172,7 @@ namespace MicroBeard.Controllers
                 }
 
                 scheduling.DeleteDate = DateTime.Now;
-                //SchedulingEntity.DeleterCode = CollaboratorCode;
+                scheduling.DeleterCode = CollaboratorCode;
                 scheduling.Deleted = true;
 
                 _repository.Scheduling.UpdateScheduling(scheduling);

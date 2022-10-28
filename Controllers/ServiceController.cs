@@ -79,7 +79,7 @@ namespace MicroBeard.Controllers
                 Service serviceEntity = _mapper.Map<Service>(service);
 
                 serviceEntity.CreateDate = DateTime.Now;
-                //ServiceEntity.CreatorCode = CollaboratorCode;
+                serviceEntity.CreatorCode = CollaboratorCode;
 
                 _repository.Service.CreateService(serviceEntity);
                 _repository.Save();
@@ -122,7 +122,7 @@ namespace MicroBeard.Controllers
                 _mapper.Map(service, serviceEntity);
 
                 serviceEntity.UpdateDate = DateTime.Now;
-                //ServiceEntity.UpdateCode = CollaboratorCode;
+                serviceEntity.UpdaterCode = CollaboratorCode;
 
                 _repository.Service.UpdateService(serviceEntity);
                 _repository.Save();
@@ -149,7 +149,7 @@ namespace MicroBeard.Controllers
                 }
 
                 service.DeleteDate = DateTime.Now;
-                //ServiceEntity.DeleterCode = CollaboratorCode;
+                service.DeleterCode = CollaboratorCode;
                 service.Deleted = true;
 
                 _repository.Service.UpdateService(service);

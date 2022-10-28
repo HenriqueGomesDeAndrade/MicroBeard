@@ -82,7 +82,7 @@ namespace MicroBeard.Controllers
                 License licenseEntity = _mapper.Map<License>(license);
 
                 licenseEntity.CreateDate = DateTime.Now;
-                //LicenseEntity.CreatorCode = CollaboratorCode;
+                licenseEntity.CreatorCode = CollaboratorCode;
 
                 _repository.License.CreateLicense(licenseEntity);
                 _repository.Save();
@@ -126,7 +126,7 @@ namespace MicroBeard.Controllers
                 _mapper.Map(license, licenseEntity);
 
                 licenseEntity.UpdateDate = DateTime.Now;
-                //LicenseEntity.UpdateCode = CollaboratorCode;
+                licenseEntity.UpdaterCode = CollaboratorCode;
 
                 _repository.License.UpdateLicense(licenseEntity);
                 _repository.Save();
@@ -154,7 +154,7 @@ namespace MicroBeard.Controllers
                 }
 
                 license.DesactivationDate = DateTime.Now;
-                //LicenseEntity.DeleterCode = CollaboratorCode;
+                license.DesactivatorCode = CollaboratorCode;
                 license.Desactivated = true;
 
                 _repository.License.UpdateLicense(license);

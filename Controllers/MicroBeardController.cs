@@ -12,8 +12,8 @@ namespace MicroBeard.Controllers
     [Authorize]
     public class MicroBeardController : Controller
     {
-        protected int? ContactId { get; set; }
-        protected int? CollaboratorId { get; set; }
+        protected int? ContactCode { get; set; }
+        protected int? CollaboratorCode { get; set; }
 
         protected readonly ILoggerManager _logger;
         protected readonly IRepositoryWrapper _repository;
@@ -37,9 +37,9 @@ namespace MicroBeard.Controllers
         public void FillRolesInfo()
         {
             if (User.IsInRole("Contact"))
-                ContactId = int.Parse(User.FindFirstValue("Code"));
+                ContactCode = int.Parse(User.FindFirstValue("Code"));
             else if (User.IsInRole("Collaborator"))
-                CollaboratorId = int.Parse(User.FindFirstValue("Code"));
+                CollaboratorCode = int.Parse(User.FindFirstValue("Code"));
         }
     }
 }
