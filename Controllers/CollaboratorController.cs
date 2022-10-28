@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MicroBeard.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CollaboratorController : MicroBeardController
@@ -65,6 +64,7 @@ namespace MicroBeard.Controllers
             }
         }
 
+        [Authorize(Roles = "Collaborator")]
         [HttpPost]
         public IActionResult CreateCollaborator([FromBody] CollaboratorCreationDto collaborator)
         {
@@ -105,6 +105,7 @@ namespace MicroBeard.Controllers
             }
         }
 
+        [Authorize(Roles = "Collaborator")]
         [HttpPut("{code}")]
         public IActionResult UpdateCollaborator(int code, [FromBody] CollaboratorUpdateDto collaborator)
         {
@@ -146,6 +147,7 @@ namespace MicroBeard.Controllers
             }
         }
 
+        [Authorize(Roles = "Collaborator")]
         [HttpDelete("{code}")]
         public IActionResult DeleteCollaborator(int code)
         {
@@ -174,6 +176,7 @@ namespace MicroBeard.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Login(CollaboratorLoginDto loginDto)
         {
@@ -185,7 +188,7 @@ namespace MicroBeard.Controllers
             if (!passwordIsValid)
                 return Unauthorized("Password invalid");
 
-            collaborator.Token = Guid.NewGuid().ToString();
+            collaborator.Token = TokenService.GenerateToken(collaborator);
             _repository.Collaborator.UpdateCollaborator(collaborator);
             _repository.Save();
 

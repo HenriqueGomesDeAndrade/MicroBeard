@@ -3,6 +3,7 @@ using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.Models;
 using MicroBeard.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity.Core.Common.CommandTrees;
@@ -178,6 +179,7 @@ namespace MicroBeard.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Login(ContactLoginDto loginDto)
         {
@@ -189,7 +191,7 @@ namespace MicroBeard.Controllers
             if(!passwordIsValid)
                 return Unauthorized("Password invalid");
 
-            contact.Token = Guid.NewGuid().ToString();
+            contact.Token = TokenService.GenerateToken(contact);
             _repository.Contact.UpdateContact(contact);
             _repository.Save();
 

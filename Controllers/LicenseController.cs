@@ -2,7 +2,9 @@
 using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.License;
 using MicroBeard.Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace MicroBeard.Controllers
 {
@@ -59,6 +61,7 @@ namespace MicroBeard.Controllers
             }
         }
 
+        [Authorize(Roles = "Collaborator")]
         [HttpPost]
         public IActionResult CreateLicense([FromBody] LicenseCreationDto license)
         {
@@ -95,6 +98,7 @@ namespace MicroBeard.Controllers
             }
         }
 
+        [Authorize(Roles = "Collaborator")]
         [HttpPut("{code}")]
         public IActionResult UpdateLicense(int code, [FromBody] LicenseUpdateDto license)
         {
@@ -136,6 +140,7 @@ namespace MicroBeard.Controllers
             }
         }
 
+        [Authorize(Roles = "Collaborator")]
         [HttpDelete("{code}")]
         public IActionResult DeleteLicense(int code)
         {

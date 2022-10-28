@@ -1,14 +1,19 @@
 ﻿using AutoMapper;
+using AutoMapper.Internal;
 using MicroBeard.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Collections;
+using System.Security.Claims;
 
 namespace MicroBeard.Controllers 
 {
+    [Authorize]
     public class MicroBeardController : Controller
     {
-        protected int ContactId { get; set; }
-        protected int CollaboratorId { get; set; }
+        protected int? ContactId { get; set; }
+        protected int? CollaboratorId { get; set; }
 
         protected readonly ILoggerManager _logger;
         protected readonly IRepositoryWrapper _repository;
@@ -25,15 +30,16 @@ namespace MicroBeard.Controllers
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
-            Authenticate(context);
+            FillRolesInfo();
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public void Authenticate(ActionExecutingContext context)
+        public void FillRolesInfo()
         {
-            var token = context.HttpContext.Request.Headers.Authorization;
-
-
+            if (User.IsInRole("Contact"))
+                ContactId = int.Parse(User.FindFirstValue("Code"));
+            else if (User.IsInRole("Collaborator"))
+                CollaboratorId = int.Parse(User.FindFirstValue("Code"));
         }
     }
 }
