@@ -48,7 +48,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside GetAllCollaborators action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -73,7 +73,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside GetCollaboratorByCode action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -114,7 +114,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside CreateCollaborator action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -156,7 +156,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside UpdateCollaborator action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -185,7 +185,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside DeleteCollaborator action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -193,19 +193,27 @@ namespace MicroBeard.Controllers
         [HttpPost("Login")]
         public IActionResult Login(CollaboratorLoginDto loginDto)
         {
-            Collaborator collaborator = _repository.Collaborator.GetCollaboratorByEmail(loginDto.Email);
-            if (collaborator == null)
-                return NotFound("The email was not found");
+            try
+            {
+                Collaborator collaborator = _repository.Collaborator.GetCollaboratorByEmail(loginDto.Email);
+                if (collaborator == null)
+                    return NotFound("The email was not found");
 
-            bool passwordIsValid = PasswordManager.ValidatePassword(loginDto.Password + collaborator.PasswordSaltGUID, collaborator.Password);
-            if (!passwordIsValid)
-                return Unauthorized("Password invalid");
+                bool passwordIsValid = PasswordManager.ValidatePassword(loginDto.Password + collaborator.PasswordSaltGUID, collaborator.Password);
+                if (!passwordIsValid)
+                    return Unauthorized("Password invalid");
 
-            collaborator.Token = TokenService.GenerateToken(collaborator);
-            _repository.Collaborator.UpdateCollaborator(collaborator);
-            _repository.Save();
+                collaborator.Token = TokenService.GenerateToken(collaborator);
+                _repository.Collaborator.UpdateCollaborator(collaborator);
+                _repository.Save();
 
-            return Ok($"Bearer {collaborator.Token}");
+                return Ok($"Bearer {collaborator.Token}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside Login action: {ex.Message}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

@@ -46,7 +46,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside GetAllLicenses action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -71,7 +71,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside GetLicenseByCode action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -108,7 +108,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside CreateLicense action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -150,7 +150,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside UpdateLicense action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -179,7 +179,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside DeleteLicense action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
     }

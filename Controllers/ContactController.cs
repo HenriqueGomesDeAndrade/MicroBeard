@@ -48,7 +48,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside GetAllContacts action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -76,7 +76,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside GetContactByCode action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -122,7 +122,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside CreateContact action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -168,7 +168,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside UpdateContact action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -199,7 +199,7 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong inside DeleteContact action: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -207,19 +207,27 @@ namespace MicroBeard.Controllers
         [HttpPost("Login")]
         public IActionResult Login(ContactLoginDto loginDto)
         {
-            Contact contact = _repository.Contact.GetContactByEmail(loginDto.Email);
-            if (contact == null)
-                return NotFound("The email was not found");
+            try
+            {
+                Contact contact = _repository.Contact.GetContactByEmail(loginDto.Email);
+                if (contact == null)
+                    return NotFound("The email was not found");
 
-            bool passwordIsValid = PasswordManager.ValidatePassword(loginDto.Password + contact.PasswordSaltGUID, contact.Password);
-            if(!passwordIsValid)
-                return Unauthorized("Password invalid");
+                bool passwordIsValid = PasswordManager.ValidatePassword(loginDto.Password + contact.PasswordSaltGUID, contact.Password);
+                if (!passwordIsValid)
+                    return Unauthorized("Password invalid");
 
-            contact.Token = TokenService.GenerateToken(contact);
-            _repository.Contact.UpdateContact(contact);
-            _repository.Save();
+                contact.Token = TokenService.GenerateToken(contact);
+                _repository.Contact.UpdateContact(contact);
+                _repository.Save();
 
-            return Ok($"Bearer {contact.Token}");
+                return Ok($"Bearer {contact.Token}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside DeleteContact action: {ex.Message}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
