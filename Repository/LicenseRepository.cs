@@ -3,6 +3,7 @@ using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
+using MicroBeard.Helpers.Sort;
 using System.Data.Entity;
 
 namespace MicroBeard.Repository
@@ -10,10 +11,12 @@ namespace MicroBeard.Repository
     public class LicenseRepository : ILicenseRepository
     {
         private MicroBeardContext _repositoryContext { get; set; }
+        private ISortHelper<License> _sortHelper { get; set; }
 
-        public LicenseRepository(MicroBeardContext repositoryContext)
+        public LicenseRepository(MicroBeardContext repositoryContext, ISortHelper<License> sortHelper)
         {
             _repositoryContext = repositoryContext;
+            _sortHelper = sortHelper;
         }
 
         public PagedList<License> GetAllLicenses(LicenseParameters licenseParameters)
@@ -23,8 +26,10 @@ namespace MicroBeard.Repository
 
             SearchByDescription(ref licenses, licenseParameters.Description);
 
+            var sortedLicenses = _sortHelper.ApplySort(licenses, licenseParameters.OrderBy);
+
             return PagedList<License>.ToPagedList(
-                licenses.OrderBy(c => c.Description),
+                sortedLicenses,
                 licenseParameters.PageNumber,
                 licenseParameters.PageSize);
         }

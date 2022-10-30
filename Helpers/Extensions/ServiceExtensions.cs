@@ -1,5 +1,6 @@
 ﻿using MicroBeard.Contracts;
 using MicroBeard.Entities.Models;
+using MicroBeard.Helpers.Sort;
 using MicroBeard.LoggerService;
 using MicroBeard.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -47,6 +48,11 @@ namespace MicroBeard.Extensions
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddScoped<ISortHelper<Contact>, SortHelper<Contact>>();
+            services.AddScoped<ISortHelper<Collaborator>, SortHelper<Collaborator>>();
+            services.AddScoped<ISortHelper<License>, SortHelper<License>>();
+            services.AddScoped<ISortHelper<Scheduling>, SortHelper<Scheduling>>();
+            services.AddScoped<ISortHelper<Service>, SortHelper<Service>>();
         }
 
         public static void ConfigureAuthentication(this IServiceCollection services)

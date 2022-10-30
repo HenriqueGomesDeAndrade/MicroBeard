@@ -3,6 +3,7 @@ using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
+using MicroBeard.Helpers.Sort;
 using System.ComponentModel;
 using System.Data.Entity;
 
@@ -12,10 +13,12 @@ namespace MicroBeard.Repository
     public class SchedulingRepository :  ISchedulingRepository
     {
         private MicroBeardContext _repositoryContext { get; set; }
+        private ISortHelper<Scheduling> _sortHelper { get; set; }
 
-        public SchedulingRepository(MicroBeardContext repositoryContext)
+        public SchedulingRepository(MicroBeardContext repositoryContext, ISortHelper<Scheduling> sortHelper)
         {
             _repositoryContext = repositoryContext;
+            _sortHelper = sortHelper;
         }
 
         public PagedList<Scheduling> GetAllSchedulings(SchedulingParameters schedulingParameters)
@@ -27,8 +30,10 @@ namespace MicroBeard.Repository
             SearchByServiceCode(ref schedulings, schedulingParameters.ContactCode);
             SearchByDate(ref schedulings, schedulingParameters);
 
+            var sortedSchedulings = _sortHelper.ApplySort(schedulings, schedulingParameters.OrderBy);
+
             return PagedList<Scheduling>.ToPagedList(
-                schedulings.OrderBy(c => c.Date),
+                sortedSchedulings,
                 schedulingParameters.PageNumber,
                 schedulingParameters.PageSize);
         }

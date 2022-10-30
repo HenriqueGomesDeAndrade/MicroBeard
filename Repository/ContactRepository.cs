@@ -3,6 +3,7 @@ using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
+using MicroBeard.Helpers.Sort;
 using System.Data.Entity;
 
 namespace MicroBeard.Repository
@@ -10,10 +11,13 @@ namespace MicroBeard.Repository
     public class ContactRepository : IContactRepository
     {
         private MicroBeardContext _repositoryContext { get; set; }
+        private ISortHelper<Contact> _sortHelper { get; set; }
 
-        public ContactRepository(MicroBeardContext repositoryContext)
+
+        public ContactRepository(MicroBeardContext repositoryContext, ISortHelper<Contact> sortHelper)
         {
             _repositoryContext = repositoryContext;
+            _sortHelper = sortHelper;
         }
 
         public PagedList<Contact> GetAllContacts(ContactParameters contactParameters)
@@ -25,8 +29,10 @@ namespace MicroBeard.Repository
             SearchByCpf(ref contacts, contactParameters.Cpf);
             SearchByEmail(ref contacts, contactParameters.Email);
 
+            var sortedContacts = _sortHelper.ApplySort(contacts, contactParameters.OrderBy);
+
             return PagedList<Contact>.ToPagedList(
-                contacts.OrderBy(c => c.Name),
+                sortedContacts,
                 contactParameters.PageNumber,
                 contactParameters.PageSize);
         }

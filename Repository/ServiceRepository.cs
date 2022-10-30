@@ -3,6 +3,7 @@ using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
+using MicroBeard.Helpers.Sort;
 using System.ComponentModel;
 using System.Data.Entity;
 
@@ -12,10 +13,12 @@ namespace MicroBeard.Repository
     public class ServiceRepository : IServiceRepository
     {
         private MicroBeardContext _repositoryContext { get; set; }
+        private ISortHelper<Service> _sortHelper { get; set; }
 
-        public ServiceRepository(MicroBeardContext repositoryContext)
+        public ServiceRepository(MicroBeardContext repositoryContext, ISortHelper<Service> sortHelper)
         {
             _repositoryContext = repositoryContext;
+            _sortHelper = sortHelper;
         }
 
         public PagedList<Service> GetAllServices(ServiceParameters serviceParameters)
@@ -25,8 +28,10 @@ namespace MicroBeard.Repository
 
             SearchByName(ref services, serviceParameters.Name);
 
+            var sortedServices = _sortHelper.ApplySort(services, serviceParameters.OrderBy);
+
             return PagedList<Service>.ToPagedList(
-                services.OrderBy(c => c.Name),
+                sortedServices,
                 serviceParameters.PageNumber,
                 serviceParameters.PageSize);
         }

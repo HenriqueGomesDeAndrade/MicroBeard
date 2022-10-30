@@ -1,6 +1,7 @@
 ﻿using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
+using MicroBeard.Helpers.Sort;
 
 namespace MicroBeard.Repository
 {
@@ -13,9 +14,26 @@ namespace MicroBeard.Repository
         private ISchedulingRepository _scheduling;
         private IServiceRepository _service;
 
-        public RepositoryWrapper(MicroBeardContext repositoryContext)
+        private ISortHelper<Contact> _contactSortHelper;
+        private ISortHelper<Collaborator> _collaboratorSortHelper;
+        private ISortHelper<License> _licenseSortHelper;
+        private ISortHelper<Scheduling> _schedulingSortHelper;
+        private ISortHelper<Service> _serviceSortHelper;
+
+
+        public RepositoryWrapper(MicroBeardContext repositoryContext,
+            ISortHelper<Contact> contactSortHelper,
+            ISortHelper<Collaborator> collaboratorSortHelper,
+            ISortHelper<License> licenseSortHelper,
+            ISortHelper<Scheduling> schedulingSortHelper,
+            ISortHelper<Service> serviceSortHelper)
         {
             _repositoryContext = repositoryContext;
+            _contactSortHelper = contactSortHelper;
+            _collaboratorSortHelper = collaboratorSortHelper;
+            _licenseSortHelper = licenseSortHelper;
+            _schedulingSortHelper = schedulingSortHelper;
+            _serviceSortHelper = serviceSortHelper;
         }
 
         public IContactRepository Contact
@@ -23,7 +41,7 @@ namespace MicroBeard.Repository
             get
             {
                 if (_contact == null)
-                    _contact = new ContactRepository(_repositoryContext);
+                    _contact = new ContactRepository(_repositoryContext, _contactSortHelper);
 
                 return _contact;
             }
@@ -34,7 +52,7 @@ namespace MicroBeard.Repository
             get
             {
                 if (_collaborator == null)
-                    _collaborator = new CollaboratorRepository(_repositoryContext);
+                    _collaborator = new CollaboratorRepository(_repositoryContext, _collaboratorSortHelper);
 
                 return _collaborator;
             }
@@ -45,7 +63,7 @@ namespace MicroBeard.Repository
             get
             {
                 if (_license == null)
-                    _license = new LicenseRepository(_repositoryContext);
+                    _license = new LicenseRepository(_repositoryContext, _licenseSortHelper);
 
                 return _license;
             }
@@ -56,7 +74,7 @@ namespace MicroBeard.Repository
             get
             {
                 if (_scheduling == null)
-                    _scheduling = new SchedulingRepository(_repositoryContext);
+                    _scheduling = new SchedulingRepository(_repositoryContext, _schedulingSortHelper);
 
                 return _scheduling;
             }
@@ -67,7 +85,7 @@ namespace MicroBeard.Repository
             get
             {
                 if (_service == null)
-                    _service = new ServiceRepository(_repositoryContext);
+                    _service = new ServiceRepository(_repositoryContext, _serviceSortHelper);
 
                 return _service;
             }

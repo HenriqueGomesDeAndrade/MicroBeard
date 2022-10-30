@@ -3,6 +3,7 @@ using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
+using MicroBeard.Helpers.Sort;
 using System.Data.Entity;
 
 namespace MicroBeard.Repository
@@ -10,10 +11,12 @@ namespace MicroBeard.Repository
     public class CollaboratorRepository :  ICollaboratorRepository
     {
         private MicroBeardContext _repositoryContext { get; set; }
+        private ISortHelper<Collaborator> _sortHelper { get; set; }
 
-        public CollaboratorRepository(MicroBeardContext repositoryContext)
+        public CollaboratorRepository(MicroBeardContext repositoryContext, ISortHelper<Collaborator> sortHelper)
         {
             _repositoryContext = repositoryContext;
+            _sortHelper = sortHelper;
         }
 
         public PagedList<Collaborator> GetAllCollaborators(CollaboratorParameters collaboratorParameters)
@@ -25,8 +28,10 @@ namespace MicroBeard.Repository
             SearchByCpf(ref collaborators, collaboratorParameters.Cpf);
             SearchByEmail(ref collaborators, collaboratorParameters.Email);
 
+            var sortedCollaborators = _sortHelper.ApplySort(collaborators, collaboratorParameters.OrderBy);
+
             return PagedList<Collaborator>.ToPagedList(
-                collaborators.OrderBy(c => c.Name),
+                sortedCollaborators,
                 collaboratorParameters.PageNumber,
                 collaboratorParameters.PageSize);
         }

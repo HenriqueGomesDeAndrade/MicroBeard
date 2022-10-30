@@ -30,6 +30,7 @@
     </PackageReference>
     <PackageReference Include="NLog.Extensions.Logging" Version="5.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.21" />
   </ItemGroup>
 
   <ItemGroup>
