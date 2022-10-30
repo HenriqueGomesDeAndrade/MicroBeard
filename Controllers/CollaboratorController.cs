@@ -77,7 +77,7 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [Authorize(Roles = "Collaborator")]
+        [Authorize(Roles = "CollaboratorAdmin")]
         [HttpPost]
         public IActionResult CreateCollaborator([FromBody] CollaboratorCreationDto collaborator)
         {
@@ -118,7 +118,7 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [Authorize(Roles = "Collaborator")]
+        [Authorize(Roles = "CollaboratorAdmin")]
         [HttpPut("{code}")]
         public IActionResult UpdateCollaborator(int code, [FromBody] CollaboratorUpdateDto collaborator)
         {
@@ -160,7 +160,7 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [Authorize(Roles = "Collaborator")]
+        [Authorize(Roles = "CollaboratorAdmin")]
         [HttpDelete("{code}")]
         public IActionResult DeleteCollaborator(int code)
         {
@@ -216,7 +216,7 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [Authorize(Roles = "Collaborator")]
+        [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpPost("Logout")]
         public IActionResult Logout()
         {

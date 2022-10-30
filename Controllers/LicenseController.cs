@@ -75,7 +75,7 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [Authorize(Roles = "Collaborator")]
+        [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpPost]
         public IActionResult CreateLicense([FromBody] LicenseCreationDto license)
         {
@@ -112,7 +112,7 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [Authorize(Roles = "Collaborator")]
+        [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpPut("{code}")]
         public IActionResult UpdateLicense(int code, [FromBody] LicenseUpdateDto license)
         {
@@ -154,7 +154,7 @@ namespace MicroBeard.Controllers
             }
         }
 
-        [Authorize(Roles = "Collaborator")]
+        [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpDelete("{code}")]
         public IActionResult DeleteLicense(int code)
         {

@@ -25,6 +25,8 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
         public int? DesactivatorCode { get; set; }
         public DateTime? DesactivationDate { get; set; }
         public bool Desactivated { get; set; }
+        public bool IsAdmin { get; set; }
+
 
         public ICollection<SimpleServiceDto> Services { get; set; }
         public ICollection<SimpleLicenseDto> Licenses { get; set; }

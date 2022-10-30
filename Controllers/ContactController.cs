@@ -22,7 +22,7 @@ namespace MicroBeard.Controllers
         {
         }
 
-        [Authorize(Roles = "Collaborator")]
+        [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpGet]
         public IActionResult GetAllContacts([FromQuery] ContactParameters contactParameters)
         {

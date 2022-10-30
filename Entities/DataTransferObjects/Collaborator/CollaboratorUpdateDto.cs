@@ -30,5 +30,8 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
 
         [Range(0, 999999.99, ErrorMessage = "Invalid range. The number must be between 0 and 9999999.99")]
         public decimal? Commision { get; set; }
+
+        public bool IsAdmin { get; set; }
+
     }
 }

@@ -4,26 +4,25 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using MicroBeard.Entities.Models;
-using Azure.Core;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
-using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Owin.Security.OAuth;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MicroBeard.Helpers
 {
-    public static class TokenService
+    public class TokenService
     {
+        private static IConfiguration _config;
+        public TokenService(IConfiguration configuration)
+        {
+            _config = configuration;
+        }
+
         public static string GenerateToken(Collaborator collaborator)
         {
+            string collaboratorRole = collaborator.IsAdmin ? "CollaboratorAdmin" : "Collaborator";
+
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("fedaf7d8863b48e197b9287d492b708e");
+            var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("TokenKey"));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Claims = new Dictionary<string, object>()
@@ -33,7 +32,7 @@ namespace MicroBeard.Helpers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, collaborator.Name.ToString()),
-                    new Claim(ClaimTypes.Role, "Collaborator"),
+                    new Claim(ClaimTypes.Role, collaboratorRole),
                 }),
                 Expires = DateTime.UtcNow.AddDays(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
@@ -45,7 +44,7 @@ namespace MicroBeard.Helpers
         public static string GenerateToken(Contact contact)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("fedaf7d8863b48e197b9287d492b708e");
+            var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("TokenKey"));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Claims = new Dictionary<string, object>()
@@ -62,25 +61,6 @@ namespace MicroBeard.Helpers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
-        }
-
-        public static void ExpireToken(string token)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var key = Encoding.ASCII.GetBytes("fedaf7d8863b48e197b9287d492b708e");
-
-            SecurityToken securityToken;
-
-            var validationParameters = new TokenValidationParameters()
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
-
-            var principal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
         }
     }
 }

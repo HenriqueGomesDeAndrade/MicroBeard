@@ -19,7 +19,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers()
     .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-builder.Services.ConfigureAuthentication();
+builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureSwagger();
                                                                                                                                                                                                            
 var app = builder.Build();

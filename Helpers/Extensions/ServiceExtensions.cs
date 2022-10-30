@@ -55,9 +55,9 @@ namespace MicroBeard.Extensions
             services.AddScoped<ISortHelper<Service>, SortHelper<Service>>();
         }
 
-        public static void ConfigureAuthentication(this IServiceCollection services)
+        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration _config)
         {
-            var key = Encoding.ASCII.GetBytes("fedaf7d8863b48e197b9287d492b708e");
+            var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("TokenKey"));
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
