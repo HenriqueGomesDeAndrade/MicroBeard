@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Data.Entity.Core.Common.CommandTrees;
+using System.Security.Claims;
 
 namespace MicroBeard.Controllers
 {
@@ -225,7 +226,30 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside DeleteContact action: {ex.Message}");
+                _logger.LogError($"Something went wrong inside Login action: {ex.Message}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [Authorize(Roles = "Contact")]
+        [HttpPost("Logout")]
+        public IActionResult Logout()
+        {
+            try
+            {
+                Contact contact = _repository.Contact.GetContactByCode((int)ContactCode);
+                if (contact == null)
+                    return NotFound("The contact was not found");
+
+                contact.Token = null;
+                _repository.Contact.UpdateContact(contact);
+                _repository.Save();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside Logout action: {ex.Message}");
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }

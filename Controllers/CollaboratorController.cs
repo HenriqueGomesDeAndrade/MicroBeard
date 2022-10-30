@@ -215,5 +215,28 @@ namespace MicroBeard.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [Authorize(Roles = "Collaborator")]
+        [HttpPost("Logout")]
+        public IActionResult Logout()
+        {
+            try
+            {
+                Collaborator collaborator = _repository.Collaborator.GetCollaboratorByCode((int)CollaboratorCode);
+                if (collaborator == null)
+                    return NotFound("The collaborator was not found");
+
+                collaborator.Token = null;
+                _repository.Collaborator.UpdateCollaborator(collaborator);
+                _repository.Save();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside Logout action: {ex.Message}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

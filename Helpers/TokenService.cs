@@ -4,6 +4,17 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using MicroBeard.Entities.Models;
+using Azure.Core;
+using Microsoft.AspNetCore.Hosting;
+
+using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Owin.Security.OAuth;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MicroBeard.Helpers
 {
@@ -39,7 +50,7 @@ namespace MicroBeard.Helpers
             {
                 Claims = new Dictionary<string, object>()
                 {
-                    {"Code", contact.Code}
+                    {"Code", contact.Code},
                 },
                 Subject = new ClaimsIdentity(new Claim[]
                 {
@@ -51,6 +62,25 @@ namespace MicroBeard.Helpers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public static void ExpireToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var key = Encoding.ASCII.GetBytes("fedaf7d8863b48e197b9287d492b708e");
+
+            SecurityToken securityToken;
+
+            var validationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
         }
     }
 }
