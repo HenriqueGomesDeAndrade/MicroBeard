@@ -18,10 +18,15 @@ namespace MicroBeard.Repository
 
         public PagedList<Collaborator> GetAllCollaborators(CollaboratorParameters collaboratorParameters)
         {
+            var collaborators = _repositoryContext.Collaborators.AsNoTracking()
+                .Where(c => c.Desactivated != true);
+
+            SearchByName(ref collaborators, collaboratorParameters.Name);
+            SearchByCpf(ref collaborators, collaboratorParameters.Cpf);
+            SearchByEmail(ref collaborators, collaboratorParameters.Email);
+
             return PagedList<Collaborator>.ToPagedList(
-                _repositoryContext.Collaborators.AsNoTracking()
-                .Where(c => c.Desactivated != true)
-                .OrderBy(c => c.Name),
+                collaborators.OrderBy(c => c.Name),
                 collaboratorParameters.PageNumber,
                 collaboratorParameters.PageSize);
         }
@@ -57,6 +62,30 @@ namespace MicroBeard.Repository
         public void DeleteCollaborator(Collaborator collaborator)
         {
             _repositoryContext.Collaborators.Remove(collaborator);
+        }
+
+        private void SearchByName(ref IQueryable<Collaborator> collaborators, string collaboratorName)
+        {
+            if (!collaborators.Any() || string.IsNullOrWhiteSpace(collaboratorName))
+                return;
+
+            collaborators = collaborators.Where(c => c.Name.ToLower().Contains(collaboratorName.Trim().ToLower()));
+        }
+
+        private void SearchByCpf(ref IQueryable<Collaborator> collaborators, string collaboratorCpf)
+        {
+            if (!collaborators.Any() || string.IsNullOrWhiteSpace(collaboratorCpf))
+                return;
+
+            collaborators = collaborators.Where(c => c.Cpf.Contains(collaboratorCpf));
+        }
+
+        private void SearchByEmail(ref IQueryable<Collaborator> collaborators, string collaboratorEmail)    
+        {
+            if (!collaborators.Any() || string.IsNullOrWhiteSpace(collaboratorEmail))
+                return;
+
+            collaborators = collaborators.Where(c => c.Email.ToLower().Contains(collaboratorEmail.ToLower()));
         }
     }
 }

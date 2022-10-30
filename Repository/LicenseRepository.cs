@@ -18,10 +18,13 @@ namespace MicroBeard.Repository
 
         public PagedList<License> GetAllLicenses(LicenseParameters licenseParameters)
         {
+            var licenses = _repositoryContext.Licenses.AsNoTracking()
+                .Where(c => c.Desactivated != true);
+
+            SearchByDescription(ref licenses, licenseParameters.Description);
+
             return PagedList<License>.ToPagedList(
-                _repositoryContext.Licenses.AsNoTracking()
-                .Where(c => c.Desactivated != true)
-                .OrderBy(c => c.Description),
+                licenses.OrderBy(c => c.Description),
                 licenseParameters.PageNumber,
                 licenseParameters.PageSize);
         }
@@ -49,6 +52,14 @@ namespace MicroBeard.Repository
         public void DeleteLicense(License license)
         {
             _repositoryContext.Licenses.Remove(license);
+        }
+
+        private void SearchByDescription(ref IQueryable<License> licenses, string licenseDescription)
+        {
+            if (!licenses.Any() || string.IsNullOrWhiteSpace(licenseDescription))
+                return;
+
+            licenses = licenses.Where(c => c.Description.ToLower().Contains(licenseDescription.Trim().ToLower()));
         }
     }
 }

@@ -2,5 +2,6 @@
 {
     public class LicenseParameters : QueryStringParameters
     {
+        public string Description { get; set; }
     }
 }

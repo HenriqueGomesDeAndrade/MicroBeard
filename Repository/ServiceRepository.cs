@@ -20,10 +20,13 @@ namespace MicroBeard.Repository
 
         public PagedList<Service> GetAllServices(ServiceParameters serviceParameters)
         {
+            var services = _repositoryContext.Services.AsNoTracking()
+                .Where(c => c.Deleted != true);
+
+            SearchByName(ref services, serviceParameters.Name);
+
             return PagedList<Service>.ToPagedList(
-                _repositoryContext.Services.AsNoTracking()
-                .Where(c => c.Deleted != true)
-                .OrderBy(c => c.Name),
+                services.OrderBy(c => c.Name),
                 serviceParameters.PageNumber,
                 serviceParameters.PageSize);
         }
@@ -54,6 +57,14 @@ namespace MicroBeard.Repository
         public void DeleteService(Service Service)
         {
             _repositoryContext.Services.Remove(Service);
+        }
+
+        private void SearchByName(ref IQueryable<Service> services, string serviceName)
+        {
+            if (!services.Any() || string.IsNullOrWhiteSpace(serviceName))
+                return;
+
+            services = services.Where(c => c.Name.ToLower().Contains(serviceName.Trim().ToLower()));
         }
     }
 }

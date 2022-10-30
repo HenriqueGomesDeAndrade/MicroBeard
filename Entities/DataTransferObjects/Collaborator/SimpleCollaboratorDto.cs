@@ -13,6 +13,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
         public string Name { get; set; }
         public DateTime? BirthDate { get; set; }
         public string CPF { get; set; }
+        public string Email { get; set; }
         public string Phone { get; set; }
         public string Function { get; set; }
         public decimal Salary { get; set; }

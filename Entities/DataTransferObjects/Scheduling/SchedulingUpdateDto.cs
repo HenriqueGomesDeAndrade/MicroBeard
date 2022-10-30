@@ -6,6 +6,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Scheduling
     public class SchedulingUpdateDto
     {
         [DateFormatValidator]
+        [Required]
         public DateTime Date { get; set; }
 
         [Range(0, 2147483647, ErrorMessage = "The code cannot be lesser than zero")]

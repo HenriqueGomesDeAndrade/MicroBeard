@@ -8,7 +8,7 @@ namespace MicroBeard.Entities.Models
         public int Code { get; set; }
         public int? ServiceCode { get; set; }
         public int? ContactCode { get; set; }
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
         public DateTime? CreateDate { get; set; }
         public int? CreatorCode { get; set; }
         public DateTime? UpdateDate { get; set; }

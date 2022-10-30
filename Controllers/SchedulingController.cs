@@ -24,6 +24,9 @@ namespace MicroBeard.Controllers
         {
             try
             {
+                if (ContactCode != null)
+                    schedulingParameters.ContactCode = ContactCode;
+
                 PagedList<Scheduling> schedulings = _repository.Scheduling.GetAllSchedulings(schedulingParameters);
                 _logger.LogInfo($"Returned all Schedulings from database");
 
@@ -62,6 +65,9 @@ namespace MicroBeard.Controllers
                     return NotFound();
                 }
 
+                if (ContactCode != null && scheduling.ContactCode != ContactCode)
+                    return Unauthorized();
+
                 _logger.LogInfo($"returned Scheduling with code: {code}");
                 SchedulingDto schedulingResult = _mapper.Map<SchedulingDto>(scheduling);
 
@@ -94,6 +100,9 @@ namespace MicroBeard.Controllers
                 Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode);
                 if (contactCheck == null)
                     return NotFound($"Unable to find the Contact code {scheduling.ContactCode}");
+
+                if (ContactCode != null && scheduling.ContactCode != ContactCode)
+                    return Unauthorized();
 
                 Service ServiceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
                 if (ServiceCheck == null)
@@ -148,6 +157,9 @@ namespace MicroBeard.Controllers
                 if (contactCheck == null)
                     return NotFound($"Unable to find the Contact code {scheduling.ContactCode}");
 
+                if (ContactCode != null && scheduling.ContactCode != ContactCode)
+                    return Unauthorized();
+
                 Service serviceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
                 if (serviceCheck == null)
                     return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
@@ -184,6 +196,9 @@ namespace MicroBeard.Controllers
                     _logger.LogError($"Scheduling with code {code} hasn't been found in db.");
                     return NotFound();
                 }
+
+                if (ContactCode != null && scheduling.ContactCode != ContactCode)
+                    return Unauthorized();
 
                 scheduling.DeleteDate = DateTime.Now;
                 scheduling.DeleterCode = CollaboratorCode;

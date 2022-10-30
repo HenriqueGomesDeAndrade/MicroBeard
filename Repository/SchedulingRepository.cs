@@ -20,10 +20,15 @@ namespace MicroBeard.Repository
 
         public PagedList<Scheduling> GetAllSchedulings(SchedulingParameters schedulingParameters)
         {
+            var schedulings = _repositoryContext.Schedulings.AsNoTracking()
+                .Where(c => c.Deleted != true);
+
+            SearchByContactCode(ref schedulings, schedulingParameters.ContactCode);
+            SearchByServiceCode(ref schedulings, schedulingParameters.ContactCode);
+            SearchByDate(ref schedulings, schedulingParameters);
+
             return PagedList<Scheduling>.ToPagedList(
-                _repositoryContext.Schedulings.AsNoTracking()
-                .Where(c => c.Deleted != true)
-                .OrderBy(c => c.Date),
+                schedulings.OrderBy(c => c.Date),
                 schedulingParameters.PageNumber,
                 schedulingParameters.PageSize);
         }
@@ -54,6 +59,39 @@ namespace MicroBeard.Repository
         public void DeleteScheduling(Scheduling scheduling)
         {
             _repositoryContext.Schedulings.Remove(scheduling);
+        }
+
+        private void SearchByContactCode(ref IQueryable<Scheduling> schedulings, int? schedulingContactCode)
+        {
+            if (!schedulings.Any() || schedulingContactCode == null || schedulingContactCode == 0)
+                return;
+
+            schedulings = schedulings.Where(s => s.ContactCode == schedulingContactCode);
+        }
+
+        private void SearchByServiceCode(ref IQueryable<Scheduling> schedulings, int? schedulingServiceCode)
+        {
+            if (!schedulings.Any() || schedulingServiceCode == null || schedulingServiceCode == 0)
+                return;
+
+            schedulings = schedulings.Where(s => s.ServiceCode == schedulingServiceCode);
+        }
+
+        private void SearchByDate(ref IQueryable<Scheduling> schedulings, SchedulingParameters schedulingParameters)
+        {
+            int? year = schedulingParameters.DateYear;
+            int? month = schedulingParameters.DateMonth;
+            int? day = schedulingParameters.DateDay;
+
+            if (!schedulings.Any())
+                return;
+
+            if(year != null)
+                schedulings = schedulings.Where(s => s.Date.Year == year);
+            if(month != null)
+                schedulings = schedulings.Where(s => s.Date.Month == month);
+            if(day != null)
+                schedulings = schedulings.Where(s => s.Date.Day == day);
         }
     }
 }

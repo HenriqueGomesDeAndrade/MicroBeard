@@ -18,10 +18,15 @@ namespace MicroBeard.Repository
 
         public PagedList<Contact> GetAllContacts(ContactParameters contactParameters)
         {
+            var contacts = _repositoryContext.Contacts.AsNoTracking()
+                .Where(c => c.Deleted != true);
+
+            SearchByName(ref contacts, contactParameters.Name);
+            SearchByCpf(ref contacts, contactParameters.Cpf);
+            SearchByEmail(ref contacts, contactParameters.Email);
+
             return PagedList<Contact>.ToPagedList(
-                _repositoryContext.Contacts.AsNoTracking()
-                .Where(c => c.Deleted != true)
-                .OrderBy(c => c.Name),
+                contacts.OrderBy(c => c.Name),
                 contactParameters.PageNumber,
                 contactParameters.PageSize);
         }
@@ -54,6 +59,30 @@ namespace MicroBeard.Repository
         public void DeleteContact(Contact contact)
         {
             _repositoryContext.Contacts.Remove(contact);
+        }
+
+        private void SearchByName(ref IQueryable<Contact> contacts, string contactName)
+        {
+            if (!contacts.Any() || string.IsNullOrWhiteSpace(contactName))
+                return;
+
+            contacts = contacts.Where(c => c.Name.ToLower().Contains(contactName.Trim().ToLower()));
+        }
+
+        private void SearchByCpf(ref IQueryable<Contact> contacts, string contactCpf)
+        {
+            if (!contacts.Any() || string.IsNullOrWhiteSpace(contactCpf))
+                return;
+
+            contacts = contacts.Where(c => c.Cpf.Contains(contactCpf));
+        }
+
+        private void SearchByEmail(ref IQueryable<Contact> contacts, string contactEmail)
+        {
+            if (!contacts.Any() || string.IsNullOrWhiteSpace(contactEmail))
+                return;
+
+            contacts = contacts.Where(c => c.Email.ToLower().Contains(contactEmail.ToLower()));
         }
     }
 }

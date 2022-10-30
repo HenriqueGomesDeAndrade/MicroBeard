@@ -6,6 +6,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Scheduling
 {
     public class SchedulingCreationDto
     {
+        [Required]
         [DateFormatValidator]
         public DateTime Date { get; set; }
 
