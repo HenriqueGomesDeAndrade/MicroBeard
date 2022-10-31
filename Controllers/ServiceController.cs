@@ -44,8 +44,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetAllServices action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetAllServices action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -70,8 +70,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetServiceByCode action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetServiceByCode action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -107,8 +107,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside CreateService action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside CreateService action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -149,8 +149,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside UpdateService action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside UpdateService action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -178,8 +178,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside DeleteService action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside DeleteService action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
     }

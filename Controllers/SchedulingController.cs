@@ -48,8 +48,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetAllSchedulings action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetAllSchedulings action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -77,8 +77,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetSchedulingByCode action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside GetSchedulingByCode action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -127,8 +127,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside CreateScheduling action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside CreateScheduling action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -184,8 +184,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside UpdateScheduling action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside UpdateScheduling action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -216,8 +216,8 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside DeleteScheduling action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                _logger.LogError($"Something went wrong inside DeleteScheduling action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
     }
