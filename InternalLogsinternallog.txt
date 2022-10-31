@@ -16204,3 +16204,321 @@
 2022-10-31 11:22:11.0778 Debug FileTarget(Name=logfile): Preparing for new file 'C:\Users\hgome\source\repos\MicroBeard\Logs/2022-10-31_logfile.txt'
 2022-10-31 11:22:11.0967 Debug FileTarget(Name=logfile): Creating file appender: C:\Users\hgome\source\repos\MicroBeard\Logs/2022-10-31_logfile.txt
 2022-10-31 11:22:11.0967 Trace FileTarget(Name=logfile): Opening C:\Users\hgome\source\repos\MicroBeard\Logs/2022-10-31_logfile.txt with allowFileSharedWriting=False
+2022-10-31 11:35:41.6163 Info Message Template Auto Format enabled
+2022-10-31 11:35:41.6418 Debug ScanAssembly('NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-10-31 11:35:41.7051 Debug Setting 'NLog.Targets.FileTarget.name' to 'logfile'
+2022-10-31 11:35:41.7051 Debug Setting 'NLog.Targets.FileTarget.fileName' to 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:35:41.7192 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:41.7192 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-10-31 11:35:41.7192 Debug Setting 'NLog.Targets.FileTarget.layout' to '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:35:41.7192 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:41.7192 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-10-31 11:35:41.7299 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:41.7299 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-10-31 11:35:41.7299 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:41.7299 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-10-31 11:35:41.7299 Info Adding target FileTarget(Name=logfile)
+2022-10-31 11:35:41.7299 Debug Registered target logfile: NLog.Targets.FileTarget
+2022-10-31 11:35:41.7299 Trace ParseRulesElement
+2022-10-31 11:35:41.7586 Debug Watching file-filter 'nlog.config' in directory: C:\Users\hgome\source\repos\MicroBeard
+2022-10-31 11:35:41.7586 Debug --- NLog configuration dump ---
+2022-10-31 11:35:41.7613 Debug Targets:
+2022-10-31 11:35:41.7613 Debug FileTarget(Name=logfile)
+2022-10-31 11:35:41.7613 Debug Rules:
+2022-10-31 11:35:41.7613 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]
+2022-10-31 11:35:41.7613 Debug --- End of NLog configuration dump ---
+2022-10-31 11:35:41.7613 Trace FindReachableObject<System.Object>:
+2022-10-31 11:35:41.7613 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-10-31 11:35:41.7773 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-10-31 11:35:41.7773 Trace  Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-10-31 11:35:41.7773 Trace   Scanning Property FileName 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt' NLog.Layouts
+2022-10-31 11:35:41.7773 Trace   Scanning SimpleLayout 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:35:41.7773 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:35:41.7773 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:41.7773 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-10-31 11:35:41.7773 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:41.7773 Trace   Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-10-31 11:35:41.7773 Trace   Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:35:41.7773 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:35:41.7773 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-10-31 11:35:41.7773 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:41.7773 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-10-31 11:35:41.7773 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:41.7773 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-10-31 11:35:41.7773 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-10-31 11:35:41.7773 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-10-31 11:35:41.7773 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-10-31 11:35:41.7934 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\hgome\source\repos\MicroBeard\nlog.config
+2022-10-31 11:35:41.7934 Debug Unused target checking is started... Rule Count: 1, Target Count: 1
+2022-10-31 11:35:41.7934 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 1, Unused Target Count: 0
+2022-10-31 11:35:41.7934 Trace Initializing Layout Renderer: ${message}
+2022-10-31 11:35:41.7934 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:35:41.7934 Trace Initializing Layout Renderer: ${level}
+2022-10-31 11:35:41.7934 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:35:41.7934 Trace Initializing Layout Renderer: ${longdate}
+2022-10-31 11:35:41.7934 Trace Initializing ${longdate} ${level:uppercase=true} ${message}
+2022-10-31 11:35:41.8103 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:41.8103 Trace Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:35:41.8103 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:35:41.8103 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-10-31 11:35:41.8103 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:41.8103 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-10-31 11:35:41.8103 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:41.8103 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-10-31 11:35:41.8103 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:35:41.8103 Trace Initializing Layout Renderer: ${shortdate}
+2022-10-31 11:35:41.8103 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:35:41.8103 Trace Initializing C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt
+2022-10-31 11:35:41.8103 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:41.8103 Trace Scanning SimpleLayout 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:35:41.8103 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:35:41.8103 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:41.8103 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-10-31 11:35:41.8103 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:41.8103 Trace Initializing FileTarget(Name=logfile)
+2022-10-31 11:35:41.8241 Trace FindReachableObject<NLog.Layouts.Layout>:
+2022-10-31 11:35:41.8241 Trace Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-10-31 11:35:41.8241 Trace  Scanning Property FileName 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt' NLog.Layouts
+2022-10-31 11:35:41.8241 Trace  Scanning SimpleLayout 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:35:41.8241 Trace  Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-10-31 11:35:41.8241 Trace  Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:35:41.8241 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2022-10-31 11:35:41.8241 Trace FileTarget(Name=logfile) has 2 layouts
+2022-10-31 11:35:41.8241 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.SingleProcessFileAppender+Factory
+2022-10-31 11:35:42.1622 Info AppDomain Shutting down. LogFactory closing...
+2022-10-31 11:35:42.1622 Debug Stopping file watching for path 'C:\Users\hgome\source\repos\MicroBeard' filter 'nlog.config'
+2022-10-31 11:35:42.1622 Trace Flushing all 1 targets...
+2022-10-31 11:35:42.1699 Trace ForEachItemInParallel() 1 items
+2022-10-31 11:35:42.1957 Trace FileTarget(Name=logfile): FlushAsync
+2022-10-31 11:35:42.1957 Trace Continuation invoked: 
+2022-10-31 11:35:42.1957 Trace Parallel task completed. 0 items remaining
+2022-10-31 11:35:42.2023 Debug Flush completed
+2022-10-31 11:35:42.2023 Trace FileTarget(Name=logfile): FlushAsync Done
+2022-10-31 11:35:42.2023 Debug Closing logging configuration...
+2022-10-31 11:35:42.2023 Trace Closing FileTarget(Name=logfile)
+2022-10-31 11:35:42.2023 Debug FileTarget(Name=logfile): Closing...
+2022-10-31 11:35:42.2023 Debug FileTarget(Name=logfile): Closed.
+2022-10-31 11:35:42.2023 Trace Closing C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt
+2022-10-31 11:35:42.2023 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:35:42.2023 Trace Closing Layout Renderer: ${shortdate}
+2022-10-31 11:35:42.2023 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:35:42.2023 Trace Closing ${longdate} ${level:uppercase=true} ${message}
+2022-10-31 11:35:42.2023 Trace Closing Layout Renderer: ${longdate}
+2022-10-31 11:35:42.2023 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:35:42.2023 Trace Closing Layout Renderer: ${level}
+2022-10-31 11:35:42.2023 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:35:42.2023 Trace Closing Layout Renderer: ${message}
+2022-10-31 11:35:42.2023 Debug Finished closing logging configuration.
+2022-10-31 11:35:42.2023 Info LogFactory has been closed.
+2022-10-31 11:35:46.5579 Info Message Template Auto Format enabled
+2022-10-31 11:35:46.5799 Debug ScanAssembly('NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-10-31 11:35:46.6257 Debug Setting 'NLog.Targets.FileTarget.name' to 'logfile'
+2022-10-31 11:35:46.6257 Debug Setting 'NLog.Targets.FileTarget.fileName' to 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:35:46.6398 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:46.6398 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-10-31 11:35:46.6398 Debug Setting 'NLog.Targets.FileTarget.layout' to '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:35:46.6398 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:46.6398 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-10-31 11:35:46.6520 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:46.6520 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-10-31 11:35:46.6520 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:46.6520 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-10-31 11:35:46.6520 Info Adding target FileTarget(Name=logfile)
+2022-10-31 11:35:46.6520 Debug Registered target logfile: NLog.Targets.FileTarget
+2022-10-31 11:35:46.6520 Trace ParseRulesElement
+2022-10-31 11:35:46.6767 Debug Watching file-filter 'nlog.config' in directory: C:\Users\hgome\source\repos\MicroBeard
+2022-10-31 11:35:46.6767 Debug --- NLog configuration dump ---
+2022-10-31 11:35:46.6767 Debug Targets:
+2022-10-31 11:35:46.6767 Debug FileTarget(Name=logfile)
+2022-10-31 11:35:46.6767 Debug Rules:
+2022-10-31 11:35:46.6830 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]
+2022-10-31 11:35:46.6830 Debug --- End of NLog configuration dump ---
+2022-10-31 11:35:46.6830 Trace FindReachableObject<System.Object>:
+2022-10-31 11:35:46.6830 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-10-31 11:35:46.6830 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-10-31 11:35:46.6830 Trace  Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-10-31 11:35:46.6830 Trace   Scanning Property FileName 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt' NLog.Layouts
+2022-10-31 11:35:46.6830 Trace   Scanning SimpleLayout 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:35:46.6830 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:35:46.6830 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:46.6830 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-10-31 11:35:46.6830 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:46.6992 Trace   Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-10-31 11:35:46.6992 Trace   Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:35:46.6992 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:35:46.6992 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-10-31 11:35:46.6992 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:46.6992 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-10-31 11:35:46.6992 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:46.6992 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-10-31 11:35:46.6992 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-10-31 11:35:46.6992 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-10-31 11:35:46.6992 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-10-31 11:35:46.6992 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\hgome\source\repos\MicroBeard\nlog.config
+2022-10-31 11:35:46.6992 Debug Unused target checking is started... Rule Count: 1, Target Count: 1
+2022-10-31 11:35:46.7163 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 1, Unused Target Count: 0
+2022-10-31 11:35:46.7163 Trace Initializing Layout Renderer: ${message}
+2022-10-31 11:35:46.7163 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:35:46.7163 Trace Initializing Layout Renderer: ${level}
+2022-10-31 11:35:46.7163 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:35:46.7163 Trace Initializing Layout Renderer: ${longdate}
+2022-10-31 11:35:46.7163 Trace Initializing ${longdate} ${level:uppercase=true} ${message}
+2022-10-31 11:35:46.7163 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:46.7163 Trace Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:35:46.7163 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:35:46.7163 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-10-31 11:35:46.7163 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:46.7163 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-10-31 11:35:46.7163 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:46.7163 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-10-31 11:35:46.7315 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:35:46.7315 Trace Initializing Layout Renderer: ${shortdate}
+2022-10-31 11:35:46.7315 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:35:46.7315 Trace Initializing C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt
+2022-10-31 11:35:46.7315 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:35:46.7315 Trace Scanning SimpleLayout 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:35:46.7315 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:35:46.7315 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:46.7315 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-10-31 11:35:46.7315 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:35:46.7315 Trace Initializing FileTarget(Name=logfile)
+2022-10-31 11:35:46.7315 Trace FindReachableObject<NLog.Layouts.Layout>:
+2022-10-31 11:35:46.7315 Trace Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-10-31 11:35:46.7315 Trace  Scanning Property FileName 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt' NLog.Layouts
+2022-10-31 11:35:46.7315 Trace  Scanning SimpleLayout 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:35:46.7315 Trace  Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-10-31 11:35:46.7315 Trace  Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:35:46.7315 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2022-10-31 11:35:46.7315 Trace FileTarget(Name=logfile) has 2 layouts
+2022-10-31 11:35:46.7470 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.SingleProcessFileAppender+Factory
+2022-10-31 11:35:46.9422 Info AppDomain Shutting down. LogFactory closing...
+2022-10-31 11:35:46.9422 Debug Stopping file watching for path 'C:\Users\hgome\source\repos\MicroBeard' filter 'nlog.config'
+2022-10-31 11:35:46.9422 Trace Flushing all 1 targets...
+2022-10-31 11:35:46.9494 Trace ForEachItemInParallel() 1 items
+2022-10-31 11:35:46.9494 Trace FileTarget(Name=logfile): FlushAsync
+2022-10-31 11:35:46.9494 Trace Continuation invoked: 
+2022-10-31 11:35:46.9494 Trace Parallel task completed. 0 items remaining
+2022-10-31 11:35:46.9494 Debug Flush completed
+2022-10-31 11:35:46.9494 Trace FileTarget(Name=logfile): FlushAsync Done
+2022-10-31 11:35:46.9494 Debug Closing logging configuration...
+2022-10-31 11:35:46.9494 Trace Closing FileTarget(Name=logfile)
+2022-10-31 11:35:46.9494 Debug FileTarget(Name=logfile): Closing...
+2022-10-31 11:35:46.9494 Debug FileTarget(Name=logfile): Closed.
+2022-10-31 11:35:46.9494 Trace Closing C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt
+2022-10-31 11:35:46.9494 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:35:46.9640 Trace Closing Layout Renderer: ${shortdate}
+2022-10-31 11:35:46.9640 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:35:46.9640 Trace Closing ${longdate} ${level:uppercase=true} ${message}
+2022-10-31 11:35:46.9640 Trace Closing Layout Renderer: ${longdate}
+2022-10-31 11:35:46.9640 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:35:46.9640 Trace Closing Layout Renderer: ${level}
+2022-10-31 11:35:46.9640 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:35:46.9640 Trace Closing Layout Renderer: ${message}
+2022-10-31 11:35:46.9640 Debug Finished closing logging configuration.
+2022-10-31 11:35:46.9640 Info LogFactory has been closed.
+2022-10-31 11:38:38.1421 Info Message Template Auto Format enabled
+2022-10-31 11:38:38.1675 Debug ScanAssembly('NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-10-31 11:38:38.2430 Debug Setting 'NLog.Targets.FileTarget.name' to 'logfile'
+2022-10-31 11:38:38.2503 Debug Setting 'NLog.Targets.FileTarget.fileName' to 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:38:38.2503 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:38:38.2648 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-10-31 11:38:38.2648 Debug Setting 'NLog.Targets.FileTarget.layout' to '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:38:38.2648 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:38:38.2648 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-10-31 11:38:38.2648 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:38:38.2648 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-10-31 11:38:38.2648 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:38:38.2648 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-10-31 11:38:38.2648 Info Adding target FileTarget(Name=logfile)
+2022-10-31 11:38:38.2648 Debug Registered target logfile: NLog.Targets.FileTarget
+2022-10-31 11:38:38.2802 Trace ParseRulesElement
+2022-10-31 11:38:38.3026 Debug Watching file-filter 'nlog.config' in directory: C:\Users\hgome\source\repos\MicroBeard
+2022-10-31 11:38:38.3026 Debug --- NLog configuration dump ---
+2022-10-31 11:38:38.3026 Debug Targets:
+2022-10-31 11:38:38.3026 Debug FileTarget(Name=logfile)
+2022-10-31 11:38:38.3088 Debug Rules:
+2022-10-31 11:38:38.3088 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]
+2022-10-31 11:38:38.3088 Debug --- End of NLog configuration dump ---
+2022-10-31 11:38:38.3088 Trace FindReachableObject<System.Object>:
+2022-10-31 11:38:38.3088 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-10-31 11:38:38.3245 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-10-31 11:38:38.3245 Trace  Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-10-31 11:38:38.3245 Trace   Scanning Property FileName 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt' NLog.Layouts
+2022-10-31 11:38:38.3245 Trace   Scanning SimpleLayout 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:38:38.3245 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:38:38.3245 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:38:38.3245 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-10-31 11:38:38.3245 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:38:38.3245 Trace   Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-10-31 11:38:38.3245 Trace   Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:38:38.3245 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:38:38.3245 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-10-31 11:38:38.3245 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:38:38.3245 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-10-31 11:38:38.3245 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:38:38.3392 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-10-31 11:38:38.3392 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-10-31 11:38:38.3392 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-10-31 11:38:38.3392 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-10-31 11:38:38.3392 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=C:\Users\hgome\source\repos\MicroBeard\nlog.config
+2022-10-31 11:38:38.3392 Debug Unused target checking is started... Rule Count: 1, Target Count: 1
+2022-10-31 11:38:38.3392 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 1, Unused Target Count: 0
+2022-10-31 11:38:38.3392 Trace Initializing Layout Renderer: ${message}
+2022-10-31 11:38:38.3552 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:38:38.3552 Trace Initializing Layout Renderer: ${level}
+2022-10-31 11:38:38.3552 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:38:38.3552 Trace Initializing Layout Renderer: ${longdate}
+2022-10-31 11:38:38.3552 Trace Initializing ${longdate} ${level:uppercase=true} ${message}
+2022-10-31 11:38:38.3552 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:38:38.3552 Trace Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:38:38.3552 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:38:38.3552 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-10-31 11:38:38.3552 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:38:38.3552 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-10-31 11:38:38.3552 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:38:38.3552 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-10-31 11:38:38.3552 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:38:38.3552 Trace Initializing Layout Renderer: ${shortdate}
+2022-10-31 11:38:38.3552 Trace Initializing Layout Renderer: ${literal}
+2022-10-31 11:38:38.3552 Trace Initializing C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt
+2022-10-31 11:38:38.3552 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-10-31 11:38:38.3552 Trace Scanning SimpleLayout 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:38:38.3713 Trace  Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-10-31 11:38:38.3713 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:38:38.3713 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-10-31 11:38:38.3713 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-10-31 11:38:38.3713 Trace Initializing FileTarget(Name=logfile)
+2022-10-31 11:38:38.3713 Trace FindReachableObject<NLog.Layouts.Layout>:
+2022-10-31 11:38:38.3713 Trace Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-10-31 11:38:38.3713 Trace  Scanning Property FileName 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt' NLog.Layouts
+2022-10-31 11:38:38.3713 Trace  Scanning SimpleLayout 'C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt'
+2022-10-31 11:38:38.3713 Trace  Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-10-31 11:38:38.3713 Trace  Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-10-31 11:38:38.3713 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2022-10-31 11:38:38.3713 Trace FileTarget(Name=logfile) has 2 layouts
+2022-10-31 11:38:38.3713 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.SingleProcessFileAppender+Factory
+2022-10-31 11:38:38.6310 Info AppDomain Shutting down. LogFactory closing...
+2022-10-31 11:38:38.6310 Debug Stopping file watching for path 'C:\Users\hgome\source\repos\MicroBeard' filter 'nlog.config'
+2022-10-31 11:38:38.6310 Trace Flushing all 1 targets...
+2022-10-31 11:38:38.6382 Trace ForEachItemInParallel() 1 items
+2022-10-31 11:38:38.6382 Trace FileTarget(Name=logfile): FlushAsync
+2022-10-31 11:38:38.6382 Trace Continuation invoked: 
+2022-10-31 11:38:38.6382 Trace Parallel task completed. 0 items remaining
+2022-10-31 11:38:38.6382 Debug Flush completed
+2022-10-31 11:38:38.6382 Trace FileTarget(Name=logfile): FlushAsync Done
+2022-10-31 11:38:38.6382 Debug Closing logging configuration...
+2022-10-31 11:38:38.6382 Trace Closing FileTarget(Name=logfile)
+2022-10-31 11:38:38.6382 Debug FileTarget(Name=logfile): Closing...
+2022-10-31 11:38:38.6382 Debug FileTarget(Name=logfile): Closed.
+2022-10-31 11:38:38.6513 Trace Closing C:\Users\hgome\source\repos\MicroBeard\Logs/${shortdate}_logfile.txt
+2022-10-31 11:38:38.6513 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:38:38.6513 Trace Closing Layout Renderer: ${shortdate}
+2022-10-31 11:38:38.6513 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:38:38.6513 Trace Closing ${longdate} ${level:uppercase=true} ${message}
+2022-10-31 11:38:38.6513 Trace Closing Layout Renderer: ${longdate}
+2022-10-31 11:38:38.6513 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:38:38.6513 Trace Closing Layout Renderer: ${level}
+2022-10-31 11:38:38.6513 Trace Closing Layout Renderer: ${literal}
+2022-10-31 11:38:38.6513 Trace Closing Layout Renderer: ${message}
+2022-10-31 11:38:38.6513 Debug Finished closing logging configuration.
+2022-10-31 11:38:38.6513 Info LogFactory has been closed.
