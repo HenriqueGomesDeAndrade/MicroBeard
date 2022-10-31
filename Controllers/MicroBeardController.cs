@@ -9,6 +9,8 @@ using System.Security.Claims;
 
 namespace MicroBeard.Controllers 
 {
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [Authorize(Roles ="Collaborator, Contact, CollaboratorAdmin")]
     public class MicroBeardController : Controller
     {
@@ -43,8 +45,8 @@ namespace MicroBeard.Controllers
                 var token = ControllerContext.HttpContext.Request.Headers.Authorization.ToString().Split(' ')[1];
 
                 ContactCode = int.Parse(User.FindFirstValue("Code"));
-                var contact = _repository.Contact.GetContactByCode((int)ContactCode);
-                if (contact.Token != token)
+                string contactToken = _repository.Contact.GetContactByCode((int)ContactCode).Token;
+                if (contactToken != token)
                     return Unauthorized("Invalid Token");
                 return null;
             }
@@ -53,8 +55,8 @@ namespace MicroBeard.Controllers
                 var token = ControllerContext.HttpContext.Request.Headers.Authorization.ToString().Split(' ')[1];
 
                 CollaboratorCode = int.Parse(User.FindFirstValue("Code"));
-                var collaborator = _repository.Collaborator.GetCollaboratorByCode((int)CollaboratorCode);
-                if (collaborator.Token != token)
+                string collaboratorToken = _repository.Collaborator.GetCollaboratorByCode((int)CollaboratorCode).Token;
+                if (collaboratorToken != token)
                     return Unauthorized("Invalid Token");
                 return null;
             }
@@ -62,6 +64,7 @@ namespace MicroBeard.Controllers
                 return null;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         public string GetFullException(Exception ex)
         {
             string innerException = ex.Message;

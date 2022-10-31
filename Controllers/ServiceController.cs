@@ -18,6 +18,12 @@ namespace MicroBeard.Controllers
         {
         }
 
+        /// <summary>
+        /// Consulta todos os serviços.
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Apenas clientes e colaboradores estão autorizados</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet]
         public IActionResult GetAllServices([FromQuery] ServiceParameters serviceParameters)
         {
@@ -49,6 +55,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Consulta apenas um serviço pelo código
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Apenas clientes e colaboradores estão autorizados</response>
+        /// <response code="404">Não Encontrado. O código passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "ServiceByCode")]
         public IActionResult GetServiceByCode(int code)
         {
@@ -75,6 +88,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Cria um serviço
+        /// </summary>
+        /// <response code="201">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="401">Sem autorização. Apenas clientes e colaboradores estão autorizados</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpPost]
         public IActionResult CreateService([FromBody] ServiceCreationDto service)
         {
@@ -112,6 +132,14 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Atualiza um serviço
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="401">Sem autorização. Apenas clientes e colaboradores estão autorizados</response>
+        /// <response code="404">Não encontrado. O código passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpPut("{code}")]
         public IActionResult UpdateService(int code, [FromBody] ServiceUpdateDto service)
         {
@@ -154,6 +182,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Apaga um Serviço (Soft Delete)
+        /// </summary>
+        /// <response code="204">Sucesso, mas sem retorno de conteúdo</response>
+        /// <response code="401">Sem autorização. Apenas Colaboradores Administradores estão autorizados</response>
+        /// <response code="404">Não encontrado. O código passado está inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpDelete("{code}")]
         public IActionResult DeleteService(int code)
         {

@@ -25,6 +25,12 @@ namespace MicroBeard.Controllers
             _config = config;
         }
 
+        /// <summary>
+        /// Consulta todos os colaboradores.
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Apenas clientes e colaboradores estão autorizados</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet]
         public IActionResult GetAllCollaborators([FromQuery] CollaboratorParameters collaboratorParameters)
         {
@@ -56,6 +62,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Consulta apenas um colaborador pelo código
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Apenas clientes e colaboradores estão autorizados</response>
+        /// <response code="404">Não Encontrado. O código passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "CollaboratorByCode")]
         public IActionResult GetCollaboratorByCode(int code)
         {
@@ -82,6 +95,14 @@ namespace MicroBeard.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Cria um colaborador
+        /// </summary>
+        /// <response code="201">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="401">Sem autorização. Apenas Colaboradores Administradores estão autorizados</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "CollaboratorAdmin")]
         [HttpPost]
         public IActionResult CreateCollaborator([FromBody] CollaboratorCreationDto collaborator)
@@ -124,6 +145,15 @@ namespace MicroBeard.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Atualiza um colaborador
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="401">Sem autorização. Apenas Colaboradores Administradores estão autorizados</response>
+        /// <response code="404">Não encontrado. O código passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "CollaboratorAdmin")]
         [HttpPut("{code}")]
         public IActionResult UpdateCollaborator(int code, [FromBody] CollaboratorUpdateDto collaborator)
@@ -167,6 +197,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Apaga um Colaborador (Soft Delete)
+        /// </summary>
+        /// <response code="204">Sucesso, mas sem retorno de conteúdo</response>
+        /// <response code="401">Sem autorização. Apenas Colaboradores Administradores estão autorizados</response>
+        /// <response code="404">Não encontrado. O código passado está inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "CollaboratorAdmin")]
         [HttpDelete("{code}")]
         public IActionResult DeleteCollaborator(int code)
@@ -197,6 +234,14 @@ namespace MicroBeard.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Realiza o login
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. A senha está errada</response>
+        /// <response code="404">Não encontrado. O email passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Login(CollaboratorLoginDto loginDto)
@@ -225,6 +270,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Realiza o Logout e Invalida o token passado
+        /// </summary>
+        /// <response code="204">Sucesso, mas sem retorno de conteúdo</response>
+        /// <response code="401">Sem autorização. Apenas colaboradores estão autorizados</response>
+        /// <response code="404">Não encontrado. Colaborador não encontrado</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpPost("Logout")]
         public IActionResult Logout()

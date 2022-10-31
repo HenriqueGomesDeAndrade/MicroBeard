@@ -82,7 +82,11 @@ namespace MicroBeard.Extensions
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(option =>
             {
-                option.SwaggerDoc("v1", new OpenApiInfo { Title = "MicroBeard API", Version = "v1" });
+                option.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "MicroBeard API",
+                    Version = "v1" 
+                });
                 option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -106,6 +110,9 @@ namespace MicroBeard.Extensions
                         new string[]{}
                     }
                 });
+
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, "MicroBeard.xml");
+                option.IncludeXmlComments(xmlPath);
             });
         }
     }

@@ -25,6 +25,12 @@ namespace MicroBeard.Controllers
             _config = config;
         }
 
+        /// <summary>
+        /// Consulta todos os clientes.
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Apenas colaboradores estão autorizados. Se for um cliente utilize o endpoint Contacts/Code</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpGet]
         public IActionResult GetAllContacts([FromQuery] ContactParameters contactParameters)
@@ -57,6 +63,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Consulta apenas um cliente pelo código
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Clientes só podem ver o seu próprio código</response>
+        /// <response code="404">Não Encontrado. O código passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "ContactByCode")]
         public IActionResult GetContactByCode(int code)
         {
@@ -86,6 +99,12 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Cria um cliente
+        /// </summary>
+        /// <response code="201">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateContact([FromBody] ContactCreationDto contact)
@@ -133,6 +152,14 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Atualiza um cliente
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="401">Sem autorização. Apenas clientes (vendo seu próprio código) e colaboradores estão autorizados</response>
+        /// <response code="404">Não encontrado. O código passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpPut("{code}")]
         public IActionResult UpdateContact(int code, [FromBody] ContactUpdateDto contact)
         {
@@ -180,6 +207,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Apaga um Cliente (Soft Delete)
+        /// </summary>
+        /// <response code="204">Sucesso, mas sem retorno de conteúdo</response>
+        /// <response code="401">Sem autorização. Clientes só podem editar seu próprio código</response>
+        /// <response code="404">Não encontrado. O código passado está inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpDelete("{code}")]
         public IActionResult DeleteContact(int code)
         {
@@ -212,6 +246,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Realiza o login
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. A senha está errada</response>
+        /// <response code="404">Não encontrado. O email passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Login(ContactLoginDto loginDto)
@@ -239,6 +280,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Realiza o Logout e Invalida o token passado
+        /// </summary>
+        /// <response code="204">Sucesso, mas sem retorno de conteúdo</response>
+        /// <response code="401">Sem autorização. Apenas colaboradores estão autorizados</response>
+        /// <response code="404">Não encontrado. Colaborador não encontrado</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "Contact")]
         [HttpPost("Logout")]
         public IActionResult Logout()

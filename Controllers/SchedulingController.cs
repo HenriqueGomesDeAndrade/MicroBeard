@@ -19,6 +19,12 @@ namespace MicroBeard.Controllers
         {
         }
 
+        /// <summary>
+        /// Consulta todos os agendamentos.
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Apenas clientes (que só acessam seus próprios agendamentos) e colaboradores estão autorizados</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet]
         public IActionResult GetAllSchedulings([FromQuery] SchedulingParameters schedulingParameters)
         {
@@ -53,6 +59,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Consulta apenas um agendamento pelo código
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Apenas clientes (Passando seu próprio código) e colaboradores estão autorizados</response>
+        /// <response code="404">Não Encontrado. O código passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "SchedulingByCode")]
         public IActionResult GetSchedulingByCode(int code)
         {
@@ -82,6 +95,15 @@ namespace MicroBeard.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Cria um agendamento
+        /// </summary>
+        /// <response code="201">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="401">Sem autorização. Apenas clientes (passando seu próprio código) e colaboradores estão autorizados</response>
+        /// <response code="404">Não encontrado. Código do contado ou cliente inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpPost]
         public IActionResult CreateScheduling([FromBody] SchedulingCreationDto scheduling)
         {
@@ -132,6 +154,15 @@ namespace MicroBeard.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Cria um agendamento
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="401">Sem autorização. Apenas clientes (passando seu próprio código) e colaboradores estão autorizados</response>
+        /// <response code="404">Não encontrado. Código do contado ou cliente inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpPut("{code}")]
         public IActionResult UpdateScheduling(int code, [FromBody] SchedulingUpdateDto scheduling)
         {
@@ -189,6 +220,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Apaga um Agendamento (Soft Delete)
+        /// </summary>
+        /// <response code="204">Sucesso, mas sem retorno de conteúdo</response>
+        /// <response code="401">Sem autorização. Apenas clientes (passando seu próprio código) e colaboradores estão autorizados</response>
+        /// <response code="404">Não encontrado. O código passado está inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpDelete("{code}")]
         public IActionResult DeleteScheduling(int code)
         {

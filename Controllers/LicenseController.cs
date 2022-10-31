@@ -20,6 +20,12 @@ namespace MicroBeard.Controllers
         {
         }
 
+        /// <summary>
+        /// Consulta todos as habilitações.
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Apenas clientes e colaboradores estão autorizados</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet]
         public IActionResult GetAllLicenses([FromQuery] LicenseParameters licenseParameters)
         {
@@ -51,6 +57,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Consulta apenas uma habilitação pelo código
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="401">Sem autorização. Apenas clientes e colaboradores estão autorizados</response>
+        /// <response code="404">Não Encontrado. O código passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "LicenseByCode")]
         public IActionResult GetLicenseByCode(int code)
         {
@@ -77,6 +90,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Cria uma habilitação
+        /// </summary>
+        /// <response code="201">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="401">Sem autorização. Apenas Colaboradores estão autorizados</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpPost]
         public IActionResult CreateLicense([FromBody] LicenseCreationDto license)
@@ -115,6 +135,14 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Atualiza uma habilitação
+        /// </summary>
+        /// <response code="200">Sucesso</response>
+        /// <response code="400">Algo está errado no modelo</response>
+        /// <response code="401">Sem autorização. Apenas Colaboradores estão autorizados</response>
+        /// <response code="404">Não encontrado. O código passado é inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpPut("{code}")]
         public IActionResult UpdateLicense(int code, [FromBody] LicenseUpdateDto license)
@@ -158,6 +186,13 @@ namespace MicroBeard.Controllers
             }
         }
 
+        /// <summary>
+        /// Apaga uma habilitação (Soft Delete)
+        /// </summary>
+        /// <response code="204">Sucesso, mas sem retorno de conteúdo</response>
+        /// <response code="401">Sem autorização. Apenas Colaboradores estão autorizados</response>
+        /// <response code="404">Não encontrado. O código passado está inválido</response>
+        /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpDelete("{code}")]
         public IActionResult DeleteLicense(int code)

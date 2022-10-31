@@ -6,7 +6,12 @@
     <UserSecretsId>09b29628-ec90-4085-a8b3-d8571e681e9e</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
     <Content Remove="nlog.config" />
   </ItemGroup>
 
