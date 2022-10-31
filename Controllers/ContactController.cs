@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Configuration;
 using System.Data.Entity.Core.Common.CommandTrees;
 using System.Security.Claims;
 
@@ -17,9 +18,11 @@ namespace MicroBeard.Controllers
     [Route("[controller]")]
     public class ContactController : MicroBeardController
     {
-        public ContactController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
+        private readonly IConfiguration _config;
+        public ContactController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper, IConfiguration config)
             : base(logger, repository, mapper)
         {
+            _config = config;
         }
 
         [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
@@ -48,8 +51,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetAllContacts action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside GetAllContacts action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -76,8 +80,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetContactByCode action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside GetContactByCode action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -122,8 +127,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside CreateContact action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside CreateContact action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -168,8 +174,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateContact action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside UpdateContact action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -199,8 +206,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside DeleteContact action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside DeleteContact action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -217,8 +225,7 @@ namespace MicroBeard.Controllers
                 bool passwordIsValid = PasswordManager.ValidatePassword(loginDto.Password + contact.PasswordSaltGUID, contact.Password);
                 if (!passwordIsValid)
                     return Unauthorized("Password invalid");
-
-                contact.Token = TokenService.GenerateToken(contact);
+                contact.Token = TokenService.GenerateToken(contact, _config.GetValue<string>("TokenKey"));
                 _repository.Contact.UpdateContact(contact);
                 _repository.Save();
 
@@ -226,8 +233,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside Login action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside Login action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -245,12 +253,13 @@ namespace MicroBeard.Controllers
                 _repository.Contact.UpdateContact(contact);
                 _repository.Save();
 
-                return Ok();
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside Logout action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside Logout action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
     }

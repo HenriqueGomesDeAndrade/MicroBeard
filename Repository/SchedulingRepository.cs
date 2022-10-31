@@ -27,7 +27,7 @@ namespace MicroBeard.Repository
                 .Where(c => c.Deleted != true);
 
             SearchByContactCode(ref schedulings, schedulingParameters.ContactCode);
-            SearchByServiceCode(ref schedulings, schedulingParameters.ContactCode);
+            SearchByServiceCode(ref schedulings, schedulingParameters.ServiceCode);
             SearchByDate(ref schedulings, schedulingParameters);
 
             var sortedSchedulings = _sortHelper.ApplySort(schedulings, schedulingParameters.OrderBy);

@@ -31,7 +31,7 @@ namespace MicroBeard.Entities.Models
         public bool? Desactivated { get; set; }
 
         public string Token { get; set; }
-        public bool IsAdmin { get; set; }
+        public bool? IsAdmin { get; set; }
 
         public virtual ICollection<License> Licenses { get; set; }
         public virtual ICollection<Service> Services { get; set; }

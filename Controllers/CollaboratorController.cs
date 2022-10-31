@@ -17,9 +17,12 @@ namespace MicroBeard.Controllers
     [Route("[controller]")]
     public class CollaboratorController : MicroBeardController
     {
-        public CollaboratorController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
+        private readonly IConfiguration _config;
+
+        public CollaboratorController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper, IConfiguration config)
             : base(logger, repository, mapper)
         {
+            _config = config;
         }
 
         [HttpGet]
@@ -47,8 +50,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetAllCollaborators action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside GetAllCollaborators action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -72,8 +76,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside GetCollaboratorByCode action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside GetCollaboratorByCode action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -113,8 +118,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside CreateCollaborator action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside CreateCollaborator action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -155,8 +161,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside UpdateCollaborator action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside UpdateCollaborator action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -184,8 +191,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside DeleteCollaborator action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside DeleteCollaborator action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -203,7 +211,7 @@ namespace MicroBeard.Controllers
                 if (!passwordIsValid)
                     return Unauthorized("Password invalid");
 
-                collaborator.Token = TokenService.GenerateToken(collaborator);
+                collaborator.Token = TokenService.GenerateToken(collaborator, _config.GetValue<string>("TokenKey"));
                 _repository.Collaborator.UpdateCollaborator(collaborator);
                 _repository.Save();
 
@@ -211,8 +219,9 @@ namespace MicroBeard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside Login action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside Login action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
 
@@ -230,12 +239,13 @@ namespace MicroBeard.Controllers
                 _repository.Collaborator.UpdateCollaborator(collaborator);
                 _repository.Save();
 
-                return Ok();
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Something went wrong inside Logout action: {ex.Message}");
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                string message = GetFullException(ex);
+                _logger.LogError($"Something went wrong inside Logout action: {message}");
+                return StatusCode(500, $"Internal server error: {message}");
             }
         }
     }

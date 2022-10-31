@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace MicroBeard.Controllers 
 {
-    [Authorize(Roles ="Collaborator, Contact")]
+    [Authorize(Roles ="Collaborator, Contact, CollaboratorAdmin")]
     public class MicroBeardController : Controller
     {
         protected int? ContactCode { get; set; }
@@ -60,6 +60,17 @@ namespace MicroBeard.Controllers
             }
             else
                 return null;
+        }
+
+        public string GetFullException(Exception ex)
+        {
+            string innerException = ex.Message;
+            while (ex.InnerException != null)
+            {
+                innerException += $" Inner Exception: {ex.InnerException.Message}";
+                ex = ex.InnerException;
+            }
+            return innerException;
         }
     }
 }
