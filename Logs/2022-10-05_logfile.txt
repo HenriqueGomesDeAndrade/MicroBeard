@@ -1,8 +1,0 @@
-2022-10-05 21:00:27.7514 ERROR Something went wrong inside GetAllOwners action: Invalid object name 'Contacts'.
-2022-10-05 21:02:45.8472 ERROR Something went wrong inside GetAllOwners action: Invalid object name 'Contacts'.
-2022-10-05 21:02:47.4873 ERROR Something went wrong inside GetAllOwners action: Invalid object name 'Contacts'.
-2022-10-05 21:06:14.8113 ERROR Something went wrong inside GetAllOwners action: Invalid object name 'Contacts'.
-2022-10-05 21:11:17.9558 INFO Returned all owners from database
-2022-10-05 21:11:35.7924 INFO Returned all owners from database
-2022-10-05 21:22:18.5223 INFO Returned all owners from database
-2022-10-05 21:22:37.1521 INFO Returned all owners from database

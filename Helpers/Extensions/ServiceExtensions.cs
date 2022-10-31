@@ -1,7 +1,6 @@
 ﻿using MicroBeard.Contracts;
 using MicroBeard.Entities.Models;
 using MicroBeard.Helpers.Sort;
-using MicroBeard.LoggerService;
 using MicroBeard.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -32,11 +31,6 @@ namespace MicroBeard.Extensions
             {
 
             });
-        }
-
-        public static void ConfigureLoggerService(this IServiceCollection services)
-        {
-            services.AddSingleton<ILoggerManager, LoggerManager>();
         }
 
         public static void ConfigureSqlServer(this IServiceCollection services, IConfiguration config)

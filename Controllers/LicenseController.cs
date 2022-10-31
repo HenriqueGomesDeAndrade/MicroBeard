@@ -15,8 +15,8 @@ namespace MicroBeard.Controllers
     [Route("[controller]")]
     public class LicenseController : MicroBeardController
     {
-        public LicenseController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
-            : base(logger, repository, mapper)
+        public LicenseController(IRepositoryWrapper repository, IMapper mapper)
+            : base(repository, mapper)
         {
         }
 
@@ -32,7 +32,6 @@ namespace MicroBeard.Controllers
             try
             {
                 PagedList<License> licenses = _repository.License.GetAllLicenses(licenseParameters);
-                _logger.LogInfo($"Returned all licenses from database");
 
                 var metadata = new
                 {
@@ -52,7 +51,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetAllLicenses action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -72,12 +70,8 @@ namespace MicroBeard.Controllers
                 License license = _repository.License.GetLicenseByCode(code, expandRelations: true);
 
                 if (license is null)
-                {
-                    _logger.LogError($"License with code: {code} hasn't been found in db.");
                     return NotFound();
-                }
 
-                _logger.LogInfo($"returned License with code: {code}");
                 LicenseDto LicenseResult = _mapper.Map<LicenseDto>(license);
 
                 return Ok(LicenseResult);
@@ -85,7 +79,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetLicenseByCode action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -104,16 +97,10 @@ namespace MicroBeard.Controllers
             try
             {
                 if (license is null)
-                {
-                    _logger.LogError("License object sent from client is null");
                     return BadRequest("License object is null");
-                }
 
                 if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid license object sent from client");
                     return BadRequest("Invalid model object");
-                }
 
                 License licenseEntity = _mapper.Map<License>(license);
 
@@ -130,7 +117,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside CreateLicense action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -150,21 +136,14 @@ namespace MicroBeard.Controllers
             try
             {
                 if (license is null)
-                {
-                    _logger.LogError("License object sent from client is null");
                     return BadRequest("License object is null");
-                }
 
                 if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid License object sent from client");
                     return BadRequest("Invalid model object");
-                }
 
                 License licenseEntity = _repository.License.GetLicenseByCode(code, expandRelations: true);
                 if (licenseEntity is null)
                 {
-                    _logger.LogError($"License with code {code} hasn't been found in db.");
                     return NotFound();
                 }
 
@@ -181,7 +160,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside UpdateLicense action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -201,10 +179,7 @@ namespace MicroBeard.Controllers
             {
                 var license = _repository.License.GetLicenseByCode(code);
                 if (license == null)
-                {
-                    _logger.LogError($"License with code {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 license.DesactivationDate = DateTime.Now;
                 license.DesactivatorCode = CollaboratorCode;
@@ -218,7 +193,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside DeleteLicense action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }

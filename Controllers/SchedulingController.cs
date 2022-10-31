@@ -14,8 +14,8 @@ namespace MicroBeard.Controllers
     [Route("[controller]")]
     public class SchedulingController : MicroBeardController
     {
-        public SchedulingController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
-            : base(logger, repository, mapper)
+        public SchedulingController(IRepositoryWrapper repository, IMapper mapper)
+            : base(repository, mapper)
         {
         }
 
@@ -34,7 +34,6 @@ namespace MicroBeard.Controllers
                     schedulingParameters.ContactCode = ContactCode;
 
                 PagedList<Scheduling> schedulings = _repository.Scheduling.GetAllSchedulings(schedulingParameters);
-                _logger.LogInfo($"Returned all Schedulings from database");
 
                 var metadata = new
                 {
@@ -54,7 +53,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetAllSchedulings action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -74,15 +72,11 @@ namespace MicroBeard.Controllers
                 Scheduling scheduling = _repository.Scheduling.GetSchedulingByCode(code, expandRelations: true);
 
                 if (scheduling is null)
-                {
-                    _logger.LogError($"Scheduling with code: {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 if (ContactCode != null && scheduling.ContactCode != ContactCode)
                     return Unauthorized();
 
-                _logger.LogInfo($"returned Scheduling with code: {code}");
                 SchedulingDto schedulingResult = _mapper.Map<SchedulingDto>(scheduling);
 
                 return Ok(schedulingResult);
@@ -90,7 +84,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetSchedulingByCode action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -110,16 +103,10 @@ namespace MicroBeard.Controllers
             try
             {
                 if (scheduling is null)
-                {
-                    _logger.LogError("Scheduling object sent from client is null");
                     return BadRequest("Scheduling object is null");
-                }
 
                 if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid Scheduling object sent from client");
                     return BadRequest("Invalid model object");
-                }
 
                 Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode);
                 if (contactCheck == null)
@@ -149,7 +136,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside CreateScheduling action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -169,23 +155,14 @@ namespace MicroBeard.Controllers
             try
             {
                 if (scheduling is null)
-                {
-                    _logger.LogError("Scheduling object sent from client is null");
                     return BadRequest("Scheduling object is null");
-                }
 
                 if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid Scheduling object sent from client");
                     return BadRequest("Invalid model object");
-                }
 
                 Scheduling schedulingEntity = _repository.Scheduling.GetSchedulingByCode(code, expandRelations: true);
                 if (schedulingEntity is null)
-                {
-                    _logger.LogError($"Scheduling with code {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode);
                 if (contactCheck == null)
@@ -215,7 +192,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside UpdateScheduling action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -234,10 +210,7 @@ namespace MicroBeard.Controllers
             {
                 var scheduling = _repository.Scheduling.GetSchedulingByCode(code);
                 if (scheduling == null)
-                {
-                    _logger.LogError($"Scheduling with code {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 if (ContactCode != null && scheduling.ContactCode != ContactCode)
                     return Unauthorized();
@@ -254,7 +227,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside DeleteScheduling action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }

@@ -17,12 +17,10 @@ namespace MicroBeard.Controllers
         protected int? ContactCode { get; set; }
         protected int? CollaboratorCode { get; set; }
 
-        protected readonly ILoggerManager _logger;
         protected readonly IRepositoryWrapper _repository;
         protected readonly IMapper _mapper;
-        public MicroBeardController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
+        public MicroBeardController(IRepositoryWrapper repository, IMapper mapper)
         {
-            _logger = logger;
             _repository = repository;
             _mapper = mapper;
         }

@@ -20,8 +20,8 @@ namespace MicroBeard.Controllers
     {
         private readonly IConfiguration _config;
 
-        public CollaboratorController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper, IConfiguration config)
-            : base(logger, repository, mapper)
+        public CollaboratorController(IRepositoryWrapper repository, IMapper mapper, IConfiguration config)
+            : base(repository, mapper)
         {
             _config = config;
         }
@@ -38,7 +38,6 @@ namespace MicroBeard.Controllers
             try
             {
                 PagedList<Collaborator> collaborators = _repository.Collaborator.GetAllCollaborators(collaboratorParameters);
-                _logger.LogInfo($"Returned all collaborators from database");
 
                 var metadata = new
                 {
@@ -58,7 +57,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetAllCollaborators action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -78,12 +76,8 @@ namespace MicroBeard.Controllers
                 Collaborator collaborator = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: true);
 
                 if (collaborator is null)
-                {
-                    _logger.LogError($"Collaborator with code: {code} hasn't been found in db.");
                     return NotFound();
-                }
 
-                _logger.LogInfo($"returned Collaborator with code: {code}");
                 CollaboratorDto CollaboratorResult = _mapper.Map<CollaboratorDto>(collaborator);
 
                 return Ok(CollaboratorResult);
@@ -91,7 +85,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetCollaboratorByCode action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -111,16 +104,10 @@ namespace MicroBeard.Controllers
             try
             {
                 if (collaborator is null)
-                {
-                    _logger.LogError("Collaborator object sent from client is null");
                     return BadRequest("Collaborator object is null");
-                }
 
                 if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid Collaborator object sent from client");
                     return BadRequest("Invalid model object");
-                }
 
                 Collaborator collaboratorEntity = _mapper.Map<Collaborator>(collaborator);
 
@@ -141,7 +128,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside CreateCollaborator action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -165,23 +151,14 @@ namespace MicroBeard.Controllers
             try
             {
                 if (collaborator is null)
-                {
-                    _logger.LogError("Collaborator object sent from client is null");
                     return BadRequest("Collaborator object is null");
-                }
 
                 if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid Collaborator object sent from client");
                     return BadRequest("Invalid model object");
-                }
 
                 Collaborator collaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: true);
                 if (collaboratorEntity is null)
-                {
-                    _logger.LogError($"Collaborator with code {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 if ((bool)collaboratorEntity.IsAdmin == true && collaborator.IsAdmin != true)
                 {
@@ -210,7 +187,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside UpdateCollaborator action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -230,10 +206,7 @@ namespace MicroBeard.Controllers
             {
                 var collaborator = _repository.Collaborator.GetCollaboratorByCode(code);
                 if (collaborator == null)
-                {
-                    _logger.LogError($"Collaborator with code {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 if ((bool)collaborator.IsAdmin == true)
                 {
@@ -254,7 +227,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside DeleteCollaborator action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -290,7 +262,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside Login action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -321,7 +292,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside Logout action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }

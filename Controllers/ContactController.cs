@@ -19,8 +19,8 @@ namespace MicroBeard.Controllers
     public class ContactController : MicroBeardController
     {
         private readonly IConfiguration _config;
-        public ContactController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper, IConfiguration config)
-            : base(logger, repository, mapper)
+        public ContactController(IRepositoryWrapper repository, IMapper mapper, IConfiguration config)
+            : base(repository, mapper)
         {
             _config = config;
         }
@@ -38,7 +38,6 @@ namespace MicroBeard.Controllers
             try
             {
                 PagedList<Contact> contacts = _repository.Contact.GetAllContacts(contactParameters);
-                _logger.LogInfo($"Returned {contacts.PageSize} contacts from page number {contacts.CurrentPage} database");
 
                 var metadata = new
                 {
@@ -58,7 +57,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetAllContacts action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -78,15 +76,11 @@ namespace MicroBeard.Controllers
                 Contact contact = _repository.Contact.GetContactByCode(code, expandRelations: true);
 
                 if (contact is null)
-                {
-                    _logger.LogError($"Contact with code: {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 if (ContactCode != null && contact.Code != ContactCode)
                     return Unauthorized();
 
-                _logger.LogInfo($"returned contact with code: {code}");
                 ContactDto contactResult = _mapper.Map<ContactDto>(contact);
 
                 return Ok(contactResult);
@@ -94,7 +88,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetContactByCode action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -112,16 +105,10 @@ namespace MicroBeard.Controllers
             try
             {
                 if (contact is null)
-                {
-                    _logger.LogError("Contact object sent from client is null");
                     return BadRequest("Contact object is null");
-                }
 
                 if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid contact object sent from client");
                     return BadRequest("Invalid model object");
-                }
 
                 Contact contactEntity = _mapper.Map<Contact>(contact);
 
@@ -141,13 +128,11 @@ namespace MicroBeard.Controllers
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError($"Something went wrong inside CreateContact action: {ex.Message}");
                 return StatusCode(500, $"Internal server error. Unable to insert values on the Database: {ex.InnerException.Message}");
             }
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside CreateContact action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -166,23 +151,14 @@ namespace MicroBeard.Controllers
             try
             {
                 if (contact is null)
-                {
-                    _logger.LogError("Contact object sent from client is null");
                     return BadRequest("Contact object is null");
-                }
 
                 if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid contact object sent from client");
                     return BadRequest("Invalid model object");
-                }
 
                 Contact contactEntity = _repository.Contact.GetContactByCode(code, expandRelations: true);
                 if (contactEntity is null)
-                {
-                    _logger.LogError($"Contact with code {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 if (ContactCode != null && contactEntity.Code != ContactCode)
                     return Unauthorized();
@@ -207,7 +183,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside UpdateContact action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -226,10 +201,7 @@ namespace MicroBeard.Controllers
             {
                 var contact = _repository.Contact.GetContactByCode(code);
                 if (contact == null)
-                {
-                    _logger.LogError($"Contact with code {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 if (ContactCode != null && contact.Code != ContactCode)
                     return Unauthorized();
@@ -246,7 +218,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside DeleteContact action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -280,7 +251,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside Login action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -311,7 +281,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside Logout action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }

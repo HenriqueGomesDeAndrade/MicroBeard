@@ -13,8 +13,8 @@ namespace MicroBeard.Controllers
     [Route("[controller]")]
     public class ServiceController : MicroBeardController
     {
-        public ServiceController(ILoggerManager logger, IRepositoryWrapper repository, IMapper mapper)
-            : base(logger, repository, mapper)
+        public ServiceController(IRepositoryWrapper repository, IMapper mapper)
+            : base(repository, mapper)
         {
         }
 
@@ -30,7 +30,6 @@ namespace MicroBeard.Controllers
             try
             {
                 PagedList<Service> services = _repository.Service.GetAllServices(serviceParameters);
-                _logger.LogInfo($"Returned all Services from database");
 
                 var metadata = new
                 {
@@ -50,7 +49,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetAllServices action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -71,11 +69,9 @@ namespace MicroBeard.Controllers
 
                 if (service is null)
                 {
-                    _logger.LogError($"Service with code: {code} hasn't been found in db.");
                     return NotFound();
                 }
 
-                _logger.LogInfo($"returned Service with code: {code}");
                 ServiceDto servicesResult = _mapper.Map<ServiceDto>(service);
 
                 return Ok(servicesResult);
@@ -83,7 +79,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside GetServiceByCode action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -102,13 +97,11 @@ namespace MicroBeard.Controllers
             {
                 if (service is null)
                 {
-                    _logger.LogError("Service object sent from client is null");
                     return BadRequest("Service object is null");
                 }
 
                 if (!ModelState.IsValid)
                 {
-                    _logger.LogError("Invalid Service object sent from client");
                     return BadRequest("Invalid model object");
                 }
 
@@ -127,7 +120,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside CreateService action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -146,23 +138,14 @@ namespace MicroBeard.Controllers
             try
             {
                 if (service is null)
-                {
-                    _logger.LogError("Service object sent from client is null");
                     return BadRequest("Service object is null");
-                }
 
                 if (!ModelState.IsValid)
-                {
-                    _logger.LogError("Invalid Service object sent from client");
                     return BadRequest("Invalid model object");
-                }
 
                 Service serviceEntity = _repository.Service.GetServiceByCode(code, expandRelations: true);
                 if (serviceEntity is null)
-                {
-                    _logger.LogError($"Service with code {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 _mapper.Map(service, serviceEntity);
 
@@ -177,7 +160,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside UpdateService action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
@@ -196,10 +178,7 @@ namespace MicroBeard.Controllers
             {
                 var service = _repository.Service.GetServiceByCode(code);
                 if (service == null)
-                {
-                    _logger.LogError($"Service with code {code} hasn't been found in db.");
                     return NotFound();
-                }
 
                 service.DeleteDate = DateTime.Now;
                 service.DeleterCode = CollaboratorCode;
@@ -213,7 +192,6 @@ namespace MicroBeard.Controllers
             catch (Exception ex)
             {
                 string message = GetFullException(ex);
-                _logger.LogError($"Something went wrong inside DeleteService action: {message}");
                 return StatusCode(500, $"Internal server error: {message}");
             }
         }
