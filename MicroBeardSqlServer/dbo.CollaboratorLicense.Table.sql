@@ -1,6 +1,6 @@
 USE [MicroBeard]
 GO
-/****** Object:  Table [dbo].[CollaboratorLicense]    Script Date: 30/10/2022 15:45:01 ******/
+/****** Object:  Table [dbo].[CollaboratorLicense]    Script Date: 30/10/2022 21:22:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

@@ -1,6 +1,6 @@
 USE [MicroBeard]
 GO
-/****** Object:  Table [dbo].[Collaborator]    Script Date: 30/10/2022 15:45:01 ******/
+/****** Object:  Table [dbo].[Collaborator]    Script Date: 30/10/2022 21:22:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -25,6 +25,7 @@ CREATE TABLE [dbo].[Collaborator](
 	[DesactivatorCode] [int] NULL,
 	[Desactivated] [bit] NULL,
 	[Token] [varchar](500) NULL,
+	[IsAdmin] [bit] NULL,
  CONSTRAINT [PK_Collaborator] PRIMARY KEY CLUSTERED 
 (
 	[Code] ASC
@@ -33,7 +34,7 @@ CREATE TABLE [dbo].[Collaborator](
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IDX_COLLABORATOR_CPF]    Script Date: 30/10/2022 15:45:01 ******/
+/****** Object:  Index [IDX_COLLABORATOR_CPF]    Script Date: 30/10/2022 21:22:44 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IDX_COLLABORATOR_CPF] ON [dbo].[Collaborator]
 (
 	[CPF] ASC
@@ -41,7 +42,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [IDX_COLLABORATOR_CPF] ON [dbo].[Collaborator]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IDX_COLLABORATOR_EMAIL]    Script Date: 30/10/2022 15:45:01 ******/
+/****** Object:  Index [IDX_COLLABORATOR_EMAIL]    Script Date: 30/10/2022 21:22:44 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IDX_COLLABORATOR_EMAIL] ON [dbo].[Collaborator]
 (
 	[Email] ASC
@@ -49,7 +50,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [IDX_COLLABORATOR_EMAIL] ON [dbo].[Collaborator
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IDX_COLLABORATOR_TOKEN]    Script Date: 30/10/2022 15:45:01 ******/
+/****** Object:  Index [IDX_COLLABORATOR_TOKEN]    Script Date: 30/10/2022 21:22:44 ******/
 CREATE NONCLUSTERED INDEX [IDX_COLLABORATOR_TOKEN] ON [dbo].[Collaborator]
 (
 	[Token] ASC

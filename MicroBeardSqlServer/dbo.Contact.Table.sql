@@ -1,6 +1,6 @@
 USE [MicroBeard]
 GO
-/****** Object:  Table [dbo].[Contact]    Script Date: 30/10/2022 15:45:01 ******/
+/****** Object:  Table [dbo].[Contact]    Script Date: 30/10/2022 21:22:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -32,7 +32,7 @@ CREATE TABLE [dbo].[Contact](
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IDX_CONTACT_CPF]    Script Date: 30/10/2022 15:45:01 ******/
+/****** Object:  Index [IDX_CONTACT_CPF]    Script Date: 30/10/2022 21:22:44 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IDX_CONTACT_CPF] ON [dbo].[Contact]
 (
 	[CPF] ASC
@@ -40,7 +40,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [IDX_CONTACT_CPF] ON [dbo].[Contact]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IDX_CONTACT_EMAIL]    Script Date: 30/10/2022 15:45:01 ******/
+/****** Object:  Index [IDX_CONTACT_EMAIL]    Script Date: 30/10/2022 21:22:44 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IDX_CONTACT_EMAIL] ON [dbo].[Contact]
 (
 	[Email] ASC
@@ -48,7 +48,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [IDX_CONTACT_EMAIL] ON [dbo].[Contact]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IDX_CONTACT_TOKEN]    Script Date: 30/10/2022 15:45:01 ******/
+/****** Object:  Index [IDX_CONTACT_TOKEN]    Script Date: 30/10/2022 21:22:44 ******/
 CREATE NONCLUSTERED INDEX [IDX_CONTACT_TOKEN] ON [dbo].[Contact]
 (
 	[Token] ASC
