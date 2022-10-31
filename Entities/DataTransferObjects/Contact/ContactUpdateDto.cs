@@ -29,5 +29,10 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
 
         [DateFormatValidator]
         public DateTime? BirthDate { get; set; }
+
+        [StringLength(80, ErrorMessage = "The password must be bigger than 8 characters", MinimumLength = 8)]
+        [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
+            ErrorMessage = "Invalid Password. It must have more than 8 characters, at least one uppercase, one lowercase, one digit and one special character")]
+        public string Password { get; set; }
     }
 }

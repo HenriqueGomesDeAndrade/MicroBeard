@@ -7,7 +7,7 @@
         ILicenseRepository License { get; }
         ISchedulingRepository Scheduling { get; }
         IServiceRepository Service { get; }
-
+        void UnchangeProperty(object target, string propertyName);
         void Save();
     }
 }

@@ -12,5 +12,6 @@ namespace MicroBeard.Contracts
         void CreateCollaborator(Collaborator collaborator);
         void UpdateCollaborator(Collaborator collaborator);
         void DeleteCollaborator(Collaborator collaborator);
+        bool CheckIfIsLastAdminCollaborator(int collaboratorCode);
     }
 }

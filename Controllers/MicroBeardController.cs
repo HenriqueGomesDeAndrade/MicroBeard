@@ -50,7 +50,7 @@ namespace MicroBeard.Controllers
                     return Unauthorized("Invalid Token");
                 return null;
             }
-            else if (User.IsInRole("Collaborator"))
+            else if (User.IsInRole("Collaborator") || User.IsInRole("CollaboratorAdmin"))
             {
                 var token = ControllerContext.HttpContext.Request.Headers.Authorization.ToString().Split(' ')[1];
 

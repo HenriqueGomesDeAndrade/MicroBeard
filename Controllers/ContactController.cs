@@ -189,6 +189,11 @@ namespace MicroBeard.Controllers
 
                 _mapper.Map(contact, contactEntity);
 
+                if (contact.Password == null)
+                    _repository.UnchangeProperty(contactEntity, "Password");
+                else
+                    contactEntity.Password = PasswordManager.EncryptPassword(contact.Password + contactEntity.PasswordSaltGUID);
+
                 contactEntity.UpdateDate = DateTime.Now;
                 contactEntity.UpdaterCode = CollaboratorCode;
 

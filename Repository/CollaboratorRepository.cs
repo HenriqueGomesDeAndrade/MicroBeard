@@ -69,6 +69,15 @@ namespace MicroBeard.Repository
             _repositoryContext.Collaborators.Remove(collaborator);
         }
 
+        public bool CheckIfIsLastAdminCollaborator(int collaboratorCode)
+        {
+            bool isLasAdminCollaborator = false;
+            var lastCollaborator = _repositoryContext.Collaborators.AsNoTracking().FirstOrDefault(c => c.IsAdmin == true && c.Code != collaboratorCode);
+                if(lastCollaborator == null)
+                    isLasAdminCollaborator = true;
+            return isLasAdminCollaborator;
+        }
+
         private void SearchByName(ref IQueryable<Collaborator> collaborators, string collaboratorName)
         {
             if (!collaborators.Any() || string.IsNullOrWhiteSpace(collaboratorName))

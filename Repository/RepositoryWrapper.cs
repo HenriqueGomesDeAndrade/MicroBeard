@@ -95,5 +95,13 @@ namespace MicroBeard.Repository
         {
             _repositoryContext.SaveChanges();
         }
+
+        public void UnchangeProperty(object target, string propertyName)
+        {
+            var isModified = _repositoryContext.Entry(target).Property(propertyName).IsModified;
+            if (isModified)
+                _repositoryContext.Entry(target).Property(propertyName).IsModified = false;
+        }
+
     }
 }

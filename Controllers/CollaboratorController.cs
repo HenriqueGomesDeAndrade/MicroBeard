@@ -10,6 +10,7 @@ using MicroBeard.Entities.DataTransferObjects.Contact;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using MicroBeard.Entities.Parameters;
+using System;
 
 namespace MicroBeard.Controllers
 {
@@ -149,9 +150,12 @@ namespace MicroBeard.Controllers
         /// <summary>
         /// Atualiza um colaborador
         /// </summary>
+        /// <remarks>
+        /// A senha pode ser passada opcionalmente para realizar a sua alteração.
+        /// </remarks>
         /// <response code="200">Sucesso</response>
         /// <response code="400">Algo está errado no modelo</response>
-        /// <response code="401">Sem autorização. Apenas Colaboradores Administradores estão autorizados</response>
+        /// <response code="401">Sem autorização. Apenas Colaboradores Administradores estão autorizados. Colaboradores normais podem editar o seu próprio código.</response>
         /// <response code="404">Não encontrado. O código passado é inválido</response>
         /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "CollaboratorAdmin")]
@@ -179,7 +183,19 @@ namespace MicroBeard.Controllers
                     return NotFound();
                 }
 
+                if ((bool)collaboratorEntity.IsAdmin == true && collaborator.IsAdmin != true)
+                {
+                    bool isLastAdminCollaborator = _repository.Collaborator.CheckIfIsLastAdminCollaborator(collaboratorEntity.Code);
+                    if (isLastAdminCollaborator)
+                        collaborator.IsAdmin = true;
+                }
+
                 _mapper.Map(collaborator, collaboratorEntity);
+
+                if (collaborator.Password == null)
+                    _repository.UnchangeProperty(collaboratorEntity, "Password");
+                else
+                    collaboratorEntity.Password = PasswordManager.EncryptPassword(collaborator.Password + collaboratorEntity.PasswordSaltGUID);
 
                 collaboratorEntity.UpdateDate = DateTime.Now;
                 collaboratorEntity.UpdaterCode = CollaboratorCode;
@@ -187,7 +203,9 @@ namespace MicroBeard.Controllers
                 _repository.Collaborator.UpdateCollaborator(collaboratorEntity);
                 _repository.Save();
 
-                return Ok(collaborator);
+                CollaboratorDto updatedCollaborator = _mapper.Map<CollaboratorDto>(collaboratorEntity);
+
+                return Ok(updatedCollaborator);
             }
             catch (Exception ex)
             {
@@ -215,6 +233,13 @@ namespace MicroBeard.Controllers
                 {
                     _logger.LogError($"Collaborator with code {code} hasn't been found in db.");
                     return NotFound();
+                }
+
+                if ((bool)collaborator.IsAdmin == true)
+                {
+                    bool isLastAdminCollaborator = _repository.Collaborator.CheckIfIsLastAdminCollaborator(code);
+                    if (isLastAdminCollaborator)
+                        Unauthorized("This collaborator is the last Administrator of the account, it cannot be deleted");
                 }
 
                 collaborator.DesactivationDate = DateTime.Now;
