@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MicroBeard.Entities.DataTransferObjects.Collaborator;
+using MicroBeard.Entities.DataTransferObjects.Scheduling;
+using System.ComponentModel.DataAnnotations;
 
 namespace MicroBeard.Entities.DataTransferObjects.Service
 {
@@ -19,5 +21,8 @@ namespace MicroBeard.Entities.DataTransferObjects.Service
 
         [StringLength(250, ErrorMessage = "Description can't be longer than 250 characters")]
         public string Description { get; set; }
+
+        public ICollection<SimpleCollaboratorDto> Collaborators { get; set; }
+        public ICollection<SimpleSchedulingDto> Schedulings { get; set; }
     }
 }

@@ -34,8 +34,11 @@ namespace MicroBeard.Repository
                 licenseParameters.PageSize);
         }
 
-        public License GetLicenseByCode(int code, bool expandRelations = true)
+        public License GetLicenseByCode(int? code, bool expandRelations = true)
         {
+            if (code == null)
+                return null;
+
             License license = _repositoryContext.Licenses.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
             if(license != null && expandRelations)

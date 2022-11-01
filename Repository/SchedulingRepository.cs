@@ -38,8 +38,11 @@ namespace MicroBeard.Repository
                 schedulingParameters.PageSize);
         }
 
-        public Scheduling GetSchedulingByCode(int code, bool expandRelations = false)
+        public Scheduling GetSchedulingByCode(int? code, bool expandRelations = false)
         {
+            if (code == null)
+                return null;
+
             Scheduling scheduling = _repositoryContext.Schedulings.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
             if(scheduling != null && expandRelations)

@@ -61,11 +61,11 @@ namespace MicroBeard.Controllers
         /// <response code="404">Não Encontrado. O código passado é inválido</response>
         /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "ServiceByCode")]
-        public IActionResult GetServiceByCode(int code)
+        public IActionResult GetServiceByCode(int code, [FromQuery] ServiceParameters serviceParameters)
         {
             try
             {
-                Service service = _repository.Service.GetServiceByCode(code, expandRelations: true);
+                Service service = _repository.Service.GetServiceByCode(code, expandRelations: serviceParameters.ExpandRelations);
 
                 if (service is null)
                 {
@@ -133,7 +133,7 @@ namespace MicroBeard.Controllers
         /// <response code="404">Não encontrado. O código passado é inválido</response>
         /// <response code="500">Ocorreu algum erro interno</response>
         [HttpPut("{code}")]
-        public IActionResult UpdateService(int code, [FromBody] ServiceUpdateDto service)
+        public IActionResult UpdateService(int code, [FromBody] ServiceUpdateDto service, [FromQuery] ServiceParameters serviceParameters)
         {
             try
             {
@@ -143,11 +143,17 @@ namespace MicroBeard.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model object");
 
-                Service serviceEntity = _repository.Service.GetServiceByCode(code, expandRelations: true);
+                Service serviceEntity = _repository.Service.GetServiceByCode(code, expandRelations: serviceParameters.ExpandRelations);
                 if (serviceEntity is null)
                     return NotFound();
 
                 _mapper.Map(service, serviceEntity);
+
+                if (service.Collaborators == null)
+                    _repository.UnchangeProperty(serviceEntity, "Collaborators");
+
+                if (service.Schedulings == null)
+                    _repository.UnchangeProperty(serviceEntity, "Schedulings");
 
                 serviceEntity.UpdateDate = DateTime.Now;
                 serviceEntity.UpdaterCode = CollaboratorCode;

@@ -63,11 +63,11 @@ namespace MicroBeard.Controllers
         /// <response code="404">Não Encontrado. O código passado é inválido</response>
         /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "LicenseByCode")]
-        public IActionResult GetLicenseByCode(int code)
+        public IActionResult GetLicenseByCode(int code, [FromQuery] LicenseParameters licenseParameters)
         {
             try
             {
-                License license = _repository.License.GetLicenseByCode(code, expandRelations: true);
+                License license = _repository.License.GetLicenseByCode(code, expandRelations: licenseParameters.ExpandRelations);
 
                 if (license is null)
                     return NotFound();
@@ -131,7 +131,7 @@ namespace MicroBeard.Controllers
         /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
         [HttpPut("{code}")]
-        public IActionResult UpdateLicense(int code, [FromBody] LicenseUpdateDto license)
+        public IActionResult UpdateLicense(int code, [FromBody] LicenseUpdateDto license, [FromQuery] LicenseParameters licenseParameters)
         {
             try
             {
@@ -141,13 +141,16 @@ namespace MicroBeard.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model object");
 
-                License licenseEntity = _repository.License.GetLicenseByCode(code, expandRelations: true);
+                License licenseEntity = _repository.License.GetLicenseByCode(code, expandRelations: licenseParameters.ExpandRelations);
                 if (licenseEntity is null)
                 {
                     return NotFound();
                 }
 
                 _mapper.Map(license, licenseEntity);
+
+                if (license.Collaborators == null)
+                    _repository.UnchangeProperty(licenseEntity, "Collaborators");
 
                 licenseEntity.UpdateDate = DateTime.Now;
                 licenseEntity.UpdaterCode = CollaboratorCode;

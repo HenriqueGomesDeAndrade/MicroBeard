@@ -36,8 +36,11 @@ namespace MicroBeard.Repository
                 collaboratorParameters.PageSize);
         }
 
-        public Collaborator GetCollaboratorByCode(int code, bool expandRelations = false)
+        public Collaborator GetCollaboratorByCode(int? code, bool expandRelations = false)
         {
+            if (code == null)
+                return null;
+
             Collaborator collaborator = _repositoryContext.Collaborators.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
             if (collaborator != null && expandRelations)

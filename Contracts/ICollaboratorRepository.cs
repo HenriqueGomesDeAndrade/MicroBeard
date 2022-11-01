@@ -7,7 +7,7 @@ namespace MicroBeard.Contracts
     public interface ICollaboratorRepository
     {
         PagedList<Collaborator> GetAllCollaborators(CollaboratorParameters collaboratorParameters);
-        Collaborator GetCollaboratorByCode(int code, bool expandRelations = false);
+        Collaborator GetCollaboratorByCode(int? code, bool expandRelations = false);
         public Collaborator GetCollaboratorByEmail(string email);
         void CreateCollaborator(Collaborator collaborator);
         void UpdateCollaborator(Collaborator collaborator);

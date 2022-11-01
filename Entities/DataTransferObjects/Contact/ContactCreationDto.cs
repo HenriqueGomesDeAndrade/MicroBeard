@@ -1,4 +1,5 @@
 ﻿using MicroBeard.Attributes;
+using MicroBeard.Entities.DataTransferObjects.Scheduling;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 
@@ -39,5 +40,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
 
         [DateFormatValidator]
         public DateTime? BirthDate { get; set; }
+
+        public ICollection<SimpleSchedulingDto> Schedulings { get; set; }
     }
 }

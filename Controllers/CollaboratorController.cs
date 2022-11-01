@@ -69,11 +69,11 @@ namespace MicroBeard.Controllers
         /// <response code="404">Não Encontrado. O código passado é inválido</response>
         /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "CollaboratorByCode")]
-        public IActionResult GetCollaboratorByCode(int code)
+        public IActionResult GetCollaboratorByCode(int code, [FromQuery] CollaboratorParameters collaboratorParameters)
         {
             try
             {
-                Collaborator collaborator = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: true);
+                Collaborator collaborator = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: collaboratorParameters.ExpandRelations);
 
                 if (collaborator is null)
                     return NotFound();
@@ -138,6 +138,7 @@ namespace MicroBeard.Controllers
         /// </summary>
         /// <remarks>
         /// A senha pode ser passada opcionalmente para realizar a sua alteração.
+        /// O Array de Licenses e Services pode ser passado opcionalmente.
         /// </remarks>
         /// <response code="200">Sucesso</response>
         /// <response code="400">Algo está errado no modelo</response>
@@ -146,7 +147,7 @@ namespace MicroBeard.Controllers
         /// <response code="500">Ocorreu algum erro interno</response>
         [Authorize(Roles = "CollaboratorAdmin")]
         [HttpPut("{code}")]
-        public IActionResult UpdateCollaborator(int code, [FromBody] CollaboratorUpdateDto collaborator)
+        public IActionResult UpdateCollaborator(int code, [FromBody] CollaboratorUpdateDto collaborator, [FromQuery] CollaboratorParameters collaboratorParameters)
         {
             try
             {
@@ -156,7 +157,7 @@ namespace MicroBeard.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model object");
 
-                Collaborator collaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: true);
+                Collaborator collaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: collaboratorParameters.ExpandRelations);
                 if (collaboratorEntity is null)
                     return NotFound();
 
@@ -168,6 +169,12 @@ namespace MicroBeard.Controllers
                 }
 
                 _mapper.Map(collaborator, collaboratorEntity);
+
+                if (collaborator.Licenses == null)
+                    _repository.UnchangeProperty(collaboratorEntity, "Licenses");
+
+                if (collaborator.Services == null)
+                    _repository.UnchangeProperty(collaboratorEntity, "Services");
 
                 if (collaborator.Password == null)
                     _repository.UnchangeProperty(collaboratorEntity, "Password");

@@ -69,11 +69,11 @@ namespace MicroBeard.Controllers
         /// <response code="404">Não Encontrado. O código passado é inválido</response>
         /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "ContactByCode")]
-        public IActionResult GetContactByCode(int code)
+        public IActionResult GetContactByCode(int code, [FromQuery] ContactParameters contactParameters)
         {
             try
             {
-                Contact contact = _repository.Contact.GetContactByCode(code, expandRelations: true);
+                Contact contact = _repository.Contact.GetContactByCode(code, expandRelations: contactParameters.ExpandRelations);
 
                 if (contact is null)
                     return NotFound();
@@ -146,7 +146,7 @@ namespace MicroBeard.Controllers
         /// <response code="404">Não encontrado. O código passado é inválido</response>
         /// <response code="500">Ocorreu algum erro interno</response>
         [HttpPut("{code}")]
-        public IActionResult UpdateContact(int code, [FromBody] ContactUpdateDto contact)
+        public IActionResult UpdateContact(int code, [FromBody] ContactUpdateDto contact, [FromQuery] ContactParameters contactParameters)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace MicroBeard.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model object");
 
-                Contact contactEntity = _repository.Contact.GetContactByCode(code, expandRelations: true);
+                Contact contactEntity = _repository.Contact.GetContactByCode(code, expandRelations: contactParameters.ExpandRelations);
                 if (contactEntity is null)
                     return NotFound();
 
@@ -164,6 +164,9 @@ namespace MicroBeard.Controllers
                     return Unauthorized();
 
                 _mapper.Map(contact, contactEntity);
+
+                if (contact.Schedulings == null)
+                    _repository.UnchangeProperty(contactEntity, "Schedulings");
 
                 if (contact.Password == null)
                     _repository.UnchangeProperty(contactEntity, "Password");

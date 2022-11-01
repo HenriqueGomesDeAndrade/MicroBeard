@@ -16,25 +16,25 @@ namespace MicroBeard.Helpers
         {
             //Contact
             CreateMap<Contact, ContactDto>();
-            CreateMap<Contact, SimpleContactDto>();
+            CreateMap<Contact, SimpleContactDto>().ReverseMap();
             CreateMap<ContactCreationDto, Contact>();
             CreateMap<ContactUpdateDto, Contact>();
 
             //Collaborator
             CreateMap<Collaborator, CollaboratorDto>();
-            CreateMap<Collaborator, SimpleCollaboratorDto>();
+            CreateMap<Collaborator, SimpleCollaboratorDto>().ReverseMap();
             CreateMap<CollaboratorCreationDto, Collaborator>();
             CreateMap<CollaboratorUpdateDto, Collaborator>();
 
             //License
             CreateMap<License, LicenseDto>();
-            CreateMap<License, SimpleLicenseDto>();
+            CreateMap<License, SimpleLicenseDto>().ReverseMap();
             CreateMap<LicenseCreationDto, License>();
             CreateMap<LicenseUpdateDto, License>();
 
             //Service
             CreateMap<Service, ServiceDto>();
-            CreateMap<Service, SimpleServiceDto>();
+            CreateMap<Service, SimpleServiceDto>().ReverseMap();
             CreateMap<ServiceCreationDto, Service>();
             CreateMap<ServiceUpdateDto, Service>();
 
@@ -42,7 +42,7 @@ namespace MicroBeard.Helpers
             CreateMap<Scheduling, SchedulingDto>()
                 .ForMember(dest => dest.Services, opt => opt.MapFrom(src => src.ServiceCodeNavigation))
                 .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => src.ContactCodeNavigation));
-            CreateMap<Scheduling, SimpleSchedulingDto>();
+            CreateMap<Scheduling, SimpleSchedulingDto>().ReverseMap();
             CreateMap<SchedulingCreationDto, Scheduling>();
             CreateMap<SchedulingUpdateDto, Scheduling>();
         }

@@ -37,8 +37,11 @@ namespace MicroBeard.Repository
                 contactParameters.PageSize);
         }
 
-        public Contact GetContactByCode(int code, bool expandRelations = false)
+        public Contact GetContactByCode(int? code, bool expandRelations = false)
         {
+            if (code == null)
+                return null;
+
             Contact contact = _repositoryContext.Contacts.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
             if (contact != null && expandRelations)

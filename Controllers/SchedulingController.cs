@@ -65,11 +65,11 @@ namespace MicroBeard.Controllers
         /// <response code="404">Não Encontrado. O código passado é inválido</response>
         /// <response code="500">Ocorreu algum erro interno</response>
         [HttpGet("{code}", Name = "SchedulingByCode")]
-        public IActionResult GetSchedulingByCode(int code)
+        public IActionResult GetSchedulingByCode(int code, [FromQuery] SchedulingParameters schedulingParameters)
         {
             try
             {
-                Scheduling scheduling = _repository.Scheduling.GetSchedulingByCode(code, expandRelations: true);
+                Scheduling scheduling = _repository.Scheduling.GetSchedulingByCode(code, expandRelations: schedulingParameters.ExpandRelations);
 
                 if (scheduling is null)
                     return NotFound();
@@ -108,16 +108,16 @@ namespace MicroBeard.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model object");
 
-                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode);
+                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode ?? scheduling.Contact.Code);
                 if (contactCheck == null)
-                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode}");
+                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode ?? scheduling.Contact.Code}");
 
-                if (ContactCode != null && scheduling.ContactCode != ContactCode)
+                if (ContactCode != null && (scheduling.ContactCode ?? scheduling.Contact.Code) != ContactCode)
                     return Unauthorized();
 
-                Service ServiceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
+                Service ServiceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode ?? scheduling.Service.Code);
                 if (ServiceCheck == null)
-                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
+                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode ?? scheduling.Service.Code}");
 
 
                 Scheduling schedulingEntity = _mapper.Map<Scheduling>(scheduling);
@@ -150,7 +150,7 @@ namespace MicroBeard.Controllers
         /// <response code="404">Não encontrado. Código do contado ou cliente inválido</response>
         /// <response code="500">Ocorreu algum erro interno</response>
         [HttpPut("{code}")]
-        public IActionResult UpdateScheduling(int code, [FromBody] SchedulingUpdateDto scheduling)
+        public IActionResult UpdateScheduling(int code, [FromBody] SchedulingUpdateDto scheduling, [FromQuery] SchedulingParameters schedulingParameters)
         {
             try
             {
@@ -160,22 +160,28 @@ namespace MicroBeard.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model object");
 
-                Scheduling schedulingEntity = _repository.Scheduling.GetSchedulingByCode(code, expandRelations: true);
+                Scheduling schedulingEntity = _repository.Scheduling.GetSchedulingByCode(code, expandRelations: schedulingParameters.ExpandRelations);
                 if (schedulingEntity is null)
                     return NotFound();
 
-                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode);
+                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode ?? scheduling.Contact.Code);
                 if (contactCheck == null)
-                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode}");
+                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode ?? scheduling.Contact.Code}");
 
-                if (ContactCode != null && scheduling.ContactCode != ContactCode)
+                if (ContactCode != null && (scheduling.ContactCode ?? scheduling.Contact.Code) != ContactCode)
                     return Unauthorized();
 
-                Service serviceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
+                Service serviceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode ?? scheduling.Service.Code);
                 if (serviceCheck == null)
-                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
+                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode ?? scheduling.Service.Code}");
 
                 _mapper.Map(scheduling, schedulingEntity);
+
+                if (scheduling.Contact == null)
+                    _repository.UnchangeProperty(schedulingEntity, "Contact");
+
+                if (scheduling.Service == null)
+                    _repository.UnchangeProperty(schedulingEntity, "Service");
 
                 schedulingEntity.UpdateDate = DateTime.Now;
                 schedulingEntity.UpdaterCode = CollaboratorCode;

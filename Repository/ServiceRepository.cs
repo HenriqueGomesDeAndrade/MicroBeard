@@ -36,8 +36,11 @@ namespace MicroBeard.Repository
                 serviceParameters.PageSize);
         }
 
-        public Service GetServiceByCode(int code, bool expandRelations = false)
+        public Service GetServiceByCode(int? code, bool expandRelations = false)
         {
+            if (code == null)
+                return null;
+
             Service service = _repositoryContext.Services.Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
             if (service != null && expandRelations)

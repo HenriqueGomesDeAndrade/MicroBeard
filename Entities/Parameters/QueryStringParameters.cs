@@ -19,5 +19,8 @@
         }
 
         public string OrderBy { get; set; }
+
+        public bool ExpandRelations { get; set; } = true;
+
     }
 }

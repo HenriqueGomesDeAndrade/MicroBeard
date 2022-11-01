@@ -1,4 +1,6 @@
 ﻿using MicroBeard.Attributes;
+using MicroBeard.Entities.DataTransferObjects.License;
+using MicroBeard.Entities.DataTransferObjects.Service;
 using System.ComponentModel.DataAnnotations;
 
 namespace MicroBeard.Entities.DataTransferObjects.Collaborator
@@ -42,5 +44,8 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
         public decimal? Commision { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        public ICollection<SimpleLicenseDto> Licenses { get; set; }
+        public ICollection<SimpleServiceDto> Services { get; set; }
     }
 }
