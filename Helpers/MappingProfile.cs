@@ -7,6 +7,8 @@ using MicroBeard.Entities.DataTransferObjects.Scheduling;
 
 using MicroBeard.Entities.Models;
 using System.Net;
+using AutoMapper.EquivalencyExpression;
+using AutoMapper.Mappers;
 
 namespace MicroBeard.Helpers
 {
@@ -16,25 +18,27 @@ namespace MicroBeard.Helpers
         {
             //Contact
             CreateMap<Contact, ContactDto>();
-            CreateMap<Contact, SimpleContactDto>().ReverseMap();
+            CreateMap<Contact, SimpleContactDto>().ReverseMap().EqualityComparison((odto, o) => odto.Code == o.Code);
             CreateMap<ContactCreationDto, Contact>();
             CreateMap<ContactUpdateDto, Contact>();
 
             //Collaborator
             CreateMap<Collaborator, CollaboratorDto>();
-            CreateMap<Collaborator, SimpleCollaboratorDto>().ReverseMap();
+            CreateMap<Collaborator, SimpleCollaboratorDto>().ReverseMap().EqualityComparison((odto, o) => odto.Code == o.Code);
             CreateMap<CollaboratorCreationDto, Collaborator>();
-            CreateMap<CollaboratorUpdateDto, Collaborator>();
+            CreateMap<CollaboratorUpdateDto, Collaborator>()
+                .ForMember(c => c.Licenses, domain => domain.Ignore())
+                .ForMember(c => c.Services, domain => domain.Ignore());
 
             //License
             CreateMap<License, LicenseDto>();
-            CreateMap<License, SimpleLicenseDto>().ReverseMap();
+            CreateMap<License, SimpleLicenseDto>().ReverseMap().EqualityComparison((odto, o) => odto.Code == o.Code);
             CreateMap<LicenseCreationDto, License>();
             CreateMap<LicenseUpdateDto, License>();
 
             //Service
             CreateMap<Service, ServiceDto>();
-            CreateMap<Service, SimpleServiceDto>().ReverseMap();
+            CreateMap<Service, SimpleServiceDto>().ReverseMap().EqualityComparison((odto, o) => odto.Code == o.Code);
             CreateMap<ServiceCreationDto, Service>();
             CreateMap<ServiceUpdateDto, Service>();
 

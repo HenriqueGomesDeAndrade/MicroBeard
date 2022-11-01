@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MicroBeard.Entities.Models
 {
@@ -9,7 +10,7 @@ namespace MicroBeard.Entities.Models
         {
             Collaborators = new HashSet<Collaborator>();
         }
-
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Code { get; set; }
         public string Description { get; set; }
         public DateTime? CreateDate { get; set; }

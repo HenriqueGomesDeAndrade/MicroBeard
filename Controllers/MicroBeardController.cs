@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal;
+using AutoMapper.Internal.Mappers;
 using MicroBeard.Contracts;
 using MicroBeard.Entities.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -21,10 +22,12 @@ namespace MicroBeard.Controllers
 
         protected readonly IRepositoryWrapper _repository;
         protected readonly IMapper _mapper;
-        public MicroBeardController(IRepositoryWrapper repository, IMapper mapper)
+        protected readonly IObjectMapper _objectMapper;
+        public MicroBeardController(IRepositoryWrapper repository, IMapper mapper, IObjectMapper objectMapper)
         {
             _repository = repository;
             _mapper = mapper;
+            _objectMapper = objectMapper;
         }
 
         

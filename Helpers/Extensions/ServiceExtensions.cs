@@ -1,4 +1,11 @@
-﻿using MicroBeard.Contracts;
+﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
+using MicroBeard.Contracts;
+using MicroBeard.Entities.DataTransferObjects.Collaborator;
+using MicroBeard.Entities.DataTransferObjects.Contact;
+using MicroBeard.Entities.DataTransferObjects.License;
+using MicroBeard.Entities.DataTransferObjects.Scheduling;
+using MicroBeard.Entities.DataTransferObjects.Service;
 using MicroBeard.Entities.Models;
 using MicroBeard.Helpers.Sort;
 using MicroBeard.Repository;
@@ -36,7 +43,10 @@ namespace MicroBeard.Extensions
         public static void ConfigureSqlServer(this IServiceCollection services, IConfiguration config)
         {
             string connectionString = config.GetConnectionString("MicroBeardCS");
-            services.AddDbContext<MicroBeardContext>(o => o.UseSqlServer(connectionString));
+            services.AddDbContext<MicroBeardContext>(o => {
+                o.UseSqlServer(connectionString)
+                .EnableSensitiveDataLogging().EnableDetailedErrors();
+                ; }, contextLifetime: ServiceLifetime.Scoped);
         }
 
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
@@ -108,6 +118,47 @@ namespace MicroBeard.Extensions
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, "MicroBeard.xml");
                 option.IncludeXmlComments(xmlPath);
             });
+        }
+
+        public static void ConfigureAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper((serviceProvider, automapper) =>
+            {
+                automapper.AddCollectionMappers();
+                automapper.UseEntityFrameworkCoreModel<MicroBeardContext>(serviceProvider);
+
+                //Contact
+                automapper.CreateMap<Contact, ContactDto>();
+                automapper.CreateMap<Contact, SimpleContactDto>().ReverseMap().EqualityComparison((odto, o) => odto.Code == o.Code);
+                automapper.CreateMap<ContactCreationDto, Contact>();
+                automapper.CreateMap<ContactUpdateDto, Contact>();
+
+                //Collaborator
+                automapper.CreateMap<Collaborator, CollaboratorDto>();
+                automapper.CreateMap<Collaborator, SimpleCollaboratorDto>().ReverseMap().EqualityComparison((odto, o) => odto.Code == o.Code);
+                automapper.CreateMap<CollaboratorCreationDto, Collaborator>();
+                automapper.CreateMap<CollaboratorUpdateDto, Collaborator>();
+
+                //License
+                automapper.CreateMap<License, LicenseDto>();
+                automapper.CreateMap<License, SimpleLicenseDto>().ReverseMap().EqualityComparison((odto, o) => odto.Code == o.Code);
+                automapper.CreateMap<LicenseCreationDto, License>();
+                automapper.CreateMap<LicenseUpdateDto, License>();
+
+                //Service
+                automapper.CreateMap<Service, ServiceDto>();
+                automapper.CreateMap<Service, SimpleServiceDto>().ReverseMap().EqualityComparison((odto, o) => odto.Code == o.Code);
+                automapper.CreateMap<ServiceCreationDto, Service>();
+                automapper.CreateMap<ServiceUpdateDto, Service>();
+
+                //Scheduling
+                automapper.CreateMap<Scheduling, SchedulingDto>()
+                    .ForMember(dest => dest.Services, opt => opt.MapFrom(src => src.ServiceCodeNavigation))
+                    .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => src.ContactCodeNavigation));
+                automapper.CreateMap<Scheduling, SimpleSchedulingDto>().ReverseMap();
+                automapper.CreateMap<SchedulingCreationDto, Scheduling>();
+                automapper.CreateMap<SchedulingUpdateDto, Scheduling>();
+            }, typeof(MicroBeardContext).Assembly);
         }
     }
 }

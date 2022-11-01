@@ -150,10 +150,10 @@ namespace MicroBeard.Controllers
                 _mapper.Map(service, serviceEntity);
 
                 if (service.Collaborators == null)
-                    _repository.UnchangeProperty(serviceEntity, "Collaborators");
+                    _repository.UnchangeCollection(serviceEntity, "Collaborators");
 
                 if (service.Schedulings == null)
-                    _repository.UnchangeProperty(serviceEntity, "Schedulings");
+                    _repository.UnchangeCollection(serviceEntity, "Schedulings");
 
                 serviceEntity.UpdateDate = DateTime.Now;
                 serviceEntity.UpdaterCode = CollaboratorCode;

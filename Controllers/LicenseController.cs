@@ -150,7 +150,7 @@ namespace MicroBeard.Controllers
                 _mapper.Map(license, licenseEntity);
 
                 if (license.Collaborators == null)
-                    _repository.UnchangeProperty(licenseEntity, "Collaborators");
+                    _repository.UnchangeCollection(licenseEntity, "Collaborators");
 
                 licenseEntity.UpdateDate = DateTime.Now;
                 licenseEntity.UpdaterCode = CollaboratorCode;

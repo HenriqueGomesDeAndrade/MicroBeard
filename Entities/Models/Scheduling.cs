@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MicroBeard.Entities.Models
 {
     public partial class Scheduling
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Code { get; set; }
         public int? ServiceCode { get; set; }
         public int? ContactCode { get; set; }

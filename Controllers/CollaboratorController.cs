@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using MicroBeard.Entities.Parameters;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace MicroBeard.Controllers
 {
@@ -156,8 +157,8 @@ namespace MicroBeard.Controllers
 
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model object");
-
-                Collaborator collaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: collaboratorParameters.ExpandRelations);
+                
+                Collaborator collaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code, true);
                 if (collaboratorEntity is null)
                     return NotFound();
 
@@ -168,13 +169,16 @@ namespace MicroBeard.Controllers
                         collaborator.IsAdmin = true;
                 }
 
-                _mapper.Map(collaborator, collaboratorEntity);
+
+                //var teste = _mapper.Map(collaborator.Services, collaboratorEntity.Services);
+                //var teste1 = _mapper.Map(collaborator.Licenses, collaboratorEntity.Licenses);
+                var teste2 = _mapper.Map(collaborator, collaboratorEntity);
 
                 if (collaborator.Licenses == null)
-                    _repository.UnchangeProperty(collaboratorEntity, "Licenses");
+                    _repository.UnchangeCollection(collaboratorEntity, "Licenses");
 
                 if (collaborator.Services == null)
-                    _repository.UnchangeProperty(collaboratorEntity, "Services");
+                    _repository.UnchangeCollection(collaboratorEntity, "Services");
 
                 if (collaborator.Password == null)
                     _repository.UnchangeProperty(collaboratorEntity, "Password");
@@ -187,6 +191,7 @@ namespace MicroBeard.Controllers
                 _repository.Collaborator.UpdateCollaborator(collaboratorEntity);
                 _repository.Save();
 
+                collaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: collaboratorParameters.ExpandRelations);
                 CollaboratorDto updatedCollaborator = _mapper.Map<CollaboratorDto>(collaboratorEntity);
 
                 return Ok(updatedCollaborator);

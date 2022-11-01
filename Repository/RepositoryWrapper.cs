@@ -2,6 +2,7 @@
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using MicroBeard.Helpers.Sort;
+using Microsoft.EntityFrameworkCore;
 
 namespace MicroBeard.Repository
 {
@@ -103,5 +104,33 @@ namespace MicroBeard.Repository
                 _repositoryContext.Entry(target).Property(propertyName).IsModified = false;
         }
 
+        public void UnchangeCollection(object target, string collectionName)
+        {
+            var isModified = _repositoryContext.Entry(target).Collection(collectionName).IsModified;
+            if (isModified)
+                _repositoryContext.Entry(target).Collection(collectionName).IsModified = false;
+        }
+
+        public void UnchangeReference(object target, string referencenName)
+        {
+            var isModified = _repositoryContext.Entry(target).Reference(referencenName).IsModified;
+            if (isModified)
+                _repositoryContext.Entry(target).Reference(referencenName).IsModified = false;
+        }
+
+        public void ChangeState<T>(object targets, EntityState state)
+        {
+            if (targets is HashSet<T>)
+            {
+                foreach (var target in targets as HashSet<T>)
+                {
+                    _repositoryContext.Entry(target).State = state;
+                }
+            }
+            else
+            {
+                _repositoryContext.Entry(targets).State = state;
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace MicroBeard.Contracts
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace MicroBeard.Contracts
 {
     public interface IRepositoryWrapper
     {
@@ -8,6 +10,10 @@
         ISchedulingRepository Scheduling { get; }
         IServiceRepository Service { get; }
         void UnchangeProperty(object target, string propertyName);
+        void UnchangeReference(object target, string referenceName);
+        void UnchangeCollection(object target, string collectionName);
+
+        void ChangeState<T>(object targets, EntityState state);
         void Save();
     }
 }

@@ -1,4 +1,5 @@
-﻿using MicroBeard.Contracts;
+﻿using AutoMapper.EntityFrameworkCore;
+using MicroBeard.Contracts;
 using MicroBeard.Entities;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
@@ -41,11 +42,12 @@ namespace MicroBeard.Repository
             if (code == null)
                 return null;
 
-            Collaborator collaborator = _repositoryContext.Collaborators.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
+            Collaborator collaborator = _repositoryContext.Collaborators.Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
             if (collaborator != null && expandRelations)
             {
-                _repositoryContext.Entry(collaborator).Collection(c => c.Licenses).Load();
+                if(_repositoryContext.Entry(collaborator).Collection(c => c.Licenses).IsLoaded != true)
+                    _repositoryContext.Entry(collaborator).Collection(c => c.Licenses).Load();
                 _repositoryContext.Entry(collaborator).Collection(c => c.Services).Load();
             }
 

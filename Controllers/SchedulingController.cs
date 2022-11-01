@@ -178,10 +178,10 @@ namespace MicroBeard.Controllers
                 _mapper.Map(scheduling, schedulingEntity);
 
                 if (scheduling.Contact == null)
-                    _repository.UnchangeProperty(schedulingEntity, "Contact");
+                    _repository.UnchangeReference(schedulingEntity, "Contact");
 
                 if (scheduling.Service == null)
-                    _repository.UnchangeProperty(schedulingEntity, "Service");
+                    _repository.UnchangeReference(schedulingEntity, "Service");
 
                 schedulingEntity.UpdateDate = DateTime.Now;
                 schedulingEntity.UpdaterCode = CollaboratorCode;

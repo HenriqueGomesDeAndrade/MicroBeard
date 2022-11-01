@@ -166,7 +166,7 @@ namespace MicroBeard.Controllers
                 _mapper.Map(contact, contactEntity);
 
                 if (contact.Schedulings == null)
-                    _repository.UnchangeProperty(contactEntity, "Schedulings");
+                    _repository.UnchangeCollection(contactEntity, "Schedulings");
 
                 if (contact.Password == null)
                     _repository.UnchangeProperty(contactEntity, "Password");
