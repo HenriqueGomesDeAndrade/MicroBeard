@@ -3,12 +3,14 @@ using AutoMapper.Internal;
 using MicroBeard.Contracts;
 using MicroBeard.Entities.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
 namespace MicroBeard.Controllers 
 {
+    [EnableCors("CorsPolicy")]
     [Consumes("application/json")]
     [Produces("application/json")]
     [Authorize(Roles ="Collaborator, Contact, CollaboratorAdmin")]

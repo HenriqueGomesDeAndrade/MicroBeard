@@ -20,7 +20,7 @@ namespace MicroBeard.Extensions
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyOrigin()
-                    .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                    .AllowAnyMethod()
                     .AllowAnyHeader());
             });
         }
