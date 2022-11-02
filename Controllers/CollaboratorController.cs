@@ -169,10 +169,7 @@ namespace MicroBeard.Controllers
                         collaborator.IsAdmin = true;
                 }
 
-
-                //var teste = _mapper.Map(collaborator.Services, collaboratorEntity.Services);
-                //var teste1 = _mapper.Map(collaborator.Licenses, collaboratorEntity.Licenses);
-                var teste2 = _mapper.Map(collaborator, collaboratorEntity);
+                _mapper.Map(collaborator, collaboratorEntity);
 
                 if (collaborator.Licenses == null)
                     _repository.UnchangeCollection(collaboratorEntity, "Licenses");
@@ -191,8 +188,9 @@ namespace MicroBeard.Controllers
                 _repository.Collaborator.UpdateCollaborator(collaboratorEntity);
                 _repository.Save();
 
-                collaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code, expandRelations: collaboratorParameters.ExpandRelations);
-                CollaboratorDto updatedCollaborator = _mapper.Map<CollaboratorDto>(collaboratorEntity);
+                _repository.ChangeState<Collaborator>(collaboratorEntity, EntityState.Detached);
+                var updatedCollaboratorEntity = _repository.Collaborator.GetCollaboratorByCode(code, collaboratorParameters.ExpandRelations);
+                CollaboratorDto updatedCollaborator = _mapper.Map<CollaboratorDto>(updatedCollaboratorEntity);
 
                 return Ok(updatedCollaborator);
             }

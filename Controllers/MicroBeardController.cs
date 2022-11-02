@@ -22,12 +22,10 @@ namespace MicroBeard.Controllers
 
         protected readonly IRepositoryWrapper _repository;
         protected readonly IMapper _mapper;
-        protected readonly IObjectMapper _objectMapper;
-        public MicroBeardController(IRepositoryWrapper repository, IMapper mapper, IObjectMapper objectMapper)
+        public MicroBeardController(IRepositoryWrapper repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
-            _objectMapper = objectMapper;
         }
 
         

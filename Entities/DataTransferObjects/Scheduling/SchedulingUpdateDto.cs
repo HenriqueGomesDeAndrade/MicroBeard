@@ -18,7 +18,5 @@ namespace MicroBeard.Entities.DataTransferObjects.Scheduling
         public int? ServiceCode { get; set; }
 
         public bool Cancelled { get; set; }
-        public SimpleContactDto Contact { get; set; }
-        public SimpleServiceDto Service { get; set; }
     }
 }

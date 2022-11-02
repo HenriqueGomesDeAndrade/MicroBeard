@@ -34,8 +34,5 @@ namespace MicroBeard.Entities.DataTransferObjects.Contact
         [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
             ErrorMessage = "Invalid Password. It must have more than 8 characters, at least one uppercase, one lowercase, one digit and one special character")]
         public string Password { get; set; }
-
-        public ICollection<SimpleSchedulingDto> Schedulings { get; set; }
-
     }
 }

@@ -10,8 +10,7 @@ builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureSqlServer(builder.Configuration);
 builder.Services.ConfigureRepositoryWrapper();
-builder.Services.AddAutoMapper(typeof(Program)); ;
-
+builder.Services.ConfigureAutoMapper();
 builder.Services.AddControllers()
     .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 

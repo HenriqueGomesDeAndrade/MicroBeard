@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using AutoMapper.Internal.Mappers;
 using MicroBeard.Contracts;
+using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.DataTransferObjects.License;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Data;
 
@@ -158,7 +161,11 @@ namespace MicroBeard.Controllers
                 _repository.License.UpdateLicense(licenseEntity);
                 _repository.Save();
 
-                return Ok(licenseEntity);
+                _repository.ChangeState<License>(licenseEntity, EntityState.Detached);
+                var updatedLicenseEntity = _repository.License.GetLicenseByCode(code, licenseParameters.ExpandRelations);
+                LicenseDto updatedLicense = _mapper.Map<LicenseDto>(updatedLicenseEntity);
+
+                return Ok(updatedLicense);
             }
             catch (Exception ex)
             {

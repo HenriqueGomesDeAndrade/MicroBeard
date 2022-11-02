@@ -42,7 +42,7 @@ namespace MicroBeard.Repository
             if (code == null)
                 return null;
 
-            Contact contact = _repositoryContext.Contacts.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
+            Contact contact = _repositoryContext.Contacts.Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
             if (contact != null && expandRelations)
                 _repositoryContext.Entry(contact).Collection(c => c.Schedulings).Load();

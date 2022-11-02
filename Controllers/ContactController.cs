@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using AutoMapper.Internal.Mappers;
 using MicroBeard.Contracts;
+using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
@@ -31,7 +33,7 @@ namespace MicroBeard.Controllers
         /// <response code="200">Sucesso</response>
         /// <response code="401">Sem autorização. Apenas colaboradores estão autorizados. Se for um cliente utilize o endpoint Contacts/Code</response>
         /// <response code="500">Ocorreu algum erro interno</response>
-        [Authorize(Roles = "Collaborator, CollaboratorAdmin")]
+        [Authorize(Roles = "Contact, ContactAdmin")]
         [HttpGet]
         public IActionResult GetAllContacts([FromQuery] ContactParameters contactParameters)
         {
@@ -117,7 +119,7 @@ namespace MicroBeard.Controllers
                 contactEntity.PasswordSaltGUID = guid.ToString();
 
                 contactEntity.CreateDate = DateTime.Now;
-                contactEntity.CreatorCode = CollaboratorCode;
+                contactEntity.CreatorCode = ContactCode;
 
                 _repository.Contact.CreateContact(contactEntity);
                 _repository.Save();
@@ -165,23 +167,22 @@ namespace MicroBeard.Controllers
 
                 _mapper.Map(contact, contactEntity);
 
-                if (contact.Schedulings == null)
-                    _repository.UnchangeCollection(contactEntity, "Schedulings");
-
                 if (contact.Password == null)
                     _repository.UnchangeProperty(contactEntity, "Password");
                 else
                     contactEntity.Password = PasswordManager.EncryptPassword(contact.Password + contactEntity.PasswordSaltGUID);
 
                 contactEntity.UpdateDate = DateTime.Now;
-                contactEntity.UpdaterCode = CollaboratorCode;
+                contactEntity.UpdaterCode = ContactCode;
 
                 _repository.Contact.UpdateContact(contactEntity);
                 _repository.Save();
 
-                ContactDto contactResult = _mapper.Map<ContactDto>(contactEntity);
+                _repository.ChangeState<Contact>(contactEntity, EntityState.Detached);
+                var updatedContactEntity = _repository.Contact.GetContactByCode(code, contactParameters.ExpandRelations);
+                ContactDto updatedContact = _mapper.Map<ContactDto>(updatedContactEntity);
 
-                return Ok(contactResult);
+                return Ok(updatedContact);
             }
             catch (Exception ex)
             {
@@ -210,7 +211,7 @@ namespace MicroBeard.Controllers
                     return Unauthorized();
 
                 contact.DeleteDate = DateTime.Now;
-                contact.DeleterCode = CollaboratorCode;
+                contact.DeleterCode = ContactCode;
                 contact.Deleted = true;
 
                 _repository.Contact.UpdateContact(contact);

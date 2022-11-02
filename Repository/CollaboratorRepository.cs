@@ -46,8 +46,7 @@ namespace MicroBeard.Repository
 
             if (collaborator != null && expandRelations)
             {
-                if(_repositoryContext.Entry(collaborator).Collection(c => c.Licenses).IsLoaded != true)
-                    _repositoryContext.Entry(collaborator).Collection(c => c.Licenses).Load();
+                _repositoryContext.Entry(collaborator).Collection(c => c.Licenses).Load();
                 _repositoryContext.Entry(collaborator).Collection(c => c.Services).Load();
             }
 

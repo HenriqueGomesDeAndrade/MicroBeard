@@ -39,7 +39,7 @@ namespace MicroBeard.Repository
             if (code == null)
                 return null;
 
-            License license = _repositoryContext.Licenses.AsNoTracking().Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
+            License license = _repositoryContext.Licenses.Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
             if(license != null && expandRelations)
                 _repositoryContext.Entry(license).Collection(c => c.Collaborators).Load();

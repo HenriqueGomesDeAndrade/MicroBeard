@@ -106,6 +106,7 @@ namespace MicroBeard.Repository
 
         public void UnchangeCollection(object target, string collectionName)
         {
+            var collection = _repositoryContext.Entry(target).Collection(collectionName);
             var isModified = _repositoryContext.Entry(target).Collection(collectionName).IsModified;
             if (isModified)
                 _repositoryContext.Entry(target).Collection(collectionName).IsModified = false;

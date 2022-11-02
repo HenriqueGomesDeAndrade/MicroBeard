@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EntityFrameworkCore;
 using AutoMapper.EquivalencyExpression;
 using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Collaborator;
@@ -159,6 +160,8 @@ namespace MicroBeard.Extensions
                 automapper.CreateMap<SchedulingCreationDto, Scheduling>();
                 automapper.CreateMap<SchedulingUpdateDto, Scheduling>();
             }, typeof(MicroBeardContext).Assembly);
+
+            ServiceProvider service = services.BuildServiceProvider();
         }
     }
 }

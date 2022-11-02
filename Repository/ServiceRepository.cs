@@ -4,6 +4,7 @@ using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
 using MicroBeard.Helpers.Sort;
+using System.Collections;
 using System.ComponentModel;
 using System.Data.Entity;
 
@@ -49,6 +50,12 @@ namespace MicroBeard.Repository
                 _repositoryContext.Entry(service).Collection(c => c.Collaborators).Load();
             }
 
+            var collection = _repositoryContext.Entry(service).Collection("Schedulings");
+            var collection2 = _repositoryContext.Entry(service).Collection("Collaborators");
+
+
+
+            _repositoryContext.Attach(service);
             return service;
         }
 

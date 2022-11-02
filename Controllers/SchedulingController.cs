@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using MicroBeard.Contracts;
+using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.DataTransferObjects.Scheduling;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Data.Entity;
 
 namespace MicroBeard.Controllers
 {
@@ -108,16 +109,16 @@ namespace MicroBeard.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model object");
 
-                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode ?? scheduling.Contact.Code);
+                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode);
                 if (contactCheck == null)
-                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode ?? scheduling.Contact.Code}");
+                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode}");
 
-                if (ContactCode != null && (scheduling.ContactCode ?? scheduling.Contact.Code) != ContactCode)
+                if (ContactCode != null && scheduling.ContactCode != ContactCode)
                     return Unauthorized();
 
-                Service ServiceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode ?? scheduling.Service.Code);
+                Service ServiceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
                 if (ServiceCheck == null)
-                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode ?? scheduling.Service.Code}");
+                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
 
 
                 Scheduling schedulingEntity = _mapper.Map<Scheduling>(scheduling);
@@ -164,24 +165,18 @@ namespace MicroBeard.Controllers
                 if (schedulingEntity is null)
                     return NotFound();
 
-                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode ?? scheduling.Contact.Code);
+                Contact contactCheck = _repository.Contact.GetContactByCode(scheduling.ContactCode);
                 if (contactCheck == null)
-                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode ?? scheduling.Contact.Code}");
+                    return NotFound($"Unable to find the Contact code {scheduling.ContactCode}");
 
-                if (ContactCode != null && (scheduling.ContactCode ?? scheduling.Contact.Code) != ContactCode)
+                if (ContactCode != null && scheduling.ContactCode != ContactCode)
                     return Unauthorized();
 
-                Service serviceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode ?? scheduling.Service.Code);
+                Service serviceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
                 if (serviceCheck == null)
-                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode ?? scheduling.Service.Code}");
+                    return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
 
                 _mapper.Map(scheduling, schedulingEntity);
-
-                if (scheduling.Contact == null)
-                    _repository.UnchangeReference(schedulingEntity, "Contact");
-
-                if (scheduling.Service == null)
-                    _repository.UnchangeReference(schedulingEntity, "Service");
 
                 schedulingEntity.UpdateDate = DateTime.Now;
                 schedulingEntity.UpdaterCode = CollaboratorCode;
@@ -191,7 +186,9 @@ namespace MicroBeard.Controllers
                 _repository.Scheduling.UpdateScheduling(schedulingEntity);
                 _repository.Save();
 
-                SchedulingDto updatedScheduling = _mapper.Map<SchedulingDto>(schedulingEntity);
+                _repository.ChangeState<Scheduling>(schedulingEntity, EntityState.Detached);
+                var updatedSchedulingEntity = _repository.Scheduling.GetSchedulingByCode(code, schedulingParameters.ExpandRelations);
+                SchedulingDto updatedScheduling = _mapper.Map<SchedulingDto>(updatedSchedulingEntity);
 
                 return Ok(updatedScheduling);
             }

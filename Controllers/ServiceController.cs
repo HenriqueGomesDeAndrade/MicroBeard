@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MicroBeard.Contracts;
+using MicroBeard.Entities.DataTransferObjects.Collaborator;
 using MicroBeard.Entities.DataTransferObjects.Service;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace MicroBeard.Controllers
@@ -158,10 +160,16 @@ namespace MicroBeard.Controllers
                 serviceEntity.UpdateDate = DateTime.Now;
                 serviceEntity.UpdaterCode = CollaboratorCode;
 
+                var updatedServiceEntity = _repository.Service.GetServiceByCode(code, serviceParameters.ExpandRelations);
+
+
                 _repository.Service.UpdateService(serviceEntity);
                 _repository.Save();
 
-                return Ok(serviceEntity);
+                //_repository.ChangeState<Service>(serviceEntity, EntityState.Detached);
+                ServiceDto updatedCollaborator = _mapper.Map<ServiceDto>(updatedServiceEntity);
+
+                return Ok(updatedCollaborator);
             }
             catch (Exception ex)
             {

@@ -43,7 +43,7 @@ namespace MicroBeard.Repository
             if (code == null)
                 return null;
 
-            Scheduling scheduling = _repositoryContext.Schedulings.AsNoTracking().Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
+            Scheduling scheduling = _repositoryContext.Schedulings.Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
             if(scheduling != null && expandRelations)
             {
