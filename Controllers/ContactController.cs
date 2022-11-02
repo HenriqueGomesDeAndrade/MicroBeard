@@ -33,7 +33,7 @@ namespace MicroBeard.Controllers
         /// <response code="200">Sucesso</response>
         /// <response code="401">Sem autorização. Apenas colaboradores estão autorizados. Se for um cliente utilize o endpoint Contacts/Code</response>
         /// <response code="500">Ocorreu algum erro interno</response>
-        [Authorize(Roles = "Contact, ContactAdmin")]
+        [Authorize(Roles = "CollaboratorAdmin, Collaborator")]
         [HttpGet]
         public IActionResult GetAllContacts([FromQuery] ContactParameters contactParameters)
         {
