@@ -2,7 +2,6 @@
 using AutoMapper.Internal.Mappers;
 using MicroBeard.Contracts;
 using MicroBeard.Entities.DataTransferObjects.Contact;
-using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.Parameters;
 using MicroBeard.Helpers;
@@ -13,6 +12,8 @@ using Newtonsoft.Json;
 using System.Configuration;
 using System.Data.Entity.Core.Common.CommandTrees;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+
 
 namespace MicroBeard.Controllers
 {
