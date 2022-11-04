@@ -167,7 +167,7 @@ namespace MicroBeard.Controllers
 
                 _mapper.Map(contact, contactEntity);
 
-                if (contact.Password == null)
+                if (contact.Password.IsNullOrEmpty())
                     _repository.UnchangeProperty(contactEntity, "Password");
                 else
                     contactEntity.Password = PasswordManager.EncryptPassword(contact.Password + contactEntity.PasswordSaltGUID);

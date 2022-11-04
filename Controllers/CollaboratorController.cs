@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using MicroBeard.Entities.Parameters;
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MicroBeard.Controllers
 {
@@ -177,7 +178,7 @@ namespace MicroBeard.Controllers
                 if (collaborator.Services == null)
                     _repository.UnchangeCollection(collaboratorEntity, "Services");
 
-                if (collaborator.Password == null)
+                if (collaborator.Password.IsNullOrEmpty())
                     _repository.UnchangeProperty(collaboratorEntity, "Password");
                 else
                     collaboratorEntity.Password = PasswordManager.EncryptPassword(collaborator.Password + collaboratorEntity.PasswordSaltGUID);
