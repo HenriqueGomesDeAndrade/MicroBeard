@@ -120,7 +120,7 @@ namespace MicroBeard.Controllers
                 contactEntity.PasswordSaltGUID = guid.ToString();
 
                 contactEntity.CreateDate = DateTime.Now;
-                contactEntity.CreatorCode = ContactCode;
+                contactEntity.CreatorCode = CollaboratorCode;
 
                 _repository.Contact.CreateContact(contactEntity);
                 _repository.Save();
@@ -174,7 +174,7 @@ namespace MicroBeard.Controllers
                     contactEntity.Password = PasswordManager.EncryptPassword(contact.Password + contactEntity.PasswordSaltGUID);
 
                 contactEntity.UpdateDate = DateTime.Now;
-                contactEntity.UpdaterCode = ContactCode;
+                contactEntity.UpdaterCode = CollaboratorCode;
 
                 _repository.Contact.UpdateContact(contactEntity);
                 _repository.Save();
