@@ -10,6 +10,7 @@ namespace MicroBeard.Entities.Models
         {
             Licenses = new HashSet<License>();
             Services = new HashSet<Service>();
+            Schedulings = new HashSet<Scheduling>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -37,6 +38,6 @@ namespace MicroBeard.Entities.Models
 
         public virtual ICollection<License> Licenses { get; set; }
         public virtual ICollection<Service> Services { get; set; }
-
+        public virtual ICollection<Scheduling> Schedulings { get; set; }
     }
 }

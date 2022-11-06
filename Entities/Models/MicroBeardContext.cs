@@ -118,6 +118,11 @@ namespace MicroBeard.Entities.Models
                     .WithMany(p => p.Schedulings)
                     .HasForeignKey(d => d.ServiceCode)
                     .HasConstraintName("FK_Scheduling_Service_Code");
+
+                entity.HasOne(d => d.CollaboratorCodeNavigation)
+                    .WithMany(p => p.Schedulings)
+                    .HasForeignKey(d => d.CollaboratorCode)
+                    .HasConstraintName("FK_Scheduling_Collaborator_Code");
             });
 
             modelBuilder.Entity<Service>(entity =>
@@ -139,6 +144,11 @@ namespace MicroBeard.Entities.Models
                 entity.Property(e => e.Type)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.LicenseCodeNavigation)
+                    .WithMany(p => p.Services)
+                    .HasForeignKey(d => d.LicenseCode)
+                    .HasConstraintName("FK_Service_License_Code");
             });
 
             OnModelCreatingPartial(modelBuilder);

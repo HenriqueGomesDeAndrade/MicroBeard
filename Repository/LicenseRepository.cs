@@ -48,6 +48,12 @@ namespace MicroBeard.Repository
                     foreach (var collaborator in license.Collaborators)
                         if (collaborator.Desactivated == true)
                             license.Collaborators.Remove(collaborator);
+
+                _repositoryContext.Entry(license).Collection(c => c.Services).Load();
+                if (license.Services != null)
+                    foreach (var service in license.Services)
+                        if (service.Deleted == true)
+                            license.Services.Remove(service);
             }
                 
 

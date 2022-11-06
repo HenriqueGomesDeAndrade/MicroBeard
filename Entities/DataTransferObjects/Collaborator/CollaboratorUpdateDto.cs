@@ -39,7 +39,10 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
 
         public bool IsAdmin { get; set; }
 
+        [Required(ErrorMessage = "Licenses is required")]
         public ICollection<SimpleLicenseDto> Licenses { get; set; }
+
+        [Required(ErrorMessage = "Services is required")]
         public ICollection<SimpleServiceDto> Services { get; set; }
 
     }

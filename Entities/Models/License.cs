@@ -9,6 +9,7 @@ namespace MicroBeard.Entities.Models
         public License()
         {
             Collaborators = new HashSet<Collaborator>();
+            Services = new HashSet<Service>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Code { get; set; }
@@ -22,5 +23,6 @@ namespace MicroBeard.Entities.Models
         public bool? Desactivated { get; set; }
 
         public virtual ICollection<Collaborator> Collaborators { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
     }
 }

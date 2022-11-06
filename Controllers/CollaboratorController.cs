@@ -13,6 +13,9 @@ using MicroBeard.Entities.Parameters;
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations.Schema;
+using MicroBeard.Entities.DataTransferObjects.Service;
+using MicroBeard.Entities.DataTransferObjects.License;
 
 namespace MicroBeard.Controllers
 {
@@ -111,6 +114,27 @@ namespace MicroBeard.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model object");
 
+                if (collaborator.Services != null)
+                {
+                    if (collaborator.Licenses == null)
+                    {
+                        return Unauthorized("A collaborator cannot be related to a service without the correct license");
+                    }
+                    else
+                    {
+                        foreach (SimpleServiceDto service in collaborator.Services)
+                        {
+                            bool isLicenseAllowedOnService = false;
+                            foreach (SimpleLicenseDto license in collaborator.Licenses)
+                                if (service.LicenseCode == license.Code)
+                                    isLicenseAllowedOnService = true;
+                            
+                            if (isLicenseAllowedOnService == false)
+                                return Unauthorized($"The collaborator does not have the license {service.LicenseCode} to be related to service {service.Code}");
+                        }
+                    }
+                }
+
                 Collaborator collaboratorEntity = _mapper.Map<Collaborator>(collaborator);
 
                 var guid = Guid.NewGuid();
@@ -171,6 +195,30 @@ namespace MicroBeard.Controllers
                 }
 
                 _mapper.Map(collaborator, collaboratorEntity);
+
+                _repository.UnchangeCollection(collaboratorEntity, "Schedulings");
+
+
+                if (collaboratorEntity.Services != null)
+                {
+                    if (collaboratorEntity.Licenses == null)
+                    {
+                        return Unauthorized("A collaborator cannot be related to a service without the a license");
+                    }
+                    else
+                    {
+                        foreach (var service in collaboratorEntity.Services)
+                        {
+                            bool isLicenseAllowedOnService = false;
+                            foreach (var license in collaboratorEntity.Licenses)
+                                if (service.LicenseCode == license.Code)
+                                    isLicenseAllowedOnService = true;
+
+                            if (isLicenseAllowedOnService == false)
+                                return Unauthorized($"The collaborator does not have the license {service.LicenseCode} to be related to service {service.Code}");
+                        }
+                    }
+                }
 
                 if (collaborator.Licenses == null)
                     _repository.UnchangeCollection(collaboratorEntity, "Licenses");

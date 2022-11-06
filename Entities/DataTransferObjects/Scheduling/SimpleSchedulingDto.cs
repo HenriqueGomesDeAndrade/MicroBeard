@@ -13,6 +13,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Scheduling
         public string Title { get; set; }
         public int? ServiceCode { get; set; }
         public int? ContactCode { get; set; }
+        public int? CollaboratorCode { get; set; }
         public DateTime? Date { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? CreateDate { get; set; }

@@ -59,6 +59,11 @@ namespace MicroBeard.Repository
                         if (collaborator.Desactivated == true)
                             service.Collaborators.Remove(collaborator);
 
+                _repositoryContext.Entry(service).Reference(c => c.LicenseCodeNavigation).Load();
+                if (service.LicenseCodeNavigation != null)
+                    if (service.LicenseCodeNavigation.Desactivated == true)
+                        service.LicenseCodeNavigation = null;
+
                 _repositoryContext.Attach(service);
 
 

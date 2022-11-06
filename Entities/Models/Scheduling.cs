@@ -27,5 +27,6 @@ namespace MicroBeard.Entities.Models
 
         public virtual Contact ContactCodeNavigation { get; set; }
         public virtual Service ServiceCodeNavigation { get; set; }
+        public virtual Collaborator CollaboratorCodeNavigation { get; set; }
     }
 }

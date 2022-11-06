@@ -1,7 +1,7 @@
 ﻿using MicroBeard.Entities.Models;
 using System.ComponentModel.DataAnnotations;
 using MicroBeard.Entities.DataTransferObjects.Collaborator;
-
+using MicroBeard.Entities.DataTransferObjects.Service;
 
 namespace MicroBeard.Entities.DataTransferObjects.License
 {
@@ -17,5 +17,7 @@ namespace MicroBeard.Entities.DataTransferObjects.License
         public DateTime? DesactivationDate { get; set; }
 
         public ICollection<SimpleCollaboratorDto> Collaborators { get; set; }
+        public ICollection<SimpleServiceDto> Services { get; set; }
+
     }
 }

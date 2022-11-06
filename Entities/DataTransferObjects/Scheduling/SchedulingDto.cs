@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using MicroBeard.Entities.Models;
 using MicroBeard.Entities.DataTransferObjects.Contact;
 using MicroBeard.Entities.DataTransferObjects.Service;
-
+using MicroBeard.Entities.DataTransferObjects.Collaborator;
 
 namespace MicroBeard.Entities.DataTransferObjects.Scheduling
 {
@@ -29,5 +29,6 @@ namespace MicroBeard.Entities.DataTransferObjects.Scheduling
 
         public virtual SimpleContactDto Contact { get; set; }
         public virtual SimpleServiceDto Service { get; set; }
+        public virtual SimpleCollaboratorDto Collaborator { get; set; }
     }
 }

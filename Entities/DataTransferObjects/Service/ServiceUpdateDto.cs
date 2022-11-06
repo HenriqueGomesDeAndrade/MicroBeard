@@ -23,6 +23,9 @@ namespace MicroBeard.Entities.DataTransferObjects.Service
         [StringLength(250, ErrorMessage = "Description can't be longer than 250 characters")]
         public string Description { get; set; }
 
+        [Range(0, 2147483647, ErrorMessage = "The code cannot be lesser than zero")]
+        public int? LicenseCode { get; set; }
+
         public ICollection<SimpleCollaboratorDto> Collaborators { get; set; }
         public ICollection<SimpleSchedulingDto> Schedulings { get; set; }
     }

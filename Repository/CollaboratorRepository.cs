@@ -57,6 +57,12 @@ namespace MicroBeard.Repository
                     foreach (var service in collaborator.Services)
                         if (service.Deleted == true)
                             collaborator.Services.Remove(service);
+
+                _repositoryContext.Entry(collaborator).Collection(c => c.Schedulings).Load();
+                if (collaborator.Schedulings != null)
+                    foreach (var scheduling in collaborator.Schedulings)
+                        if (scheduling.Deleted == true)
+                            collaborator.Schedulings.Remove(scheduling);
             }
 
             return collaborator;

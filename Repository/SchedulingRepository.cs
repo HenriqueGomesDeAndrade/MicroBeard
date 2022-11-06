@@ -56,6 +56,11 @@ namespace MicroBeard.Repository
                 if (scheduling.ContactCodeNavigation != null)
                     if (scheduling.ContactCodeNavigation.Deleted == true)
                         scheduling.ContactCodeNavigation = null;
+
+                _repositoryContext.Entry(scheduling).Reference(c => c.CollaboratorCodeNavigation).Load();
+                if (scheduling.CollaboratorCodeNavigation != null)
+                    if (scheduling.CollaboratorCodeNavigation.Desactivated == true)
+                        scheduling.CollaboratorCodeNavigation = null;
             }
 
             return scheduling;

@@ -147,7 +147,9 @@ namespace MicroBeard.Extensions
                 automapper.CreateMap<LicenseUpdateDto, License>();
 
                 //Service
-                automapper.CreateMap<Service, ServiceDto>();
+                automapper.CreateMap<Service, ServiceDto>()
+                .ForMember(dest => dest.License, opt => opt.MapFrom(src => src.LicenseCodeNavigation));
+
                 automapper.CreateMap<Service, SimpleServiceDto>().ReverseMap().EqualityComparison((odto, o) => odto.Code == o.Code);
                 automapper.CreateMap<ServiceCreationDto, Service>();
                 automapper.CreateMap<ServiceUpdateDto, Service>();
@@ -155,7 +157,8 @@ namespace MicroBeard.Extensions
                 //Scheduling
                 automapper.CreateMap<Scheduling, SchedulingDto>()
                     .ForMember(dest => dest.Service, opt => opt.MapFrom(src => src.ServiceCodeNavigation))
-                    .ForMember(dest => dest.Contact, opt => opt.MapFrom(src => src.ContactCodeNavigation));
+                    .ForMember(dest => dest.Contact, opt => opt.MapFrom(src => src.ContactCodeNavigation))
+                    .ForMember(dest => dest.Collaborator, opt => opt.MapFrom(src => src.CollaboratorCodeNavigation));
                 automapper.CreateMap<Scheduling, SimpleSchedulingDto>().ReverseMap();
                 automapper.CreateMap<SchedulingCreationDto, Scheduling>();
                 automapper.CreateMap<SchedulingUpdateDto, Scheduling>();

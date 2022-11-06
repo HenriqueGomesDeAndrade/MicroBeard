@@ -152,6 +152,9 @@ namespace MicroBeard.Controllers
 
                 _mapper.Map(license, licenseEntity);
 
+                _repository.UnchangeCollection(licenseEntity, "Services");
+
+
                 if (license.Collaborators == null)
                     _repository.UnchangeCollection(licenseEntity, "Collaborators");
 

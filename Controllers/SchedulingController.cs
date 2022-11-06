@@ -120,7 +120,7 @@ namespace MicroBeard.Controllers
                 if (serviceCheck == null)
                     return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
 
-                Collaborator collaboratorCheck = serviceCheck.Collaborators.Where(c => c.Code == scheduling.CollaboratorCode).FirstOrDefault();
+                Collaborator collaboratorCheck = serviceCheck.Collaborators.Where(c => c.Code == scheduling.CollaboratorCode && c.Desactivated != true).FirstOrDefault();
                 if (collaboratorCheck == null)
                     return Unauthorized($"The Collaborator from code {scheduling.CollaboratorCode} is not allowed on the Service {scheduling.ServiceCode}");
 
@@ -180,7 +180,7 @@ namespace MicroBeard.Controllers
                 if (serviceCheck == null)
                     return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
 
-                Collaborator collaboratorCheck = serviceCheck.Collaborators.Where(c => c.Code == scheduling.CollaboratorCode).FirstOrDefault();
+                Collaborator collaboratorCheck = serviceCheck.Collaborators.Where(c => c.Code == scheduling.CollaboratorCode && c.Desactivated != true).FirstOrDefault();
                 if (collaboratorCheck == null)
                     return Unauthorized($"The Collaborator from code {scheduling.CollaboratorCode} is not allowed on the Service {scheduling.ServiceCode}");
 

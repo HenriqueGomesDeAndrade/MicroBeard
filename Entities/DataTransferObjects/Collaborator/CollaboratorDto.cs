@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using MicroBeard.Entities.DataTransferObjects.Service;
 using MicroBeard.Entities.DataTransferObjects.License;
-
+using MicroBeard.Entities.DataTransferObjects.Scheduling;
 
 namespace MicroBeard.Entities.DataTransferObjects.Collaborator
 {
@@ -30,5 +30,6 @@ namespace MicroBeard.Entities.DataTransferObjects.Collaborator
 
         public ICollection<SimpleServiceDto> Services { get; set; }
         public ICollection<SimpleLicenseDto> Licenses { get; set; }
+        public ICollection<SimpleSchedulingDto> Schedulings { get; set; }
     }
 }

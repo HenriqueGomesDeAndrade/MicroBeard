@@ -109,6 +109,10 @@ namespace MicroBeard.Controllers
 
                 Service serviceEntity = _mapper.Map<Service>(service);
 
+                License licenseCheck = _repository.License.GetLicenseByCode(service.LicenseCode);
+                if (licenseCheck == null)
+                    return NotFound($"Unable to find the License code {service.LicenseCode}");
+
                 serviceEntity.CreateDate = DateTime.Now;
                 serviceEntity.CreatorCode = CollaboratorCode;
 
@@ -149,6 +153,10 @@ namespace MicroBeard.Controllers
                 if (serviceEntity is null)
                     return NotFound();
 
+                License licenseCheck = _repository.License.GetLicenseByCode(service.LicenseCode);
+                if (licenseCheck == null)
+                    return NotFound($"Unable to find the License code {service.LicenseCode}");
+
                 _mapper.Map(service, serviceEntity);
 
                 if (service.Collaborators == null)
@@ -157,19 +165,18 @@ namespace MicroBeard.Controllers
                 if (service.Schedulings == null)
                     _repository.UnchangeCollection(serviceEntity, "Schedulings");
 
+                serviceEntity.LicenseCodeNavigation = licenseCheck;
                 serviceEntity.UpdateDate = DateTime.Now;
                 serviceEntity.UpdaterCode = CollaboratorCode;
-
-                var updatedServiceEntity = _repository.Service.GetServiceByCode(code, serviceParameters.ExpandRelations);
-
 
                 _repository.Service.UpdateService(serviceEntity);
                 _repository.Save();
 
-                //_repository.ChangeState<Service>(serviceEntity, EntityState.Detached);
-                ServiceDto updatedCollaborator = _mapper.Map<ServiceDto>(updatedServiceEntity);
+                _repository.ChangeState<Service>(serviceEntity, EntityState.Detached);
+                var updatedServiceEntity = _repository.Service.GetServiceByCode(code, serviceParameters.ExpandRelations);
+                ServiceDto updatedService = _mapper.Map<ServiceDto>(updatedServiceEntity);
 
-                return Ok(updatedCollaborator);
+                return Ok(updatedService);
             }
             catch (Exception ex)
             {
