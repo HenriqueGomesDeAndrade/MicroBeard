@@ -48,7 +48,14 @@ namespace MicroBeard.Repository
             if(scheduling != null && expandRelations)
             {
                 _repositoryContext.Entry(scheduling).Reference(c => c.ServiceCodeNavigation).Load();
+                if(scheduling.ServiceCodeNavigation != null)
+                    if(scheduling.ServiceCodeNavigation.Deleted == true)
+                        scheduling.ServiceCodeNavigation = null;
+                
                 _repositoryContext.Entry(scheduling).Reference(c => c.ContactCodeNavigation).Load();
+                if (scheduling.ContactCodeNavigation != null)
+                    if (scheduling.ContactCodeNavigation.Deleted == true)
+                        scheduling.ContactCodeNavigation = null;
             }
 
             return scheduling;

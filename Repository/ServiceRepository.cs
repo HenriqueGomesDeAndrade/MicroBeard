@@ -38,24 +38,32 @@ namespace MicroBeard.Repository
         }
 
         public Service GetServiceByCode(int? code, bool expandRelations = false)
-        {
+        {                                   
             if (code == null)
                 return null;
 
             Service service = _repositoryContext.Services.Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
+                
 
             if (service != null && expandRelations)
             {
                 _repositoryContext.Entry(service).Collection(c => c.Schedulings).Load();
+                if (service.Schedulings != null)
+                    foreach (var scheduling in service.Schedulings)
+                        if (scheduling.Deleted == true)
+                            service.Schedulings.Remove(scheduling);
+
                 _repositoryContext.Entry(service).Collection(c => c.Collaborators).Load();
+                if (service.Collaborators != null)
+                    foreach (var collaborator in service.Collaborators)
+                        if (collaborator.Desactivated == true)
+                            service.Collaborators.Remove(collaborator);
+
+                _repositoryContext.Attach(service);
+
+
             }
 
-            var collection = _repositoryContext.Entry(service).Collection("Schedulings");
-            var collection2 = _repositoryContext.Entry(service).Collection("Collaborators");
-
-
-
-            _repositoryContext.Attach(service);
             return service;
         }
 

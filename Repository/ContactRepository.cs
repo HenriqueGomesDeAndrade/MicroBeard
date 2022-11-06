@@ -45,8 +45,14 @@ namespace MicroBeard.Repository
             Contact contact = _repositoryContext.Contacts.Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
 
             if (contact != null && expandRelations)
+            {
                 _repositoryContext.Entry(contact).Collection(c => c.Schedulings).Load();
-
+                if (contact.Schedulings != null)
+                    foreach (var scheduling in contact.Schedulings)
+                        if (scheduling.Deleted == true)
+                            contact.Schedulings.Remove(scheduling);
+            }
+               
             return contact;
         }
 

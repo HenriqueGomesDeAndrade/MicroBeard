@@ -41,8 +41,15 @@ namespace MicroBeard.Repository
 
             License license = _repositoryContext.Licenses.Where(c => c.Desactivated != true && c.Code.Equals(code)).FirstOrDefault();
 
-            if(license != null && expandRelations)
+            if (license != null && expandRelations)
+            {
                 _repositoryContext.Entry(license).Collection(c => c.Collaborators).Load();
+                if (license.Collaborators != null)
+                    foreach (var collaborator in license.Collaborators)
+                        if (collaborator.Desactivated == true)
+                            license.Collaborators.Remove(collaborator);
+            }
+                
 
             return license;
         }

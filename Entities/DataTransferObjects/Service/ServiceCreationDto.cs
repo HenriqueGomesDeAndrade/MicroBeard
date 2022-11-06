@@ -13,6 +13,7 @@ namespace MicroBeard.Entities.DataTransferObjects.Service
         [Range(0, 999999.99, ErrorMessage = "Invalid range. The number must be between 0 and 9999999.99")]
         public decimal Price { get; set; }
 
+        [Required(ErrorMessage = "Time is required")]
         [Range(0, 10000, ErrorMessage = "Invalid range. The number must be between 0 and 10000")]
         public int Time { get; set; }
 

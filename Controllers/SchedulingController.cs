@@ -116,14 +116,18 @@ namespace MicroBeard.Controllers
                 if (ContactCode != null && scheduling.ContactCode != ContactCode)
                     return Unauthorized();
 
-                Service ServiceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
-                if (ServiceCheck == null)
+                Service serviceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode, true);
+                if (serviceCheck == null)
                     return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
 
+                Collaborator collaboratorCheck = serviceCheck.Collaborators.Where(c => c.Code == scheduling.CollaboratorCode).FirstOrDefault();
+                if (collaboratorCheck == null)
+                    return Unauthorized($"The Collaborator from code {scheduling.CollaboratorCode} is not allowed on the Service {scheduling.ServiceCode}");
 
                 Scheduling schedulingEntity = _mapper.Map<Scheduling>(scheduling);
-                
 
+                schedulingEntity.Title = !string.IsNullOrEmpty(schedulingEntity.Title) ? schedulingEntity.Title : $"{contactCheck.Name} | {serviceCheck.Name}";
+                schedulingEntity.EndDate = schedulingEntity.EndDate != null ? schedulingEntity.EndDate : schedulingEntity.Date.AddMinutes(((double?)serviceCheck.Time) ?? 30);
                 schedulingEntity.CreateDate = DateTime.Now;
                 schedulingEntity.CreatorCode = CollaboratorCode;
 
@@ -172,12 +176,18 @@ namespace MicroBeard.Controllers
                 if (ContactCode != null && scheduling.ContactCode != ContactCode)
                     return Unauthorized();
 
-                Service serviceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode);
+                Service serviceCheck = _repository.Service.GetServiceByCode(scheduling.ServiceCode, true);
                 if (serviceCheck == null)
                     return NotFound($"Unable to find the Service code {scheduling.ServiceCode}");
 
+                Collaborator collaboratorCheck = serviceCheck.Collaborators.Where(c => c.Code == scheduling.CollaboratorCode).FirstOrDefault();
+                if (collaboratorCheck == null)
+                    return Unauthorized($"The Collaborator from code {scheduling.CollaboratorCode} is not allowed on the Service {scheduling.ServiceCode}");
+
                 _mapper.Map(scheduling, schedulingEntity);
 
+                schedulingEntity.Title = !string.IsNullOrEmpty(schedulingEntity.Title) ? schedulingEntity.Title : $"{contactCheck.Name} | {serviceCheck.Name}";
+                schedulingEntity.EndDate = schedulingEntity.EndDate != null ? schedulingEntity.EndDate : schedulingEntity.Date.AddMinutes(((double?)serviceCheck.Time) ?? 30);
                 schedulingEntity.UpdateDate = DateTime.Now;
                 schedulingEntity.UpdaterCode = CollaboratorCode;
                 schedulingEntity.ContactCodeNavigation = contactCheck;

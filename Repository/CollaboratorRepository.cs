@@ -47,7 +47,16 @@ namespace MicroBeard.Repository
             if (collaborator != null && expandRelations)
             {
                 _repositoryContext.Entry(collaborator).Collection(c => c.Licenses).Load();
+                if(collaborator.Licenses != null)
+                    foreach(var license in collaborator.Licenses)
+                        if(license.Desactivated == true)
+                            collaborator.Licenses.Remove(license);
+                    
                 _repositoryContext.Entry(collaborator).Collection(c => c.Services).Load();
+                if (collaborator.Services != null)
+                    foreach (var service in collaborator.Services)
+                        if (service.Deleted == true)
+                            collaborator.Services.Remove(service);
             }
 
             return collaborator;

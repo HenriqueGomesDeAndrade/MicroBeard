@@ -154,8 +154,8 @@ namespace MicroBeard.Extensions
 
                 //Scheduling
                 automapper.CreateMap<Scheduling, SchedulingDto>()
-                    .ForMember(dest => dest.Services, opt => opt.MapFrom(src => src.ServiceCodeNavigation))
-                    .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => src.ContactCodeNavigation));
+                    .ForMember(dest => dest.Service, opt => opt.MapFrom(src => src.ServiceCodeNavigation))
+                    .ForMember(dest => dest.Contact, opt => opt.MapFrom(src => src.ContactCodeNavigation));
                 automapper.CreateMap<Scheduling, SimpleSchedulingDto>().ReverseMap();
                 automapper.CreateMap<SchedulingCreationDto, Scheduling>();
                 automapper.CreateMap<SchedulingUpdateDto, Scheduling>();
