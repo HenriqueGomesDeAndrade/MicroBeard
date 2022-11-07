@@ -109,9 +109,12 @@ namespace MicroBeard.Controllers
 
                 Service serviceEntity = _mapper.Map<Service>(service);
 
-                License licenseCheck = _repository.License.GetLicenseByCode(service.LicenseCode);
-                if (licenseCheck == null)
-                    return NotFound($"Unable to find the License code {service.LicenseCode}");
+                if (service.LicenseCode != null)
+                {
+                    License licenseCheck = _repository.License.GetLicenseByCode(service.LicenseCode);
+                    if (licenseCheck == null)
+                        return NotFound($"Unable to find the License code {service.LicenseCode}");
+                }
 
                 serviceEntity.CreateDate = DateTime.Now;
                 serviceEntity.CreatorCode = CollaboratorCode;
@@ -153,11 +156,17 @@ namespace MicroBeard.Controllers
                 if (serviceEntity is null)
                     return NotFound();
 
-                License licenseCheck = _repository.License.GetLicenseByCode(service.LicenseCode);
-                if (licenseCheck == null)
-                    return NotFound($"Unable to find the License code {service.LicenseCode}");
-
+                
+                
                 _mapper.Map(service, serviceEntity);
+
+                if (service.LicenseCode != null)
+                {
+                    License licenseCheck = _repository.License.GetLicenseByCode(service.LicenseCode);
+                    if (licenseCheck == null)
+                        return NotFound($"Unable to find the License code {service.LicenseCode}");
+                    serviceEntity.LicenseCodeNavigation = licenseCheck;
+                }
 
                 if (service.Collaborators == null)
                     _repository.UnchangeCollection(serviceEntity, "Collaborators");
@@ -165,7 +174,6 @@ namespace MicroBeard.Controllers
                 if (service.Schedulings == null)
                     _repository.UnchangeCollection(serviceEntity, "Schedulings");
 
-                serviceEntity.LicenseCodeNavigation = licenseCheck;
                 serviceEntity.UpdateDate = DateTime.Now;
                 serviceEntity.UpdaterCode = CollaboratorCode;
 

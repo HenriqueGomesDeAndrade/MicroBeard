@@ -24,8 +24,13 @@ namespace MicroBeard.Repository
 
         public PagedList<Service> GetAllServices(ServiceParameters serviceParameters)
         {
-            var services = _repositoryContext.Services.AsNoTracking()
+            var services = _repositoryContext.Services.AsNoTracking().Include(c => c.Collaborators)
                 .Where(c => c.Deleted != true);
+
+
+            
+
+            
 
             SearchByName(ref services, serviceParameters.Name);
 
