@@ -38,12 +38,20 @@ namespace MicroBeard.Repository
                 schedulingParameters.PageSize);
         }
 
-        public Scheduling GetSchedulingByCode(int? code, bool expandRelations = false)
+        public Scheduling GetSchedulingByCode(int? code, bool expandRelations = false, DateTime? startDate = null, DateTime? endDate = null)
         {
             if (code == null)
                 return null;
+            if (startDate == null)
+                startDate = DateTime.MinValue;
+            if(endDate == null)
+                endDate = DateTime.MaxValue;
 
-            Scheduling scheduling = _repositoryContext.Schedulings.Where(c => c.Deleted != true && c.Code.Equals(code)).FirstOrDefault();
+            Scheduling scheduling = _repositoryContext.Schedulings.Where(c => c.Deleted != true
+                                                                            && c.Code.Equals(code)
+                                                                            && c.Date >= startDate 
+                                                                            && c.EndDate <= endDate)
+                                                                    .FirstOrDefault();
 
             if(scheduling != null && expandRelations)
             {
@@ -62,6 +70,25 @@ namespace MicroBeard.Repository
                     if (scheduling.CollaboratorCodeNavigation.Desactivated == true)
                         scheduling.CollaboratorCodeNavigation = null;
             }
+
+            return scheduling;
+        }
+
+        public Scheduling ValidateSchedulingCollaboratorDate(int? collaboratorCode, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            if (collaboratorCode == null)
+                return null;
+            if (startDate == null)
+                startDate = DateTime.MinValue;
+            if (endDate == null)
+                endDate = DateTime.MaxValue;
+
+            Scheduling scheduling = _repositoryContext.Schedulings.Where(c => c.Deleted != true
+                                                                            && c.Code.Equals(collaboratorCode)
+                                                                            && c.Date >= startDate
+                                                                            && c.EndDate <= endDate
+                                                                            && c.CollaboratorCode == collaboratorCode)
+                                                                    .FirstOrDefault();
 
             return scheduling;
         }

@@ -184,6 +184,10 @@ namespace MicroBeard.Controllers
                 if (collaboratorCheck == null)
                     return Unauthorized($"The Collaborator from code {scheduling.CollaboratorCode} is not allowed on the Service {scheduling.ServiceCode}");
 
+                var collaboratorDateCheck = _repository.Scheduling.ValidateSchedulingCollaboratorDate(scheduling.CollaboratorCode, scheduling.Date, scheduling.EndDate);
+                if (collaboratorCheck != null)
+                    return Conflict($"O colaborador com código {scheduling.CollaboratorCode} já tem um agendamento marcado nesse horário.");
+
                 _mapper.Map(scheduling, schedulingEntity);
 
                 schedulingEntity.Title = !string.IsNullOrEmpty(schedulingEntity.Title) ? schedulingEntity.Title : $"{contactCheck.Name} | {serviceCheck.Name}";
